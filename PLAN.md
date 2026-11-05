@@ -41,3 +41,12 @@ Verify time is flat ~40 ms for B=1..384 (36.9 ms at B=1, 43.8 ms at B=512). Weig
 understates the roofline ceiling and favors big blocks. Next: re-run with CUDA graphs / static cache to
 get the real T_verify(B) curve, then baseline z-lab/Qwen3-4B-DFlash-b16 (5 layers, block 16, target layers 1,9,17,25,33).
 Setup notes: `huggingface_hub` 2.4 + httpx2 crashes on decompress here; download files with curl.
+
+### 2026-11-05 A100-40GB, CUDA graphs + StaticCache, Qwen3-4B bf16, ctx 512 (`bench/verify_sweep_graph.py`)
+One target forward over B tokens (ms): B=1 14.06, 4 14.77, 8 14.92, 16 15.64, 32 15.92, 64 16.71, 96 18.05, 128 18.88,
+192 21.50, 256 24.08, 384 32.96, 512 39.93. Eager was ~40 ms flat, so ~60% of eager time was launch overhead.
+- Verify is nearly free to B~128 (1.34x of B=1); compute knee is B~200-300 on A100. At block 16, verify = 1.11x of one-token pass.
+- B=1 is 14 ms vs ~5 ms weight-read floor: HF kernels are unfused, so there is a 2-3x gap to roofline on the target pass itself.
+- Implication: with tau~6.5 at B=16, ceiling is ~5.8x before draft cost. Larger blocks (64-128) cost only 1.2-1.3x per round,
+  so the lever is acceptance length at long blocks, not verify cost. Draft pass cost must be measured next.
+- Gotcha: transformers 5.x StaticCache `cumulative_length` is a GPU tensor advanced inside the graph; reset it inside the capture or replays overflow the cache.
