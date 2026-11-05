@@ -33,3 +33,11 @@ two-tap dynamic convolutions; it has no public Qwen3-4B checkpoint and no paper,
 
 ## Budget
 No GPU launched. Before any paid box: state hourly price + total estimate and get approval.
+
+## Results log
+### 2026-11-04 A100-40GB, HF eager, Qwen3-4B bf16, ctx 512 (`bench/verify_sweep.py`)
+Verify time is flat ~40 ms for B=1..384 (36.9 ms at B=1, 43.8 ms at B=512). Weight read alone is ~5 ms
+(8 GB / 1.5 TB/s), so eager HF is launch/CPU-bound, not memory-bound. Any speedup measured under HF eager
+understates the roofline ceiling and favors big blocks. Next: re-run with CUDA graphs / static cache to
+get the real T_verify(B) curve, then baseline z-lab/Qwen3-4B-DFlash-b16 (5 layers, block 16, target layers 1,9,17,25,33).
+Setup notes: `huggingface_hub` 2.4 + httpx2 crashes on decompress here; download files with curl.
