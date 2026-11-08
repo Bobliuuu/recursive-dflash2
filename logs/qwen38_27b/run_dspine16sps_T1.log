@@ -1,0 +1,10 @@
+dspine16sps gsm8k T=1.0 c=8: 616.6 tok/s, accept(pooled)=5.47891156462585, mean-req=5.86970361898845, trunc=0.04 -> /root/w/results/dspine16sps__gsm8k__T1__c8.json
+dspine16sps math500 T=1.0 c=8: 836.7 tok/s, accept(pooled)=4.33221687251413, mean-req=4.957149185008206, trunc=0.17 -> /root/w/results/dspine16sps__math500__T1__c8.json
+dspine16sps humaneval T=1.0 c=8: 781.2 tok/s, accept(pooled)=4.154025974025974, mean-req=4.445591846523574, trunc=0.42 -> /root/w/results/dspine16sps__humaneval__T1__c8.json
+dspine16sps mbpp T=1.0 c=8: 820.9 tok/s, accept(pooled)=4.291603311370164, mean-req=4.837916400523525, trunc=0.29 -> /root/w/results/dspine16sps__mbpp__T1__c8.json
+dspine16sps mt-bench T=1.0 c=8: 689.5 tok/s, accept(pooled)=3.4479673520640404, mean-req=4.500399999900841, trunc=0.29 -> /root/w/results/dspine16sps__mt-bench__T1__c8.json
+dspine16sps gsm8k T=1.0 c=1: 241.8 tok/s, accept(pooled)=6.188953488372093, mean-req=6.480031223709732, trunc=0.00 -> /root/w/results/dspine16sps__gsm8k__T1__c1.json
+dspine16sps math500 T=1.0 c=1: 209.9 tok/s, accept(pooled)=5.019679300291545, mean-req=5.564020219528499, trunc=0.25 -> /root/w/results/dspine16sps__math500__T1__c1.json
+dspine16sps humaneval T=1.0 c=1: 202.1 tok/s, accept(pooled)=4.792926942764076, mean-req=5.073463504642129, trunc=0.25 -> /root/w/results/dspine16sps__humaneval__T1__c1.json
+dspine16sps mbpp T=1.0 c=1: 187.8 tok/s, accept(pooled)=4.465863453815261, mean-req=4.780112792322172, trunc=0.25 -> /root/w/results/dspine16sps__mbpp__T1__c1.json
+dspine16sps mt-bench T=1.0 c=1: 161.9 tok/s, accept(pooled)=3.8588090853284225, mean-req=4.478096140918371, trunc=0.25 -> /root/w/results/dspine16sps__mt-bench__T1__c1.json
