@@ -1,6 +1,6 @@
 """Phase 2 shared loaders: parse the RDF2_DUMP rounds file + collector meta, align rounds to the true greedy output."""
-import json, numpy as np
-T1 = 15; K = 16
+import json, os, numpy as np
+T1 = int(os.environ.get('P2_T1', 15)); K = 16  # T1 = drafts per block (block_size-1)
 REC = 1 + T1 + T1 * K + T1 * K * K
 
 def load(dump, meta):

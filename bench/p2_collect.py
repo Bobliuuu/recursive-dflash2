@@ -14,7 +14,8 @@ ap.add_argument("--datasets", default="gsm8k,math500,humaneval,mbpp,mtbench")
 a = ap.parse_args()
 from transformers import AutoTokenizer
 tok = AutoTokenizer.from_pretrained(a.model)
-REC = (1 + 15 + 15 * 16 + 15 * 256) * 8
+T1 = int(os.environ.get('P2_T1', 15))
+REC = (1 + T1 + T1 * 16 + T1 * 256) * 8
 def post(body):
     r = urllib.request.Request(a.url + "/generate", data=json.dumps(body).encode(), headers={"Content-Type": "application/json"})
     return json.loads(urllib.request.urlopen(r, timeout=3600).read())
