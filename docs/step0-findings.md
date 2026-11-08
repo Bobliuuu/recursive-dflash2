@@ -35,7 +35,7 @@ output text), `bench/results/timing/{dflash,dspine}_step0.jsonl` (per-round draf
 "Full-block" = fraction of verify rounds in which all 15 draft tokens were accepted (16 tokens emitted). 13% of MATH-500 responses hit the
 2048 cap (2% MBPP, 1% MT-Bench).
 
-Per-position conditional acceptance P(position i accepted | i-1 accepted), i = 1..15, pooled over the 5 datasets (survives selection bias: late positions are only reached in easy contexts, so the rising trend is partly composition):
+Per-position conditional acceptance P(position i accepted | i-1 accepted), i = 1..15, pooled over the 5 datasets (subject to selection bias: late positions are only reached in easy contexts, so the rising trend is partly composition):
 - DFlash: 0.84 0.81 0.81 0.83 0.85 0.86 0.87 0.88 0.89 0.89 0.89 0.90 0.89 0.89 0.89. Unconditional survival at 16: 0.12.
 - DSpine: 0.88 0.87 0.87 0.88 0.89 0.90 0.91 0.91 0.91 0.91 0.91 0.92 0.92 0.91 0.92. Unconditional survival at 16: 0.21.
 Per dataset tables are in `step0_summary.json` (`cond_accept`, `survival`, `hist_pooled`). GSM8K DSpine is flat at 0.92-0.95 over all positions.
@@ -53,7 +53,7 @@ T_verify = 11 ms for a 16-token verify of an 8B model on A100 (weights alone ~16
    But the naive cap 1 + T_d/T_v = 1.25 / 1.27 is only reachable if every round is a full accept, because the next block can only be
    pre-drafted behind the verify if the whole block is accepted (and the guessed bonus token also has to match). Weighting by the full-block
    fraction, the upper bound on the draft-ahead speedup is 1/(1 - P_full * T_d/(T_d+T_v)): DSpine 1.08 (GSM8K), 1.07 (MATH), 1.05 (HumanEval),
-   1.04 (MBPP), 1.01 (MT-Bench); DFlash 1.02-1.04 on all but MATH (1.04), 1.00 on MT-Bench. So single-path draft-ahead is worth <= ~5-8% for
+   1.04 (MBPP), 1.01 (MT-Bench); DFlash 1.02-1.04 on math/code, 1.00 on MT-Bench. So single-path draft-ahead is worth <= ~5-8% for
    DSpine on math/code and ~nothing on chat. Verdict: the T_d/T_v test passes, the *effective* gain does not justify it unless branching over
    several bonus guesses is added (SSD-style, which needs a drafter on separate hardware; here it would compete for the same GPU). Caveat:
    H100/B200 shift T_v down and the ratio up (the published ratios came from those GPUs), so re-measure there.
