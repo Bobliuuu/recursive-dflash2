@@ -27,6 +27,7 @@ ap.add_argument("--gamma", type=float, default=7.0)
 ap.add_argument("--init-official", default="", help="HF id/path of an official DSpine ckpt to load (sanity eval / warm start)")
 ap.add_argument("--eval-only", type=int, default=0, help="run N eval micro-batches with the loaded weights and exit")
 ap.add_argument("--save-every", type=int, default=500)
+ap.add_argument("--replace-prob", type=float, default=0.5, help="correct-predecessor curriculum peak probability (0 for warm-start fine-tuning)")
 ap.add_argument("--seed", type=int, default=42)
 ap.add_argument("--target", default="Qwen/Qwen3-8B")
 ap.add_argument("--official-config", default="tencent/Qwen3-8B-DSpine-b16")
@@ -103,6 +104,7 @@ TL = off_cfg["dflash_config"]["target_layer_ids"]  # [1,9,17,25,33]; hidden_stat
 
 sf_cfg = json.load(open(os.path.join(os.path.dirname(__file__), "dspine_sf_config.json")))
 sf_cfg["block_size"] = a.block
+sf_cfg["dspine_config"]["replacement_probability"] = a.replace_prob
 cfg = Qwen3Config.from_dict(sf_cfg)
 cfg._attn_implementation = "flex_attention"
 with torch.device(dev):
@@ -184,7 +186,8 @@ def step_batch(x, m, lm, gstep, total, alignment_ce=None):
     n_valid = int(((lm[:, :-1] > 0) & (lm[:, 1:] > 0)).sum(1).max())
     loss, acc, met = wrapper(input_ids=x, hidden_states=aux, loss_mask=lm, target_last_hidden_states=last,
                              max_valid_anchors=n_valid, global_step=gstep, total_steps=total, alignment_ce=alignment_ce)
-    return loss, acc, met
+    cnt = met["accuracy_denom"].clamp_min(1)
+    return loss * x.shape[0] / cnt, acc, met   # per-supervised-row normalisation (SpecForge returns a per-sequence sum)
 
 rng = random.Random(a.seed)
 

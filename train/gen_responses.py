@@ -31,11 +31,13 @@ async def one(sess, sem, r):
                 o = await resp.json()
         except Exception as e:
             print("err", repr(e), flush=True); return
+    if "meta_info" not in o:
+        print("bad", str(o)[:200], flush=True); return
     mi = o["meta_info"]
     fout.write(json.dumps({"id": r["id"], "source": r["source"], "prompt": r["prompt"], "response": o["text"],
                            "n_out": mi["completion_tokens"], "truncated": mi.get("finish_reason", {}).get("type") == "length"}) + "\n")
     cnt += 1
-    if cnt % 500 == 0: fout.flush(); print("gen", cnt, flush=True)
+    if cnt % 200 == 0: fout.flush(); print("gen", cnt, flush=True)
 async def main():
     sem = asyncio.Semaphore(a.conc)
     async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(limit=0)) as sess:
