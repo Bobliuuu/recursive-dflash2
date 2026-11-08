@@ -7,7 +7,7 @@ def ld(p):
     return json.load(open(p))["summary"] if os.path.exists(p) else None
 ar = {d: ld(f"{R}/p1_ar_{d}_T{T}_c{conc}.json") for d in dss}
 out = {}
-for N in (16, 24, 32, 48, 64):
+for N in (8, 12, 16, 24, 32, 48, 64):
     rows = {}
     for d in dss:
         s = ld(f"{R}/p2_blk{N}_{d}_T{T}_c{conc}.json")

@@ -40,7 +40,8 @@ def replay(rd, nodes):
 if __name__ == "__main__":
     reqs = load(sys.argv[1], sys.argv[2])
     taus = [float(sys.argv[4])] if len(sys.argv) > 4 else [1.0]
-    budgets = [8, 16, 24, 32, 48, 64]
+    import os
+    budgets = [int(x) for x in os.environ.get('P2_BUDGETS', '8,16,24,32,48,64').split(',')]
     res = {"n_requests": len(reqs), "bad_alignment": sum(r["bad"] for r in reqs), "by_tau": {}}
     allr = [(r["ds"], rd) for r in reqs for rd in r["rounds"]]
     res["n_rounds"] = len(allr)
