@@ -7,6 +7,6 @@ for T in $TEMPS; do for C in $CONCS; do for D in $DS; do
   OUT=bench/results/${TAG}_${M}_${D}_T${T}_c${C}.json
   [ -s $OUT ] && continue
   # larger concurrency => more prompts are not needed; same prompts for every method
-  python bench/run_cell.py --method $M --dataset $D --temp $T --conc $C --n $N --out $OUT > logs/${TAG}_${M}_${D}_T${T}_c${C}.log 2>&1 || echo "FAILED $OUT"
+  python bench/run_cell.py --method $M --dataset $D --temp $T --conc $C --n $N --block ${BLOCK:-1} --out $OUT > logs/${TAG}_${M}_${D}_T${T}_c${C}.log 2>&1 || echo "FAILED $OUT"
 done; done; done
 echo ALLDONE $TAG $M

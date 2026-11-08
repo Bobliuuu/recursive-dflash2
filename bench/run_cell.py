@@ -16,6 +16,7 @@ ap.add_argument("--conc", type=int, default=1)
 ap.add_argument("--n", type=int, default=100)
 ap.add_argument("--max-new", type=int, default=2048)
 ap.add_argument("--warmup", type=int, default=4)
+ap.add_argument("--block", type=int, default=1, help="min histogram length (draft tokens per round incl. anchor)")
 ap.add_argument("--seed", type=int, default=0)
 ap.add_argument("--out", required=True)
 a = ap.parse_args()
@@ -57,10 +58,12 @@ makespan = max(r["t_done"] for r in res) - min(r["t_submit"] for r in res)
 
 tot_out = sum(r["n_out"] for r in res)
 hist = None
-for r in res:
+L = max([len(r["spec_hist"] or []) for r in res] + [a.block])
+for r in res:  # per-request histograms are trimmed of trailing zeros: pad before pooling
     h = r["spec_hist"]
     if h:
-        hist = h[:] if hist is None else [x + y for x, y in zip(hist, h)] if len(h) == len(hist) else hist
+        h = list(h) + [0] * (L - len(h))
+        hist = h if hist is None else [x + y for x, y in zip(hist, h)]
 rounds = sum(hist) if hist else 0
 summary = {"method": a.method, "dataset": a.dataset, "temperature": a.temp, "concurrency": a.conc, "n": len(res),
            "max_new_tokens": a.max_new, "seed": a.seed, "thinking": False, "tokens_out": tot_out,
