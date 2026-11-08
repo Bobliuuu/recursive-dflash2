@@ -26,6 +26,8 @@ methods = sorted({k[0] for k in rows}, key=lambda m: (ORDER.index(m) if m in ORD
 dsets = ["gsm8k", "math500", "humaneval", "mbpp", "mt-bench"]
 out = []
 def cell(m, ds, T, c): return rows.get((m, ds, T, c))
+big = [m for m in methods if m.endswith("_n64")]
+methods = [m for m in methods if not m.endswith("_n64")]
 for c in (1, 8):
     for T in (0.0, 1.0):
         out.append(f"\n### concurrency {c}, T={T:g}: output tok/s (speedup vs AR) | acceptance length (pooled tokens/verify-step)\n")
@@ -41,6 +43,21 @@ for c in (1, 8):
                 if x["acc"]: ac.append(x["acc"])
             mean = (f"{sum(sp)/len(sp):.2f}x" if sp else "-") + (f" / {sum(ac)/len(ac):.2f}" if ac else "")
             out.append(f"| {LABEL.get(m, m)} | " + " | ".join(cs) + f" | {mean} |")
+for T in (0.0, 1.0):
+    ms = [m for m in big if any(k[0] == m and k[2] == T for k in rows)]
+    if not ms: continue
+    out.append(f"\n### concurrency 8, T={T:g}, 64 prompts per cell (much less sensitive to the long-tail request): output tok/s (speedup vs AR) | acceptance length (pooled)\n")
+    out.append("| method | " + " | ".join(dsets) + " | mean |"); out.append("|---|" + "---|" * (len(dsets) + 1))
+    for m in sorted(ms, key=lambda m: ORDER.index(m[:-4]) if m[:-4] in ORDER else 99):
+        cs, sp, ac = [], [], []
+        for ds in dsets:
+            x = cell(m, ds, T, 8); a = cell("ar_n64", ds, T, 8)
+            if not x: cs.append("-"); continue
+            sx = x["tok_s"] / a["tok_s"] if a else None
+            cs.append(f"{x['tok_s']:.0f}" + (f" ({sx:.2f}x)" if sx else "") + (f" / {x['acc']:.2f}" if x["acc"] else ""))
+            if sx: sp.append(sx)
+            if x["acc"]: ac.append(x["acc"])
+        out.append(f"| {LABEL.get(m[:-4], m)} | " + " | ".join(cs) + " | " + (f"{sum(sp)/len(sp):.2f}x" if sp else "-") + (f" / {sum(ac)/len(ac):.2f}" if ac else "") + " |")
 out.append("\n### per-position acceptance P(draft position i accepted), pooled over datasets, T=0, c=1+8\n")
 for m in methods:
     agg = None

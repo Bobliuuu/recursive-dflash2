@@ -1,0 +1,27 @@
+{
+ "p1_dspine": {
+  "identical": 54,
+  "total": 200,
+  "mean_common_prefix_frac": 0.4966095734768423
+ },
+ "p2_blk16": {
+  "identical": 54,
+  "total": 200,
+  "mean_common_prefix_frac": 0.4966095734768423
+ },
+ "p2_blk32": {
+  "identical": 63,
+  "total": 200,
+  "mean_common_prefix_frac": 0.5319888745713212
+ },
+ "p2_tree48_d31": {
+  "identical": 67,
+  "total": 200,
+  "mean_common_prefix_frac": 0.5530273645091792
+ },
+ "p2_tree48_d31_v1": {
+  "identical": 67,
+  "total": 200,
+  "mean_common_prefix_frac": 0.5530273645091792
+ }
+}
