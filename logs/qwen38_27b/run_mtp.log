@@ -1,1 +1,1 @@
-SERVER FAILED mtp
+mtp gsm8k T=0.0 c=8: 432.6 tok/s, accept(pooled)=3.350760827155677, mean-req=3.422303264498695, trunc=0.04 -> /root/w/results/mtp__gsm8k__T0__c8.json
