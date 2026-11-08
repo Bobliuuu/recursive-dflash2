@@ -21,4 +21,10 @@
 ## Implications for recursive training
 - The draft's context is the *target's* accepted hidden features, so on-policy data needs target hidden states along accepted prefixes.
 - Selector path adds within-block dependency, which is what keeps acceptance from decaying at later positions; at block 64+ this matters more.
-- Open: DFlash2 hyperparameters (top-k, rank, kernel size) are only in the released checkpoint config; read them from `config.json` of z-lab/Muse-Glimmer-30B-DFlash2.
+## Released DFlash2 hyperparameters for Qwen3.8-27B (read from config.json, 2026-11-08)
+Checkpoint `z-lab/Qwen3.8-27B-DFlash2` (identical-size mirror `incoai/Qwen3.8-27B-DFlash2`; both 3,848,817,896 B):
+- `DFlash2DraftModel`, model_type qwen3, 5 layers, hidden 5120, 32 heads / 8 KV, head_dim 128, MLP 17408, vocab 248320, untied (target embed/head are used).
+- `dflash_config`: **block_size 8**, **selector_top_k 16**, **selector_rank 256**, **conv_kernel_size 2**, **conv_group_size 16**, mask_token_id 248070, target_layer_ids [5, 19, 33, 47, 61] (target has 64 layers).
+- All 5 layers `sliding_attention`, sliding_window 2048, `is_causal: false` (bidirectional in block), rope_theta 1e7, bf16.
+- Target Qwen3.8-27B: 64 layers, 48 GatedDeltaNet (linear_attention) + 16 full-attention (every 4th), hidden 5120, 24 q-heads / 4 KV, head_dim 256, one MTP head (mtp_num_hidden_layers 1).
+- Contrast, DSpine-b16 for the same target: block 16, target_layer_ids [1,16,31,46,61], sliding_window 8192, block-causal (`draft_block_causal`), code_bridge rank 512 / code_size 1024 (see docs/research/dspine.md).
