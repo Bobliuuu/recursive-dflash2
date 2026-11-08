@@ -11,11 +11,20 @@ if __name__ == "__main__":
     N = int(sys.argv[3]); D = int(sys.argv[4])
     reqs = load(sys.argv[1], sys.argv[2]); rounds = [rd for r in reqs for rd in r["rounds"]][:400]
     tv = TreeVerifier(N, D)
+    tv.set_mask_buffer(torch.zeros(1 << 20, dtype=torch.uint8, device='cuda'))
     diff = 0; kl = []; rl = []
     for rd in rounds:
         tab = torch.tensor(rd["tab"][:D], device="cuda"); cand = torch.tensor(rd["cand"][:D], device="cuda")
         tv.build(tab, cand, torch.tensor([int(rd["truth"][0])], device="cuda"), torch.tensor([100], device="cuda"))
         tk = tv.tokens.cpu().numpy(); pk = tv.parent.cpu().numpy(); dep = tv.depth.cpu().numpy()
+        # packed-mask check: prefix_len=100 -> element (q,k) allowed iff k<100 or k-100 is an ancestor-or-self of q
+        W = 100 + N
+        bits = np.unpackbits(tv.fmask[: (N * W + 7) // 8].cpu().numpy(), bitorder="little")[: N * W].reshape(N, W)
+        exp = np.zeros((N, W), np.uint8); exp[:, :100] = 1
+        for q in range(N):
+            j = q
+            while j >= 0: exp[q, 100 + j] = 1; j = pk[j]
+        assert (bits == exp).all(), "packed mask mismatch"
         truth = rd["truth"]
         on = np.zeros(N, bool); on[0] = True
         for n in range(1, N):

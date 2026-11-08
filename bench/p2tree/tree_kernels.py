@@ -97,9 +97,17 @@ __global__ void tree_build_kernel(const float* table, const long* cand, const lo
   __syncthreads();
   long P = prefix_len[0];
   long W = P + N;
-  for (long idx = t; idx < (long)N * W; idx += blockDim.x) {
-    long row = idx / W, col = idx % W;
-    fmask[idx] = (col < P) ? 1 : tmask[row * N + (col - P)];
+  long nbits = (long)N * W;
+  long nbytes = (nbits + 7) / 8;
+  for (long j = t; j < nbytes; j += blockDim.x) {
+    unsigned int byte = 0;
+    for (int b = 0; b < 8; ++b) {
+      long idx = j * 8 + b;
+      unsigned char v = 0;
+      if (idx < nbits) { long row = idx / W, col = idx % W; v = (col < P) ? 1 : tmask[row * N + (col - P)]; }
+      byte |= ((unsigned int)v) << b;
+    }
+    fmask[j] = (unsigned char)byte;   // flashinfer packed custom mask (little bit order), request 0 at offset 0
   }
   for (int i = t; i < N; i += blockDim.x) positions[i] = P + ndep[i];
 }
@@ -204,7 +212,7 @@ class TreeVerifier:
         self.parent = torch.zeros(N, dtype=torch.int32, device=device)
         self.depth = torch.zeros(N, dtype=torch.int32, device=device)
         self.tmask = torch.zeros(N * N, dtype=torch.uint8, device=device)
-        self.fmask = torch.ones(N * (max_ctx + N), dtype=torch.uint8, device=device)
+        self.fmask = None  # packed-bit mask buffer = the attention backend's cuda_graph_custom_mask (set via set_mask_buffer)
         self.positions = torch.zeros(N, dtype=torch.int64, device=device)
         self.out_tokens = torch.zeros(N, dtype=torch.int64, device=device)
         self.accept_len = torch.zeros(1, dtype=torch.int32, device=device)
@@ -220,6 +228,10 @@ class TreeVerifier:
         """table [>=D,16,16] f32, cand [>=D,16] int64, anchor [1] int64, prefix_len [1] int64 (device)."""
         self.m.tree_build(table.contiguous(), cand.contiguous(), anchor, prefix_len, self.D, self.N, self.tokens, self.parent,
                           self.depth, self.lane, self.tmask, self.fmask, self.positions)
+
+    def set_mask_buffer(self, buf):
+        assert buf.dtype == torch.uint8 and buf.is_contiguous()
+        self.fmask = buf
 
     def set_kv(self, k_buffers, v_buffers):
         bufs = list(k_buffers) + list(v_buffers)

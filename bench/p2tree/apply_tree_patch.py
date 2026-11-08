@@ -56,3 +56,20 @@ patch("dflash_worker_v2.py", [
 ("            cache_loc_2d=cache_loc.view(verify_out_cache_loc_2d.shape),\n            positions=positions,\n            commit_lens=commit_lens,\n        )",
  "            cache_loc_2d=cache_loc.view(verify_out_cache_loc_2d.shape),\n            positions=(_rdf2_tree.commit_pos_buf if _rdf2_tree is not None else positions),  " + MARK + "\n            commit_lens=commit_lens,\n        )"),
 ])
+
+# --- flashinfer backend: sync-free fast plan for the custom-mask verify graph (mask is written in place by tree_build)
+import sglang.srt.layers.attention.flashinfer_backend as _fb
+f = os.path.dirname(_fb.__file__) + "/flashinfer_backend.py"; src = open(f).read()
+if "--revert" in sys.argv:
+    if os.path.exists(f + ".pretree"): os.replace(f + ".pretree", f); print("reverted flashinfer_backend.py")
+elif MARK in src: print("already patched flashinfer_backend.py")
+else:
+    open(f + ".pretree", "w").write(src)
+    a = '            and getattr(spec_info, "custom_mask", None) is None\n            and self.prefill_backend == "fa2"'
+    b = '            and (getattr(spec_info, "custom_mask", None) is None or bool(os.environ.get("RDF2_TREE_SPEC")))  ' + MARK + '\n            and self.prefill_backend == "fa2"'
+    assert src.count(a) == 1; src = src.replace(a, b)
+    a = '            assert use_custom_mask is None, ('
+    b = '            assert use_custom_mask is None or os.environ.get("RDF2_TREE_SPEC"), ('
+    assert src.count(a) == 1; src = src.replace(a, b)
+    if "\nimport os\n" not in src: src = "import os\n" + src
+    open(f, "w").write(src); print("patched flashinfer_backend.py")

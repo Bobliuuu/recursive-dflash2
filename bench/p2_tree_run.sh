@@ -5,8 +5,8 @@ source /workspace/env.sh
 B=/workspace/recursive-dflash2/bench
 python $B/p2tree/apply_tree_patch.py
 pkill -f "[s]glang serve"; sleep 5
-export RDF2_TREE_SPEC=$N:$D RDF2_TREE_STATS=/workspace/p2/treestats_$TAG.txt TORCH_CUDA_ARCH_LIST=8.0
-rm -f $RDF2_TREE_STATS
+export RDF2_TREE_SPEC=$N:$D TORCH_CUDA_ARCH_LIST=8.0
+export SPEC_TIMING_FILE=/workspace/p2/timing_$TAG.jsonl; rm -f $SPEC_TIMING_FILE
 nohup sglang serve --model-path Qwen/Qwen3-8B --speculative-algorithm DSPINE --speculative-draft-model-path /workspace/dspine_b$N --speculative-num-draft-tokens $N --tp-size 1 --dtype bfloat16 --attention-backend flashinfer --page-size 1 --mem-fraction-static 0.65 --context-length 8192 --max-running-requests 64 --cuda-graph-bs-decode 1 --trust-remote-code --port 30000 --host 127.0.0.1 --disable-radix-cache > /workspace/p2/serve_$TAG.log 2>&1 &
 for i in $(seq 1 150); do sleep 5; curl -s localhost:30000/health_generate >/dev/null && break; done
 for ds in $DSS; do

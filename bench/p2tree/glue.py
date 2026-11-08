@@ -27,6 +27,13 @@ class TreeGlue:
 
     def prepare(self, worker, bs, block_ids, prefix_lens, draft_tokens, positions_2d):
         assert bs == 1 and int(worker.block_size) == self.N, (bs, worker.block_size, self.N)
+        if self.tv.fmask is None:
+            be = worker.target_worker.model_runner.attn_backend
+            for _ in range(4):
+                if hasattr(be, "cuda_graph_custom_mask"): break
+                be = getattr(be, "full_attn_backend")
+            self.tv.set_mask_buffer(be.cuda_graph_custom_mask)
+            self.dummy_mask = torch.ones(self.N * (worker.model_runner.model_config.context_len + 2 * self.N) + self.N * self.N, dtype=torch.bool, device="cuda")
         tab, cand = self.table(worker._draft_sampler)
         pl = prefix_lens[:1].to(torch.int64)
         self.tv.build(tab[: self.D], cand[: self.D], block_ids[0, 0:1].to(torch.int64), pl)
@@ -36,7 +43,9 @@ class TreeGlue:
         return self
 
     def mask(self):
-        return self.tv.fmask.view(torch.bool)
+        # dummy non-None allow-mask (the real packed mask is written in place into the attention backend's custom-mask buffer by tree_build);
+        # must be >= bs*(seq+N)*N + N^2 elements so SGLang does not re-pad it every round.
+        return self.dummy_mask
 
     def accept(self, worker, logits_output, kv_loc_plan, prefix_lens):
         tv = self.tv
@@ -48,10 +57,6 @@ class TreeGlue:
         tv.accept(am, loc, prefix_lens[:1].to(torch.int64))
         hs = logits_output.hidden_states
         logits_output.hidden_states = hs.view(self.N, -1).index_select(0, tv.path)
-        if self.dump:
-            self.stats[0] += 1; self.stats[1] += int(tv.accept_len.item()) + 1
-            if self.stats[0] % 200 == 0:
-                open(self.dump, "a").write(f"{self.stats[0]} rounds mean_emit {self.stats[1]/self.stats[0]:.3f}\n")
         return tv.accept_len, tv.commit_lens, tv.bonus, tv.out_tokens.view(1, self.N), tv.new_seq_lens
 
 def chain_mask(N, prefix_lens_host, device="cuda"):
