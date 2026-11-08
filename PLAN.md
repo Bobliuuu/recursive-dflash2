@@ -1,5 +1,37 @@
-# Plan
+# Plan (rev 2026-11-08)
 
+## Goal
+Find the best speculative-decoding method (hybrid of DFlash / DFlash2 / DSpine / whatever works), then test
+whether RECURSIVE / stacked drafting improves it. Run the final architecture on the best single-drafter model.
+Publish a fair benchmark.
+
+## Phases
+0. Research (docs/research/*): DSpine+DSpark+ReplaySSM, prior art on recursive/stacked/hierarchical drafting, benchmark methodology.
+1. Fair benchmark: AR, EAGLE-3, DFlash, DFlash2, DSpine on one engine/hardware/dataset set; acceptance length AND wall-clock tok/s;
+   T=0 and T=1; concurrency 1 and 8; block sizes matched or swept. Raw JSON in repo. Pick best single drafter.
+2. Improve single drafters: hybrids (DSpine depth injection + DFlash2 top-k selector), long blocks, tree verification, new ideas.
+3. Recursive study (sketches below). Kill tests first, cheap and offline. Then build best stacked architecture on the phase-2 winner.
+4. Write benchmark / paper-style report.
+
+## Recursive sketches (hypotheses, each with a kill test)
+Cap: draft-ahead gain <= ~1 + T_draft/T_verify (T_draft unmeasured). Real lever is acceptance length.
+- A. Branching draft-ahead: during verify of block k, batch-draft continuations for likely (accepted n, bonus token top-2) pairs using
+  a self-conditioned drafter (own hidden states instead of unavailable target features). Kill test: top-2 bonus hit rate + tau drop in
+  self-conditioned mode from logged traces; T_draft/T_verify.
+- B. Refine cascade: L1 drafter proposes 16; L2 long-block (64) drafter takes L1 tokens instead of MASKs, corrects + extends;
+  target verifies 64 (~1.2x pass on A100). Kill test: tau beyond position 16 above L1 alone.
+- C. Stacked drafters a la HSD/CSD adapted to parallel drafters. Kill test: drafter share of round time.
+- D. On-policy recursive training (rollouts incl. self-conditioned states), 2-3 rounds. Supports A/B.
+
+## Target model
+Decision pending: Qwen3-8B (DFlash, DFlash2, DSpine checkpoints all exist; recommended) vs Qwen3-4B vs Qwen3.8-27B.
+Earlier Qwen3-4B roofline/verify sweeps retained below.
+
+## Budget
+No GPU launched. Before any paid box: state hourly price + total estimate and get approval.
+
+---
+# Earlier notes (Qwen3-4B)
 ## Target
 Qwen3-4B (bf16 ~8 GB). Cheapest model in the DFlash paper (Table 1/3). Baseline to beat, from the paper
 (Transformers, temp 0, block 16): avg tau 6.54, 4.91x; SGLang B200 Math500 tau 8.01, 4.8x at concurrency 1.
@@ -24,7 +56,7 @@ two-tap dynamic convolutions; it has no public Qwen3-4B checkpoint and no paper,
 3. **Cascade**: drafter level L is itself verified/accelerated by a smaller level L-1, so block length scales
    (16 -> 64 -> 256) while target cost stays ~1 pass.
 
-## Phases
+## Earlier phases (superseded)
 1. Baseline: reproduce DFlash Qwen3-4B (z-lab/dflash), measure tau and speed on 1 GPU. Roofline sweep of T_verify(B).
 2. Data: ~100K target-generated samples (Nemotron Post-Training v2 + CodeAlpaca) for ablations; 800K for full run.
 3. Train DFlash2-style drafter (5 layers, top-k candidates, selector, dynamic conv), block 16 then 32/64.
