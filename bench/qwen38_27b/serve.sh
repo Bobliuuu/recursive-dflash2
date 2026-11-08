@@ -2,14 +2,14 @@
 # Launch SGLang 0.5.22 server for Qwen3.8-27B in one of several speculative modes.
 # usage: serve.sh MODE [PORT] [extra sglang args...]
 # MODE: ar | mtp | dflash2 | dspine | dspark
-# env: W=/root/w (work dir)  MEM=0.85  CTX=8192  VERIFY_N (dspine/dspark width override)  SPS (path to sps.json for DSpine dynamic verification)
+# env: W=/root/w (work dir)  MEM=0.93  CTX=8192  VERIFY_N (dspine/dspark width override)  SPS (path to sps.json for DSpine dynamic verification)
 set -euo pipefail
 MODE=$1; PORT=${2:-30000}; shift || true; shift || true
-W=${W:-/root/w}; MEM=${MEM:-0.85}; CTX=${CTX:-8192}
+W=${W:-/root/w}; MEM=${MEM:-0.93}; CTX=${CTX:-8192}
 source $W/venv/bin/activate
 T=$W/models/Qwen/Qwen3.8-27B
 COMMON=(--model-path $T --tp-size 1 --dtype bfloat16 --trust-remote-code
-  --context-length $CTX --mem-fraction-static $MEM --max-running-requests 8
+  --context-length $CTX --mem-fraction-static $MEM --chunked-prefill-size 2048 --cuda-graph-backend-prefill disabled --max-running-requests 8
   --cuda-graph-max-bs-decode 8 --mamba-ssm-dtype float32 --mamba-radix-cache-strategy extra_buffer
   --reasoning-parser qwen3 --host 127.0.0.1 --port $PORT --disable-radix-cache)
 # system nvcc is 12.4; deep_gemm/flashinfer JIT need >=12.9: use pip nvcc 13.x from the venv
