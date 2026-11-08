@@ -59,9 +59,22 @@ for C in [1, 8]:
                 A = raw[("ar", d, 0.0, C)]; M = raw[(m, d, 0.0, C)]
                 ids = [i for i in M if i in A]
                 eq = sum(M[i]["text_sha"] == A[i]["text_sha"] for i in ids)
-                print(f"| {C} | {m} | {d} | {eq} / {len(ids)} |")
-                ll.append(dict(conc=C, method=m, dataset=d, matched=eq, compared=len(ids)))
+                import os.path
+                pre = []
+                for i in ids:
+                    a, b = A[i]["text"], M[i]["text"]
+                    n = len(os.path.commonprefix([a, b])); pre.append(n / max(1, max(len(a), len(b))))
+                pre.sort()
+                print(f"| {C} | {m} | {d} | {eq} / {len(ids)} | {sum(pre)/len(pre):.2f} | {pre[len(pre)//2]:.2f} |")
+                ll.append(dict(conc=C, method=m, dataset=d, matched=eq, compared=len(ids), mean_prefix_frac=sum(pre)/len(pre), median_prefix_frac=pre[len(pre)//2]))
 out["lossless"] = ll
+# drafter-independence at T=0: do the two block-16 drafters emit identical text?
+print("\nDFlash vs DSpine text identity (T=0)")
+for C in [1, 8]:
+    for d in DS:
+        if ("dflash", d, 0.0, C) in raw and ("dspine", d, 0.0, C) in raw:
+            A = raw[("dflash", d, 0.0, C)]; B = raw[("dspine", d, 0.0, C)]; ids = [i for i in A if i in B]
+            print(f"  c={C} {d}: {sum(A[i]['text_sha']==B[i]['text_sha'] for i in ids)} / {len(ids)} identical")
 # AR-vs-AR floor if a repeat exists
 for f in glob.glob(f"{R}/p1b_ar_*_T0_c1.json"):
     j2 = {r["id"]: r for r in json.load(open(f))["requests"]}; d = os.path.basename(f).split("_")[2]
@@ -70,4 +83,31 @@ for f in glob.glob(f"{R}/p1b_ar_*_T0_c1.json"):
         ids = [i for i in j2 if i in A]; eq = sum(j2[i]["text_sha"] == A[i]["text_sha"] for i in ids)
         print(f"AR-vs-AR repeat floor ({d}, T=0, c=1): {eq} / {len(ids)}")
         out.setdefault("ar_vs_ar", []).append(dict(dataset=d, matched=eq, compared=len(ids)))
+json.dump(out, open(f"{R}/phase1_summary.json", "w"), indent=1)
+
+# functional equivalence: GSM8K accuracy from \\boxed{} answers (gold from the dataset parquet if available)
+import re, glob as g
+def boxed(t):
+    i = t.rfind("\\boxed{")
+    if i < 0: return None
+    j = i + 7; d = 1; k = j
+    while k < len(t) and d:
+        d += (t[k] == "{") - (t[k] == "}"); k += 1
+    return t[j:k - 1].replace(",", "").replace("$", "").replace("\\!", "").strip()
+try:
+    import pandas as pd
+    df = pd.read_parquet(g.glob(os.environ.get("HF_HOME", "/workspace/hf") + "/hub/datasets--openai--gsm8k/snapshots/*/main/test-00000-of-00001.parquet")[0])
+    gold = {i: a.split("####")[-1].strip().replace(",", "") for i, a in enumerate(df.answer)}
+    print("\nGSM8K accuracy (boxed answer == gold), n per cell in parentheses")
+    print("| T | conc | method | accuracy |\n|---|---|---|---|")
+    acc = []
+    for T in [0.0, 1.0]:
+        for C in [1, 8]:
+            for m in METHODS:
+                if (m, "gsm8k", T, C) in raw:
+                    R_ = raw[(m, "gsm8k", T, C)]; ok = sum((boxed(r["text"]) == gold[i]) or (boxed(r["text"]) is not None and gold[i] in boxed(r["text"]).split("=")[-1].split()) for i, r in R_.items())
+                    print(f"| {T:g} | {C} | {m} | {ok/len(R_):.3f} ({len(R_)}) |"); acc.append(dict(T=T, conc=C, method=m, acc=ok / len(R_), n=len(R_)))
+    out["gsm8k_acc"] = acc
+except Exception as e:
+    print("gsm8k accuracy skipped:", e)
 json.dump(out, open(f"{R}/phase1_summary.json", "w"), indent=1)
