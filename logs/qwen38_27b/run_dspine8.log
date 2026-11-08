@@ -1,2 +1,2 @@
-./run_method.sh: line 9: 35279 Killed                  nohup ./serve.sh $MODE 30000 > $W/logs/srv_$NAME.log 2>&1
+./run_method.sh: line 9: 17321 Killed                  nohup ./serve.sh $MODE 30000 > $W/logs/srv_$NAME.log 2>&1
 SERVER FAILED dspine8

@@ -2,6 +2,8 @@
 """Aggregate bench/results/qwen38_27b/*.json into markdown tables (+ summary.json).
 usage: summarize.py RESULTS_DIR [OUT.md]"""
 import json, glob, sys, collections, os
+from itertools import zip_longest
+def addh(a, b): return [(x or 0) + (y or 0) for x, y in zip_longest(a, b)]
 d = sys.argv[1]
 rows = {}
 for f in sorted(glob.glob(d + "/*.json")):
@@ -11,7 +13,7 @@ for f in sorted(glob.glob(d + "/*.json")):
     hist = None
     for q in r["requests"]:
         h = q["meta"].get("spec_correct_drafts_histogram")
-        if h: hist = h[:] if hist is None else [a + b for a, b in zip(hist, h)]
+        if h: hist = h[:] if hist is None else addh(hist, h)
     rounds = sum(hist) if hist else 0
     surv = [sum(hist[i:]) / rounds for i in range(1, len(hist))] if rounds else None  # P(draft position i accepted) = P(>= i correct)
     rows[key] = {"tok_s": r["tok_per_s"], "acc": r["pooled_accept_length"], "acc_req": r["mean_req_accept_length"], "surv": surv, "hist": hist,
@@ -44,9 +46,22 @@ for m in methods:
     agg = None
     for (mm, ds, T, c), x in rows.items():
         if mm == m and T == 0.0 and x["hist"]:
-            agg = x["hist"][:] if agg is None else [a + b for a, b in zip(agg, x["hist"])]
+            agg = x["hist"][:] if agg is None else addh(agg, x["hist"])
     if agg:
         n = sum(agg); out.append(f"- {LABEL.get(m, m)}: " + " ".join(f"{sum(agg[i:])/n:.2f}" for i in range(1, len(agg))))
+out.append("\n### acceptance length truncated to verify width W (1 + sum of first W-1 per-position survival), pooled over the 5 datasets, concurrency 1 only (all methods have it)\n")
+out.append("Exact for causal/greedy drafters (DSpine: block-causal, so a width-8 verify accepts exactly min(accepted, 7)+1 tokens); a lower bound on what a retrained width-W drafter would reach.\n")
+out.append("| method | T | W=4 | W=8 | W=12 | W=16 | native |"); out.append("|---|---|---|---|---|---|---|")
+for m in methods:
+    for T in (0.0, 1.0):
+        agg = None
+        for (mm, ds, TT, c), x in rows.items():
+            if mm == m and TT == T and c == 1 and x["hist"]:
+                agg = x["hist"][:] if agg is None else addh(agg, x["hist"])
+        if not agg: continue
+        n = sum(agg); sv = [sum(agg[i:]) / n for i in range(1, len(agg))]
+        f = lambda W: f"{1 + sum(sv[:W-1]):.2f}" if W - 1 <= len(sv) else "-"
+        out.append(f"| {LABEL.get(m, m)} | {T:g} | {f(4)} | {f(8)} | {f(12)} | {f(16)} | {1 + sum(sv):.2f} (W={len(agg)}) |")
 txt = "\n".join(out); print(txt)
 if len(sys.argv) > 2: open(sys.argv[2], "w").write(txt)
 json.dump({"|".join(map(str, k)): v for k, v in rows.items()}, open(d + "/summary.json", "w"))

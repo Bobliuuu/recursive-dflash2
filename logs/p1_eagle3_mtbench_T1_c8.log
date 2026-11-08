@@ -1,0 +1,31 @@
+{
+ "method": "eagle3",
+ "dataset": "mtbench",
+ "temperature": 1.0,
+ "concurrency": 8,
+ "n": 80,
+ "max_new_tokens": 2048,
+ "seed": 0,
+ "thinking": false,
+ "tokens_out": 38460,
+ "makespan_s": 41.03797960281372,
+ "agg_tok_s": 937.1806402809127,
+ "mean_req_tok_s": 134.1470964313629,
+ "frac_hit_cap": 0.0,
+ "block_size": 4,
+ "rounds": 17776,
+ "accept_len_pooled": 2.165110261026103,
+ "accept_len_mean_per_req": 2.2857951210875553,
+ "survival": [
+  1.0,
+  0.6078420342034203,
+  0.3632988298829883,
+  0.19396939693969398
+ ],
+ "cond_accept": [
+  0.6078420342034203,
+  0.597686256362795,
+  0.5339114276865903
+ ],
+ "frac_full_block": 0.19396939693969398
+}

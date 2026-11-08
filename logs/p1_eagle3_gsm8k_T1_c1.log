@@ -1,0 +1,31 @@
+{
+ "method": "eagle3",
+ "dataset": "gsm8k",
+ "temperature": 1.0,
+ "concurrency": 1,
+ "n": 40,
+ "max_new_tokens": 2048,
+ "seed": 0,
+ "thinking": false,
+ "tokens_out": 12084,
+ "makespan_s": 69.09625959396362,
+ "agg_tok_s": 174.88645653194925,
+ "mean_req_tok_s": 176.92189056570118,
+ "frac_hit_cap": 0.0,
+ "block_size": 4,
+ "rounds": 4933,
+ "accept_len_pooled": 2.4532738698560714,
+ "accept_len_mean_per_req": 2.483105664170931,
+ "survival": [
+  1.0,
+  0.6892357591729171,
+  0.4767889722278532,
+  0.28724913845530103
+ ],
+ "cond_accept": [
+  0.6892357591729171,
+  0.6917647058823528,
+  0.6024659863945578
+ ],
+ "frac_full_block": 0.28724913845530103
+}

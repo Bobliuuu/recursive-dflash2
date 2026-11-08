@@ -49,8 +49,8 @@ for T in [0.0, 1.0]:
             if any(vals): print(f"| {T:g} | {C} | {m} | " + " | ".join(vals) + " |")
 # losslessness: T=0, c=1 and c=8, token text identical to AR on the same prompt ids
 print("\nLosslessness vs AR (T=0, exact text match on identical prompts; bf16 batch-shape noise expected)")
-print("| conc | method | dataset | matched / compared |")
-print("|---|---|---|---|")
+print("| conc | method | dataset | byte-identical / compared | mean common-prefix fraction | median |")
+print("|---|---|---|---|---|---|")
 ll = []
 for C in [1, 8]:
     for m in METHODS[1:]:

@@ -1,0 +1,31 @@
+{
+ "method": "eagle3",
+ "dataset": "humaneval",
+ "temperature": 0.0,
+ "concurrency": 1,
+ "n": 40,
+ "max_new_tokens": 2048,
+ "seed": 0,
+ "thinking": false,
+ "tokens_out": 16165,
+ "makespan_s": 82.80451703071594,
+ "agg_tok_s": 195.21881872704685,
+ "mean_req_tok_s": 195.0837040205322,
+ "frac_hit_cap": 0.0,
+ "block_size": 4,
+ "rounds": 5925,
+ "accept_len_pooled": 2.730970464135021,
+ "accept_len_mean_per_req": 2.728678069572905,
+ "survival": [
+  1.0,
+  0.7635443037974684,
+  0.5755274261603376,
+  0.3918987341772152
+ ],
+ "cond_accept": [
+  0.7635443037974684,
+  0.7537577365163572,
+  0.6809384164222874
+ ],
+ "frac_full_block": 0.3918987341772152
+}

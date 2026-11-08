@@ -1,0 +1,31 @@
+{
+ "method": "eagle3",
+ "dataset": "math500",
+ "temperature": 1.0,
+ "concurrency": 1,
+ "n": 40,
+ "max_new_tokens": 2048,
+ "seed": 0,
+ "thinking": false,
+ "tokens_out": 35996,
+ "makespan_s": 211.91398334503174,
+ "agg_tok_s": 169.86137220304352,
+ "mean_req_tok_s": 171.44549659243327,
+ "frac_hit_cap": 0.075,
+ "block_size": 4,
+ "rounds": 15261,
+ "accept_len_pooled": 2.357774719874189,
+ "accept_len_mean_per_req": 2.384949814785002,
+ "survival": [
+  1.0,
+  0.646615555992399,
+  0.43699626498918814,
+  0.27416289889260204
+ ],
+ "cond_accept": [
+  0.646615555992399,
+  0.6758208350222943,
+  0.627380416854101
+ ],
+ "frac_full_block": 0.27416289889260204
+}
