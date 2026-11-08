@@ -62,6 +62,18 @@ for m in methods:
         n = sum(agg); sv = [sum(agg[i:]) / n for i in range(1, len(agg))]
         f = lambda W: f"{1 + sum(sv[:W-1]):.2f}" if W - 1 <= len(sv) else "-"
         out.append(f"| {LABEL.get(m, m)} | {T:g} | {f(4)} | {f(8)} | {f(12)} | {f(16)} | {1 + sum(sv):.2f} (W={len(agg)}) |")
+out.append("\n### per-request-mean acceptance length (the model-card definition), mean of the c=1 and c=8 cells; N=8/24 prompts per cell\n")
+CARD = {("dflash2", 0.0): [5.69, 5.49, 4.87, 5.04, 4.11], ("dflash2", 1.0): [5.45, 5.27, 4.34, 4.79, 3.89],
+        ("dspine16sps", 0.0): [7.20, 6.49, 5.71, 6.14, 4.48], ("dspine16sps", 1.0): [6.31, 5.66, 4.71, 5.41, 4.03]}
+out.append("| method | T | " + " | ".join(dsets) + " |"); out.append("|---|---|" + "---|" * len(dsets))
+for m in methods:
+    for T in (0.0, 1.0):
+        vals = []
+        for ds in dsets:
+            v = [rows[(m, ds, T, c)]["acc_req"] for c in (1, 8) if (m, ds, T, c) in rows and rows[(m, ds, T, c)]["acc_req"]]
+            vals.append(f"{sum(v)/len(v):.2f}" if v else "-")
+        if any(v != "-" for v in vals): out.append(f"| {LABEL.get(m, m)} | {T:g} | " + " | ".join(vals) + " |")
+        if (m, T) in CARD: out.append(f"| (model card, xhigh, 4096 tok, H100/H200) | {T:g} | " + " | ".join(f"{x:.2f}" for x in CARD[(m, T)]) + " |")
 txt = "\n".join(out); print(txt)
 if len(sys.argv) > 2: open(sys.argv[2], "w").write(txt)
 json.dump({"|".join(map(str, k)): v for k, v in rows.items()}, open(d + "/summary.json", "w"))

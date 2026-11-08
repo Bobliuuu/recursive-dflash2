@@ -1,0 +1,23 @@
+{
+ "chain_emit": 8.361621799080762,
+ "W1": {
+  "nodes_incl_anchor": 16,
+  "emit_mean": 8.363673670387392
+ },
+ "W2": {
+  "nodes_incl_anchor": 31,
+  "emit_mean": 9.594960604070913
+ },
+ "W3": {
+  "nodes_incl_anchor": 46,
+  "emit_mean": 10.107189757058437
+ },
+ "W4": {
+  "nodes_incl_anchor": 61,
+  "emit_mean": 10.421126066973079
+ },
+ "W5": {
+  "nodes_incl_anchor": 76,
+  "emit_mean": 10.645518713066316
+ }
+}

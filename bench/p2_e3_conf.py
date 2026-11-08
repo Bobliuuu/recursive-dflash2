@@ -45,29 +45,40 @@ if __name__ == "__main__":
     res["auroc_cumsurv_predicts_L_ge"] = {str(k): auroc(cs[:, k - 1], Ls >= k) for k in (2, 4, 8, 12, 15)}
     res["auroc_cumsurv_full_block"] = auroc(cs[:, -1], Ls >= T1)
     res["mean_cumsurv_vs_actual"] = {str(k): [float(cs[:, k - 1].mean()), float((Ls >= k).mean())] for k in (1, 2, 4, 8, 12, 15)}
-    # truncation policy: width w_r = 1 + #{i : S_i >= theta}, min 2 -> accepted L' = min(L, w-1)
-    # cost model (ms): c=1: round = 14.0 - 0.05*(16-w) ; c=8: round = 24.1 - 0.09*8*(16-w) (assumed linear in verified tokens, see docs)
-    models = {"c1": (14.0, 0.05, 1), "c8": (24.1, 0.09, 8)}
-    base = {k: np.mean(Ls + 1) / v[0] for k, v in models.items()}
+    # truncation policy: width w_r = 1 + #{i : S_i >= theta}, min 2 -> accepted L' = min(L, w-1).
+    # Round-time vs verify width (ms): c=1 from the real-engine timer (T_verify 16/24/32 = 11.05/11.57/11.70) plus the HF graph increments below 16;
+    # c=8 from the measured fixed-block runs p2_blk{8,12,16}_*_c8.json (round = tau*8/tok_s). Piecewise-linear interpolation.
+    import os, glob
+    R = os.path.join(os.path.dirname(os.path.abspath(__file__)), "results")
+    c8 = {}
+    for w in (8, 12, 16):
+        vals = []
+        for f in glob.glob(f"{R}/p2_blk{w}_*_T0_c8.json"):
+            sm = json.load(open(f))["summary"]; vals.append(sm["accept_len_pooled"] * 8 / sm["agg_tok_s"] * 1e3)
+        c8[w] = float(np.mean(vals)) if vals else None
+    c1 = {1: 14.0 - 0.80, 8: 14.0 - 0.57, 12: 14.0 - 0.30, 16: 14.0}
+    curves = {"c1": c1, "c8": c8 if all(v for v in c8.values()) else None}
+    res["round_ms_by_width"] = curves
+    def rt(model, w):
+        cv = curves[model]; xs = sorted(cv); return float(np.interp(w, xs, [cv[x] for x in xs]))
+    base = {k: np.mean(Ls + 1) / rt(k, 16) for k in curves if curves[k]}
     trunc = []
     for th in [0, 0.02, 0.05, 0.1, 0.15, 0.2, 0.3, 0.4, 0.5]:
         w = np.maximum(2, 1 + (cs >= th).sum(1)); w = np.minimum(w, 16)
         emit = np.minimum(Ls, w - 1) + 1
         row = {"theta": th, "mean_width": float(w.mean()), "emit": float(emit.mean())}
-        for k, (r16, per, nreq) in models.items():
-            rt = r16 - per * nreq * (16 - w.mean())
-            row["speedup_" + k] = float(emit.mean() / rt / base[k])
+        for k in base:
+            # per-round adaptive width: expected round time = mean over rounds of rt(w_r) (c=8 rounds share a batch; this is the optimistic per-round accounting)
+            xs = sorted(curves[k]); row["speedup_" + k] = float(emit.mean() / np.mean(np.interp(w, xs, [curves[k][x] for x in xs])) / base[k])
         trunc.append(row)
     res["truncation"] = trunc
-    # fixed widths (no confidence) for comparison
     fixed = []
     for wf in (8, 12, 16):
         emit = np.minimum(Ls, wf - 1) + 1
         row = {"width": wf, "emit": float(emit.mean())}
-        for k, (r16, per, nreq) in models.items():
-            row["speedup_" + k] = float(emit.mean() / (r16 - per * nreq * (16 - wf)) / base[k])
+        for k in base: row["speedup_" + k] = float(emit.mean() / rt(k, wf) / base[k])
         fixed.append(row)
-    res["fixed_width"] = fixed
+    res["fixed_width_model"] = fixed
     # tree-vs-chain gating (N=32 dynamic tree): does confidence predict where the tree helps?
     sub = allr[::3]
     Lt = np.array([replay(rd, build_tree(rd, 32)) for _, rd in sub]); Lc = np.array([rd["L"] for _, rd in sub])
