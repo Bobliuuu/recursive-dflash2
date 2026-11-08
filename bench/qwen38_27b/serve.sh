@@ -12,6 +12,8 @@ COMMON=(--model-path $T --tp-size 1 --dtype bfloat16 --trust-remote-code
   --context-length $CTX --mem-fraction-static $MEM --max-running-requests 8
   --cuda-graph-max-bs-decode 8 --mamba-ssm-dtype float32 --mamba-radix-cache-strategy extra_buffer
   --reasoning-parser qwen3 --host 127.0.0.1 --port $PORT --disable-radix-cache)
+# system nvcc is 12.4; deep_gemm/flashinfer JIT need >=12.9: use pip nvcc 13.x from the venv
+export CUDA_HOME=$W/venv/lib/python3.11/site-packages/nvidia/cu13; export PATH=$CUDA_HOME/bin:$PATH
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 case $MODE in
  ar)
