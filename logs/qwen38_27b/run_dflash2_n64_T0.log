@@ -1,0 +1,5 @@
+dflash2 gsm8k T=0.0 c=8: 856.6 tok/s, accept(pooled)=5.030600890207715, mean-req=5.6547236931405935, trunc=0.03 -> /root/w/results/dflash2_n64__gsm8k__T0__c8.json
+dflash2 math500 T=0.0 c=8: 1141.7 tok/s, accept(pooled)=4.877846466859691, mean-req=5.35803330552686, trunc=0.23 -> /root/w/results/dflash2_n64__math500__T0__c8.json
+dflash2 humaneval T=0.0 c=8: 1051.8 tok/s, accept(pooled)=4.439363817097416, mean-req=4.7719567802809895, trunc=0.44 -> /root/w/results/dflash2_n64__humaneval__T0__c8.json
+dflash2 mbpp T=0.0 c=8: 1036.7 tok/s, accept(pooled)=4.606945404284727, mean-req=5.02355320594569, trunc=0.19 -> /root/w/results/dflash2_n64__mbpp__T0__c8.json
+dflash2 mt-bench T=0.0 c=8: 877.7 tok/s, accept(pooled)=3.743986745129406, mean-req=4.298708012413586, trunc=0.31 -> /root/w/results/dflash2_n64__mt-bench__T0__c8.json

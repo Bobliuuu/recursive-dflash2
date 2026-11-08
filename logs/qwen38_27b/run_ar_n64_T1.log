@@ -1,0 +1,5 @@
+ar gsm8k T=1.0 c=8: 288.8 tok/s, accept(pooled)=None, mean-req=None, trunc=0.08 -> /root/w/results/ar_n64__gsm8k__T1__c8.json
+ar math500 T=1.0 c=8: 366.9 tok/s, accept(pooled)=None, mean-req=None, trunc=0.28 -> /root/w/results/ar_n64__math500__T1__c8.json
+ar humaneval T=1.0 c=8: 356.9 tok/s, accept(pooled)=None, mean-req=None, trunc=0.38 -> /root/w/results/ar_n64__humaneval__T1__c8.json
+ar mbpp T=1.0 c=8: 346.3 tok/s, accept(pooled)=None, mean-req=None, trunc=0.17 -> /root/w/results/ar_n64__mbpp__T1__c8.json
+ar mt-bench T=1.0 c=8: 355.8 tok/s, accept(pooled)=None, mean-req=None, trunc=0.34 -> /root/w/results/ar_n64__mt-bench__T1__c8.json

@@ -1,0 +1,5 @@
+dspine16sps gsm8k T=1.0 c=8: 848.8 tok/s, accept(pooled)=4.764381402679275, mean-req=5.677924374793353, trunc=0.06 -> /root/w/results/dspine16sps_n64__gsm8k__T1__c8.json
+dspine16sps math500 T=1.0 c=8: 990.5 tok/s, accept(pooled)=4.368499837292548, mean-req=5.032764741428628, trunc=0.28 -> /root/w/results/dspine16sps_n64__math500__T1__c8.json
+dspine16sps humaneval T=1.0 c=8: 1047.6 tok/s, accept(pooled)=4.1875449964002875, mean-req=4.582342820290097, trunc=0.38 -> /root/w/results/dspine16sps_n64__humaneval__T1__c8.json
+dspine16sps mbpp T=1.0 c=8: 971.6 tok/s, accept(pooled)=4.389642142698378, mean-req=4.920243585457105, trunc=0.23 -> /root/w/results/dspine16sps_n64__mbpp__T1__c8.json
+dspine16sps mt-bench T=1.0 c=8: 849.5 tok/s, accept(pooled)=3.517684724057323, mean-req=4.129265191163588, trunc=0.34 -> /root/w/results/dspine16sps_n64__mt-bench__T1__c8.json

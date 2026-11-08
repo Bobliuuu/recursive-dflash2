@@ -1,0 +1,5 @@
+mtp gsm8k T=0.0 c=8: 626.2 tok/s, accept(pooled)=3.2344412223957173, mean-req=3.405741439822143, trunc=0.05 -> /root/w/results/mtp_n64__gsm8k__T0__c8.json
+mtp math500 T=0.0 c=8: 794.8 tok/s, accept(pooled)=3.1482281540914467, mean-req=3.2775386940386984, trunc=0.22 -> /root/w/results/mtp_n64__math500__T0__c8.json
+mtp humaneval T=0.0 c=8: 766.1 tok/s, accept(pooled)=2.988432345642972, mean-req=3.0486199439682586, trunc=0.39 -> /root/w/results/mtp_n64__humaneval__T0__c8.json
+mtp mbpp T=0.0 c=8: 747.8 tok/s, accept(pooled)=2.99493699369937, mean-req=3.0726190176083588, trunc=0.19 -> /root/w/results/mtp_n64__mbpp__T0__c8.json
+mtp mt-bench T=0.0 c=8: 726.8 tok/s, accept(pooled)=2.8459520739785713, mean-req=2.961112320325844, trunc=0.27 -> /root/w/results/mtp_n64__mt-bench__T0__c8.json

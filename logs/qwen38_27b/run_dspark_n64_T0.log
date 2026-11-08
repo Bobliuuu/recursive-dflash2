@@ -1,0 +1,5 @@
+dspark gsm8k T=0.0 c=8: 820.8 tok/s, accept(pooled)=4.910711165472654, mean-req=5.704518756775708, trunc=0.06 -> /root/w/results/dspark_n64__gsm8k__T0__c8.json
+dspark math500 T=0.0 c=8: 1099.6 tok/s, accept(pooled)=4.778893280632411, mean-req=5.273633874166033, trunc=0.22 -> /root/w/results/dspark_n64__math500__T0__c8.json
+dspark humaneval T=0.0 c=8: 988.6 tok/s, accept(pooled)=4.298372796495254, mean-req=4.5978332707463645, trunc=0.42 -> /root/w/results/dspark_n64__humaneval__T0__c8.json
+dspark mbpp T=0.0 c=8: 992.1 tok/s, accept(pooled)=4.551918433056077, mean-req=4.842400431831496, trunc=0.12 -> /root/w/results/dspark_n64__mbpp__T0__c8.json
+dspark mt-bench T=0.0 c=8: 825.1 tok/s, accept(pooled)=3.5827363271011707, mean-req=4.109010233348656, trunc=0.27 -> /root/w/results/dspark_n64__mt-bench__T0__c8.json
