@@ -1,2 +1,5 @@
 ALLDONE p1 dspine
 ALLDONE p1 dspine
+ALLDONE p1 dflash
+ALLDONE p1 dflash
+PHASE1DONE dspine dflash

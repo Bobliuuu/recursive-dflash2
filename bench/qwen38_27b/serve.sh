@@ -9,7 +9,7 @@ W=${W:-/root/w}; MEM=${MEM:-$([ "$MODE" = dspine ] && echo 0.86 || echo 0.93)}; 
 source $W/venv/bin/activate
 T=$W/models/Qwen/Qwen3.8-27B
 COMMON=(--model-path $T --tp-size 1 --dtype bfloat16 --trust-remote-code
-  --context-length $CTX --mem-fraction-static $MEM --chunked-prefill-size 2048 --cuda-graph-backend-prefill disabled --max-running-requests 8
+  --context-length $CTX --mem-fraction-static $MEM --chunked-prefill-size 2048 --cuda-graph-backend-prefill disabled --max-running-requests ${MAXREQ:-8}
   --cuda-graph-max-bs-decode 8 --mamba-ssm-dtype float32 --mamba-radix-cache-strategy extra_buffer
   --reasoning-parser qwen3 --host 127.0.0.1 --port $PORT)
 # system nvcc is 12.4; deep_gemm/flashinfer JIT need >=12.9: use pip nvcc 13.x from the venv
