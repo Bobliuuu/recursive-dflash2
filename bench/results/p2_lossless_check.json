@@ -19,9 +19,14 @@
   "total": 200,
   "mean_common_prefix_frac": 0.5530273645091792
  },
- "p2_tree48_d31_v1": {
-  "identical": 67,
+ "p2_tree40_d31": {
+  "identical": 63,
   "total": 200,
-  "mean_common_prefix_frac": 0.5530273645091792
+  "mean_common_prefix_frac": 0.5235772361466606
+ },
+ "p2_tree56_d31": {
+  "identical": 68,
+  "total": 200,
+  "mean_common_prefix_frac": 0.5371651420467383
  }
 }

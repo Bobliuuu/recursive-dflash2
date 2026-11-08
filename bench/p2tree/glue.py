@@ -15,15 +15,24 @@ class TreeGlue:
 
     # ---- table from the DSpine sampler (static buffers after the draft graph replay)
     def table(self, sampler):
-        from sglang_dspine.kernels import dspine as dk
+        """Predecessor-conditioned logit table for the first D draft rows only (same math as sglang_dspine serial_rs_table, restricted to D rows)."""
         bridge = sampler.draft_model.selected_prefix_bridge
-        (t, k) = (sampler.block_size, sampler.k)
-        m, n = t, t - 1
-        cand = sampler.candidate_out[:1].view(n, k)
-        tab = dk.serial_rs_table(sampler.raw[:m], sampler.rms[:m], sampler.query[:m], sampler.anchors[:1], cand, bridge.codebook,
-                                 sampler.pred_gate_f32, sampler.prev_f32, sampler.gate_b_f32, sampler.write_f32, sampler.norm_f32,
-                                 sampler.lm_head_weight, sampler.norm_eps, t, res_emb=sampler.res_emb, res_proj=sampler.res_proj_f32)
-        return tab, cand
+        t, k, D = sampler.block_size, sampler.k, self.D
+        f32 = torch.float32
+        r = sampler.pred_gate_f32.shape[0]
+        cand = sampler.candidate_out[0, :D]                                   # [D, k]
+        x = sampler.raw[1:D + 1].to(f32); scale = sampler.rms[1:D + 1].to(f32); q = sampler.query[1:D + 1, :r].to(f32)
+        sid = torch.cat((sampler.anchors[:1].view(1, 1).expand(1, k), cand[:-1]), dim=0)      # [D, k]
+        sqrt_c = float(bridge.codebook.shape[1]) ** 0.5
+        exact = sqrt_c * bridge.codebook[sid].to(f32)                         # [D, k, C]
+        gate = torch.sigmoid(q[:, None, :] + exact @ sampler.pred_gate_f32.T + sampler.gate_b_f32)
+        value = exact @ sampler.prev_f32.T
+        if sampler.res_proj_f32 is not None:
+            value = value + sampler.res_emb[sid].to(f32) @ sampler.res_proj_f32.T
+        refined = x[:, None, :] + scale[:, None, None] * ((gate * value) @ sampler.write_f32.T)
+        normalized = refined / torch.sqrt(refined.square().mean(-1, keepdim=True) + sampler.norm_eps) * sampler.norm_f32
+        head = sampler.lm_head_weight[cand].to(f32)                           # [D, k, H]
+        return torch.einsum("njh,nch->njc", normalized, head), cand
 
     def prepare(self, worker, bs, block_ids, prefix_lens, draft_tokens, positions_2d):
         assert bs == 1 and int(worker.block_size) == self.N, (bs, worker.block_size, self.N)
