@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# Launch SGLang 0.5.22 server for Qwen3.8-27B in one of several speculative modes.
+# usage: serve.sh MODE [PORT] [extra sglang args...]
+# MODE: ar | mtp | dflash2 | dspine | dspark
+# env: W=/root/w (work dir)  MEM=0.85  CTX=8192  VERIFY_N (dspine/dspark width override)  SPS (path to sps.json for DSpine dynamic verification)
+set -euo pipefail
+MODE=$1; PORT=${2:-30000}; shift || true; shift || true
+W=${W:-/root/w}; MEM=${MEM:-0.85}; CTX=${CTX:-8192}
+source $W/venv/bin/activate
+T=$W/models/Qwen/Qwen3.8-27B
+COMMON=(--model-path $T --tp-size 1 --dtype bfloat16 --trust-remote-code
+  --context-length $CTX --mem-fraction-static $MEM --max-running-requests 8
+  --cuda-graph-max-bs-decode 8 --mamba-ssm-dtype float32 --mamba-radix-cache-strategy extra_buffer
+  --reasoning-parser qwen3 --host 127.0.0.1 --port $PORT --disable-radix-cache)
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+case $MODE in
+ ar)
+  ARGS=(--attention-backend fa3 --linear-attn-backend triton) ;;
+ mtp)
+  # built-in MTP head (mtp_num_hidden_layers=1), chain of 3 steps -> 4 draft tokens (as in RadixArk's EAGLE/MTP row)
+  ARGS=(--attention-backend fa3 --linear-attn-backend triton --speculative-algorithm EAGLE
+        --speculative-num-steps ${MTP_STEPS:-3} --speculative-eagle-topk 1 --speculative-num-draft-tokens $((${MTP_STEPS:-3}+1))) ;;
+ dflash2)
+  ARGS=(--attention-backend fa3 --speculative-draft-attention-backend fa3 --linear-attn-backend triton
+        --speculative-algorithm DFLASH --speculative-draft-model-path $W/models/z-lab/Qwen3.8-27B-DFlash2
+        --speculative-num-draft-tokens ${BLOCK:-8}) ;;
+ dspine)
+  ARGS=(--attention-backend fa3 --speculative-draft-attention-backend fa3 --linear-attn-backend triton
+        --enable-linear-replayssm-spec --max-mamba-cache-size 64 --min-free-slots-delay 1 --sampling-backend flashinfer
+        --speculative-algorithm DSPINE --speculative-draft-model-path $W/models/tencent/Qwen3.8-27B-DSpine-b16
+        --speculative-num-draft-tokens ${BLOCK:-16})
+  [ -n "${SPS:-}" ] && ARGS+=(--speculative-dspark-sps-table-path $SPS) ;;
+ dspark)
+  ARGS=(--attention-backend flashinfer --speculative-draft-attention-backend flashinfer --linear-attn-backend triton
+        --speculative-algorithm DSPARK --speculative-draft-model-path $W/models/RadixArk/Qwen3.8-27B-DSpark
+        --speculative-draft-model-quantization unquant --speculative-dspark-block-size 7
+        --speculative-num-steps 1 --speculative-eagle-topk 1)
+  export SGLANG_RAGGED_VERIFY_MODE=static ;;
+ *) echo bad mode; exit 2 ;;
+esac
+exec sglang serve "${COMMON[@]}" "${ARGS[@]}" "$@"
