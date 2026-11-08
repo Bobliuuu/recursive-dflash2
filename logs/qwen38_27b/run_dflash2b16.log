@@ -1,2 +1,10 @@
 dflash2b16 gsm8k T=0.0 c=1: 246.2 tok/s, accept(pooled)=6.55774647887324, mean-req=6.89699593727795, trunc=0.00 -> /root/w/results/dflash2b16_b16__gsm8k__T0__c1.json
 dflash2b16 math500 T=0.0 c=1: 269.8 tok/s, accept(pooled)=6.81979977753059, mean-req=7.176974722122459, trunc=0.12 -> /root/w/results/dflash2b16_b16__math500__T0__c1.json
+dflash2b16 humaneval T=0.0 c=1: 210.1 tok/s, accept(pooled)=5.229197807673144, mean-req=5.7994501789513055, trunc=0.50 -> /root/w/results/dflash2b16_b16__humaneval__T0__c1.json
+dflash2b16 mbpp T=0.0 c=1: 202.1 tok/s, accept(pooled)=5.0452397029034435, mean-req=5.46490912662674, trunc=0.25 -> /root/w/results/dflash2b16_b16__mbpp__T0__c1.json
+dflash2b16 mt-bench T=0.0 c=1: 177.6 tok/s, accept(pooled)=4.440277777777778, mean-req=5.145071580822493, trunc=0.25 -> /root/w/results/dflash2b16_b16__mt-bench__T0__c1.json
+dflash2b16 gsm8k T=1.0 c=1: 255.7 tok/s, accept(pooled)=6.87463556851312, mean-req=6.837230247114033, trunc=0.00 -> /root/w/results/dflash2b16_b16__gsm8k__T1__c1.json
+dflash2b16 math500 T=1.0 c=1: 216.8 tok/s, accept(pooled)=5.5119250425894375, mean-req=6.3046441832789935, trunc=0.12 -> /root/w/results/dflash2b16_b16__math500__T1__c1.json
+dflash2b16 humaneval T=1.0 c=1: 179.0 tok/s, accept(pooled)=4.496761133603239, mean-req=4.906610610715808, trunc=0.50 -> /root/w/results/dflash2b16_b16__humaneval__T1__c1.json
+dflash2b16 mbpp T=1.0 c=1: 192.4 tok/s, accept(pooled)=4.855176540993417, mean-req=4.984328578921322, trunc=0.25 -> /root/w/results/dflash2b16_b16__mbpp__T1__c1.json
+dflash2b16 mt-bench T=1.0 c=1: 155.3 tok/s, accept(pooled)=3.9237339841366685, mean-req=4.572062780438836, trunc=0.25 -> /root/w/results/dflash2b16_b16__mt-bench__T1__c1.json
