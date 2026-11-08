@@ -13,19 +13,20 @@ Publish a fair benchmark.
 3. Recursive study (sketches below). Kill tests first, cheap and offline. Then build best stacked architecture on the phase-2 winner.
 4. Write benchmark / paper-style report.
 
-## Recursive sketches (hypotheses, each with a kill test)
-Cap: draft-ahead gain <= ~1 + T_draft/T_verify (T_draft unmeasured). Real lever is acceptance length.
-- A. Branching draft-ahead: during verify of block k, batch-draft continuations for likely (accepted n, bonus token top-2) pairs using
-  a self-conditioned drafter (own hidden states instead of unavailable target features). Kill test: top-2 bonus hit rate + tau drop in
-  self-conditioned mode from logged traces; T_draft/T_verify.
-- B. Refine cascade: L1 drafter proposes 16; L2 long-block (64) drafter takes L1 tokens instead of MASKs, corrects + extends;
-  target verifies 64 (~1.2x pass on A100). Kill test: tau beyond position 16 above L1 alone.
-- C. Stacked drafters a la HSD/CSD adapted to parallel drafters. Kill test: drafter share of round time.
-- D. On-policy recursive training (rollouts incl. self-conditioned states), 2-3 rounds. Supports A/B.
+## Recursive sketches: status after prior-art survey (docs/research/recursive-prior-art.md)
+Step 0 for all: from one logged run measure T_draft, T_verify(B=16), per-position acceptance, fraction of full-block accepts.
+- A. Branching draft-ahead: ALREADY DONE (SSD 2603.03251 ~30% w/ drafter on own GPU; D3D, DPara; PEARL, AMUSD). Reproduction only.
+  Cap 1+T_d/T_v (~1.17-1.3 in published timings). Kill if T_d/T_v < 0.2.
+- B. Refine cascade: PARTLY done (D-Loop 2610.06011 tau 7.19 vs 5.77 on Qwen3-8B; XPress 2608.02438; DBloom: must train at longer length).
+  OPEN GAP: pass 2 emitting a longer block (16 -> 64) from pass-1 tokens. Kill if tau_32/tau_16 < ~1.05 or full-block accepts < 10%.
+- C. Stacked drafters: low value (HSD 1.03-1.17x; parallel drafter cost already flat in block length). Do not build.
+- D. On-policy training: prior art (DistillSpec, HASS, Carryover Drafting, D-Loop). Support for B only, max 2 rounds.
+- New, ranked first: tree verification on the best parallel drafter (DDTree 5.56x->7.52x over DFlash; nobody tried on DSpine). Baseline the
+  recursive ideas must beat. Also: tree from pass-2 marginals, confidence-gated pass 2, n-gram tail extension.
 
-## Target model
-Decision pending: Qwen3-8B (DFlash, DFlash2, DSpine checkpoints all exist; recommended) vs Qwen3-4B vs Qwen3.8-27B.
-Earlier Qwen3-4B roofline/verify sweeps retained below.
+## Target model (corrected)
+No DFlash2 checkpoint for Qwen3-4B/8B (only 27B+). Qwen3-8B official: DFlash, DSpine, EAGLE-3 (RedHatAI). Decision pending on DFlash2
+(drop / 27B / retrain). DSpine paper vs README numbers disagree (4.82 vs 7.83 tau): settle in our harness first.
 
 ## Budget
 No GPU launched. Before any paid box: state hourly price + total estimate and get approval.
