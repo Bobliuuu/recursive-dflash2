@@ -18,7 +18,7 @@ sets["humaneval"] = ["Write a solution to the following problem and make sure th
 df = pd.read_parquet(snap("datasets--google-research-datasets--mbpp") + "/full/test-00000-of-00001.parquet")
 sets["mbpp"] = [r.text + "\nYour code should pass these tests:\n" + "\n".join(r.test_list) for r in df.itertuples()]
 q = [json.loads(l) for l in open(snap("datasets--HuggingFaceH4--mt_bench_prompts") + "/raw/question.jsonl")]
-sets["mtbench"] = [x["turns"][0] for x in q]  # first turn only
+sets["mtbench"] = [x["prompt"][0] for x in q]  # first turn only
 for k, v in sets.items():
     idx = list(range(len(v)))
     random.Random(0).shuffle(idx)
