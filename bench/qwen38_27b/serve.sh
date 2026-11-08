@@ -42,4 +42,5 @@ case $MODE in
  *) echo bad mode; exit 2 ;;
 esac
 [ "$MODE" != dspine ] && ARGS+=(--disable-radix-cache)
+[ -n "${DRYRUN:-}" ] && { echo sglang serve "${COMMON[@]}" "${ARGS[@]}" "$@"; exit 0; }
 exec sglang serve "${COMMON[@]}" "${ARGS[@]}" "$@"
