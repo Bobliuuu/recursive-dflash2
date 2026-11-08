@@ -1,0 +1,15 @@
+{
+ "method": "ar",
+ "dataset": "mtbench",
+ "temperature": 0.0,
+ "concurrency": 1,
+ "n": 40,
+ "max_new_tokens": 2048,
+ "seed": 0,
+ "thinking": false,
+ "tokens_out": 13505,
+ "makespan_s": 148.76807713508606,
+ "agg_tok_s": 90.77888388472641,
+ "mean_req_tok_s": 90.68061223909824,
+ "frac_hit_cap": 0.0
+}

@@ -1,0 +1,15 @@
+{
+ "method": "ar",
+ "dataset": "mbpp",
+ "temperature": 0.0,
+ "concurrency": 1,
+ "n": 40,
+ "max_new_tokens": 2048,
+ "seed": 0,
+ "thinking": false,
+ "tokens_out": 18151,
+ "makespan_s": 200.13357090950012,
+ "agg_tok_s": 90.69442931295038,
+ "mean_req_tok_s": 90.62870231435204,
+ "frac_hit_cap": 0.0
+}

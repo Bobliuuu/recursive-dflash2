@@ -5,15 +5,16 @@
 # env: W=/root/w (work dir)  MEM=0.93  CTX=8192  VERIFY_N (dspine/dspark width override)  SPS (path to sps.json for DSpine dynamic verification)
 set -euo pipefail
 MODE=$1; PORT=${2:-30000}; shift || true; shift || true
-W=${W:-/root/w}; MEM=${MEM:-0.93}; CTX=${CTX:-8192}
+W=${W:-/root/w}; MEM=${MEM:-$([ "$MODE" = dspine ] && echo 0.86 || echo 0.93)}; CTX=${CTX:-8192}
 source $W/venv/bin/activate
 T=$W/models/Qwen/Qwen3.8-27B
 COMMON=(--model-path $T --tp-size 1 --dtype bfloat16 --trust-remote-code
   --context-length $CTX --mem-fraction-static $MEM --chunked-prefill-size 2048 --cuda-graph-backend-prefill disabled --max-running-requests 8
   --cuda-graph-max-bs-decode 8 --mamba-ssm-dtype float32 --mamba-radix-cache-strategy extra_buffer
-  --reasoning-parser qwen3 --host 127.0.0.1 --port $PORT --disable-radix-cache)
+  --reasoning-parser qwen3 --host 127.0.0.1 --port $PORT)
 # system nvcc is 12.4; deep_gemm/flashinfer JIT need >=12.9: use pip nvcc 13.x from the venv
 export CUDA_HOME=$W/venv/lib/python3.11/site-packages/nvidia/cu13; export PATH=$CUDA_HOME/bin:$PATH
+# radix cache off except DSPINE, whose plugin requires it (prompts are ~100 tokens, so prefix reuse is negligible)
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 case $MODE in
  ar)
@@ -28,7 +29,7 @@ case $MODE in
         --speculative-num-draft-tokens ${BLOCK:-8}) ;;
  dspine)
   ARGS=(--attention-backend fa3 --speculative-draft-attention-backend fa3 --linear-attn-backend triton
-        --enable-linear-replayssm-spec --max-mamba-cache-size 64 --min-free-slots-delay 1 --sampling-backend flashinfer
+        --enable-linear-replayssm-spec --max-mamba-cache-size ${MAMBA:-40} --min-free-slots-delay 1 --sampling-backend flashinfer
         --speculative-algorithm DSPINE --speculative-draft-model-path $W/models/tencent/Qwen3.8-27B-DSpine-b16
         --speculative-num-draft-tokens ${BLOCK:-16})
   [ -n "${SPS:-}" ] && ARGS+=(--speculative-dspark-sps-table-path $SPS) ;;
@@ -40,4 +41,5 @@ case $MODE in
   export SGLANG_RAGGED_VERIFY_MODE=static ;;
  *) echo bad mode; exit 2 ;;
 esac
+[ "$MODE" != dspine ] && ARGS+=(--disable-radix-cache)
 exec sglang serve "${COMMON[@]}" "${ARGS[@]}" "$@"

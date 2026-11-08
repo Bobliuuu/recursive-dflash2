@@ -1,0 +1,15 @@
+{
+ "method": "ar",
+ "dataset": "humaneval",
+ "temperature": 0.0,
+ "concurrency": 1,
+ "n": 40,
+ "max_new_tokens": 2048,
+ "seed": 0,
+ "thinking": false,
+ "tokens_out": 16357,
+ "makespan_s": 181.6143937110901,
+ "agg_tok_s": 90.06444734782703,
+ "mean_req_tok_s": 90.06127142922814,
+ "frac_hit_cap": 0.0
+}

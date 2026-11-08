@@ -1,0 +1,15 @@
+{
+ "method": "ar",
+ "dataset": "math500",
+ "temperature": 0.0,
+ "concurrency": 8,
+ "n": 80,
+ "max_new_tokens": 2048,
+ "seed": 0,
+ "thinking": false,
+ "tokens_out": 68593,
+ "makespan_s": 105.75860118865967,
+ "agg_tok_s": 648.5808173430637,
+ "mean_req_tok_s": 86.13211526564554,
+ "frac_hit_cap": 0.125
+}
