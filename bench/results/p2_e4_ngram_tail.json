@@ -1,0 +1,71 @@
+{
+ "n_rounds": 12884,
+ "n_full_accept": 2767,
+ "full_accept_frac": 0.21476249611921763,
+ "chain_emit": 7.615724930145918,
+ "cfg": {
+  "n2_m4": {
+   "match_found_frac": 0.7311167329237441,
+   "mean_extra_per_full": 1.2229851825081315,
+   "mean_extra_per_round": 0.2626513505122633,
+   "extra_verify_ms": 0.2726250095292926,
+   "speedup_fixed_width": 1.014728013348953
+  },
+  "n2_m8": {
+   "match_found_frac": 0.7311167329237441,
+   "mean_extra_per_full": 1.7481026382363571,
+   "mean_extra_per_round": 0.3754268860602297,
+   "extra_verify_ms": 0.5452500190585852,
+   "speedup_fixed_width": 1.0099618679219122
+  },
+  "n2_m16": {
+   "match_found_frac": 0.7311167329237441,
+   "mean_extra_per_full": 2.301048066498012,
+   "mean_extra_per_round": 0.4941788264514126,
+   "extra_verify_ms": 0.7892271969467402,
+   "speedup_fixed_width": 1.0080614472052154
+  },
+  "n3_m4": {
+   "match_found_frac": 0.6039031441994941,
+   "mean_extra_per_full": 1.2233465847488254,
+   "mean_extra_per_round": 0.26272896615957775,
+   "extra_verify_ms": 0.2726250095292926,
+   "speedup_fixed_width": 1.0147380101768269
+  },
+  "n3_m8": {
+   "match_found_frac": 0.6039031441994941,
+   "mean_extra_per_full": 1.8380917961691363,
+   "mean_extra_per_round": 0.3947531822415399,
+   "extra_verify_ms": 0.5452500190585852,
+   "speedup_fixed_width": 1.0124044222169895
+  },
+  "n3_m16": {
+   "match_found_frac": 0.6039031441994941,
+   "mean_extra_per_full": 2.554391037224431,
+   "mean_extra_per_round": 0.5485873952188761,
+   "extra_verify_ms": 0.7892271969467402,
+   "speedup_fixed_width": 1.0148244350554072
+  },
+  "n4_m4": {
+   "match_found_frac": 0.5102999638597759,
+   "mean_extra_per_full": 1.1900975786049874,
+   "mean_extra_per_round": 0.2555883266066439,
+   "extra_verify_ms": 0.2726250095292926,
+   "speedup_fixed_width": 1.01381830201242
+  },
+  "n4_m8": {
+   "match_found_frac": 0.5102999638597759,
+   "mean_extra_per_full": 1.8615829418142393,
+   "mean_extra_per_round": 0.3997981993169823,
+   "extra_verify_ms": 0.5452500190585852,
+   "speedup_fixed_width": 1.0130420367920097
+  },
+  "n4_m16": {
+   "match_found_frac": 0.5102999638597759,
+   "mean_extra_per_full": 2.72425009035056,
+   "mean_extra_per_round": 0.5850667494566905,
+   "extra_verify_ms": 0.7892271969467402,
+   "speedup_fixed_width": 1.019358820632569
+  }
+ }
+}
