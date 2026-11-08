@@ -1,3 +1,12 @@
 === Sun Nov  8 17:40:27 UTC 2026 start dspine16
 === Sun Nov  8 17:52:10 UTC 2026 done dspine16: dspine16 mt-bench T=1.0 c=1: 164.2 tok/s, accept(pooled)=3.898870360408822, mean-req=4.293390341504807, trunc=0.25 -> /root/w/results/dspine16__mt-bench__T1__c1.json
 === Sun Nov  8 17:52:10 UTC 2026 start ar
+=== Sun Nov  8 18:28:16 UTC 2026 done ar: ar mt-bench T=1.0 c=1: 51.3 tok/s, accept(pooled)=None, mean-req=None, trunc=0.25 -> /root/w/results/ar__mt-bench__T1__c1.json
+=== Sun Nov  8 18:28:16 UTC 2026 start mtp
+=== Sun Nov  8 18:46:38 UTC 2026 done mtp: mtp mt-bench T=1.0 c=1: 99.2 tok/s, accept(pooled)=2.435239973701512, mean-req=2.5961024690678576, trunc=0.25 -> /root/w/results/mtp__mt-bench__T1__c1.json
+=== Sun Nov  8 18:46:38 UTC 2026 start dspine8
+=== Sun Nov  8 18:47:16 UTC 2026 done dspine8: SERVER FAILED dspine8
+=== Sun Nov  8 18:47:16 UTC 2026 start dspark
+=== Sun Nov  8 19:00:27 UTC 2026 done dspark: dspark mt-bench T=1.0 c=1: 143.7 tok/s, accept(pooled)=3.5983870967741933, mean-req=4.028244325427488, trunc=0.25 -> /root/w/results/dspark__mt-bench__T1__c1.json
+=== Sun Nov  8 19:00:27 UTC 2026 start dflash2b16
+=== Sun Nov  8 19:01:05 UTC 2026 done dflash2b16: SERVER FAILED dflash2b16

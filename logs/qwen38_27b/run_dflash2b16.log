@@ -1,0 +1,2 @@
+dflash2b16 gsm8k T=0.0 c=1: 246.2 tok/s, accept(pooled)=6.55774647887324, mean-req=6.89699593727795, trunc=0.00 -> /root/w/results/dflash2b16_b16__gsm8k__T0__c1.json
+dflash2b16 math500 T=0.0 c=1: 269.8 tok/s, accept(pooled)=6.81979977753059, mean-req=7.176974722122459, trunc=0.12 -> /root/w/results/dflash2b16_b16__math500__T0__c1.json
