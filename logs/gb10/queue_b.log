@@ -36,3 +36,26 @@ already patched flashinfer_backend.py
 already patched ~/rdf2/DSpine/sglang_dspine/runtime/worker.py
 already patched prefill.cuh
 removed 0 cached prefill JIT dirs
+gsm8k 108.4 tok/s tau 16.66
+math500 91.9 tok/s tau 13.26
+humaneval 70.9 tok/s tau 10.36
+mbpp 70.7 tok/s tau 10.32
+mtbench 29.9 tok/s tau 4.24
+suite f_tree64_d31 done
+start f_tree32_d31 Mon Nov  9 11:26:12 AM EST 2026 avail=117GB
+already patched
+already patched
+already patched dflash_utils.py
+already patched dflash_worker_v2.py
+already patched flashinfer_backend.py
+already patched ~/rdf2/DSpine/sglang_dspine/runtime/worker.py
+already patched prefill.cuh
+removed 0 cached prefill JIT dirs
+gsm8k 112.3 tok/s tau 14.5
+math500 101.3 tok/s tau 12.31
+humaneval 76.4 tok/s tau 9.45
+mbpp 77.4 tok/s tau 9.55
+mtbench 32.7 tok/s tau 3.93
+suite f_tree32_d31 done
+=== exit 0 Mon Nov  9 11:42:21 AM EST 2026
+=== hold: bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh treefast f_tree96_d31 'gsm8k math500 humaneval mbpp mtbench' 20 96 31; bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh treefast f_tree96_d47 'gsm8k math500 humaneval mbpp mtbench' 20 96 47; bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh treefast f_tree16_d15 'gsm8k math500 humaneval mbpp mtbench' 20 16 15 Mon Nov  9 11:42:21 AM EST 2026
