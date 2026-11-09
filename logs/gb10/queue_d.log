@@ -26,3 +26,26 @@ already patched ~/rdf2/DSpine/sglang_dspine/runtime/worker.py
 already patched prefill.cuh
 removed 0 cached prefill JIT dirs
 gsm8k 112.4 tok/s tau 16.72
+math500 98.7 tok/s tau 13.8
+humaneval 73.3 tok/s tau 10.39
+mbpp 73.6 tok/s tau 10.41
+mtbench 31.7 tok/s tau 4.36
+suite p_tree64_d31 done
+start p_tree96_d31 Mon Nov  9 12:48:45 PM EST 2026 avail=116GB
+1672379, [No data], 170 MiB
+already patched
+already patched
+already patched dflash_utils.py
+already patched dflash_worker_v2.py
+already patched flashinfer_backend.py
+already patched ~/rdf2/DSpine/sglang_dspine/runtime/worker.py
+already patched prefill.cuh
+removed 0 cached prefill JIT dirs
+gsm8k 110.0 tok/s tau 17.05
+math500 97.9 tok/s tau 14.19
+humaneval 72.8 tok/s tau 10.68
+mbpp 73.3 tok/s tau 10.74
+mtbench 30.5 tok/s tau 4.34
+suite p_tree96_d31 done
+=== exit 0 Mon Nov  9 01:05:35 PM EST 2026
+QUEUE_D DONE Mon Nov  9 01:05:35 PM EST 2026
