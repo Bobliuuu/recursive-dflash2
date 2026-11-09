@@ -14,7 +14,7 @@ _INST = None
 # factored: the exact fp32 table re-associated so that no [rows*16, H] fp32 intermediate or large fp32 GEMM is needed per round:
 #           logit[j,c] = rho_j * ( (x*norm_w).head_c + s * m_j . TGf[c] ),  TGf[v] = W^T (head_v*norm_w), m_j from TSVf[v] = [G_p; A] sqrt(C) code_v,
 #           TGf / TSVf precomputed once in fp32 (~0.9 GB), rho_j as in "rescaled". Same math as "exact" up to fp32 summation order.
-TABLE_MODE = os.environ.get("RDF2_TABLE", "factored")   # Phase 4 headline: factored
+TABLE_MODE = os.environ.get("RDF2_TABLE", "exact")   # Phase 4 headline uses RDF2_TABLE=factored (default kept at exact: bench/p4tree_t1 loads this module)
 _GRAM = {}
 _FT = {}
 
