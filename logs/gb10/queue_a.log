@@ -17,3 +17,15 @@ mtbench 35.4 tok/s tau 4.15
 suite dspine_b16 done
 === exit 0 Mon Nov  9 06:34:43 AM EST 2026
 === tree tree48_d31 gsm8k math500 humaneval mbpp mtbench 40 48 31 Mon Nov  9 06:34:43 AM EST 2026
+start tree48_d31 Mon Nov  9 07:06:32 AM EST 2026 avail=117GB
+patched dflash_utils.py
+patched dflash_worker_v2.py
+patched flashinfer_backend.py
+gsm8k 105.1 tok/s tau 15.63
+math500 96.4 tok/s tau 13.42
+humaneval 74.1 tok/s tau 10.46
+mbpp 72.9 tok/s tau 10.2
+mtbench 42.6 tok/s tau 5.9
+suite tree48_d31 done
+=== exit 0 Mon Nov  9 07:34:55 AM EST 2026
+=== dflash dflash_b16 gsm8k math500 humaneval mbpp mtbench 40 Mon Nov  9 07:34:55 AM EST 2026
