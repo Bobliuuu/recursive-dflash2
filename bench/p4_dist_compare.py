@@ -22,8 +22,9 @@ def test(a, b):
     pa = (np.array(ta) + .5) / (len(a) + .5 * len(ta)); pb = (np.array(tb) + .5) / (len(b) + .5 * len(tb))
     return dict(cats=len(ta), chi2=float(stat), dof=int(dof), p=float(p), kl=float((pa * np.log(pa / pb)).sum()),
                 tv=float(0.5 * np.abs(np.array(ta) / len(a) - np.array(tb) / len(b)).sum()))
-res = {}; allp = []; nullp = []
+res = {}; allp = []; nullp = []; posp = []; posnull = []
 for k in ref["samples"]:
+    if k not in tst["samples"]: continue
     R = ref["samples"][k]; T = tst["samples"][k]
     L = min(min(len(s) for s in R), min(len(s) for s in T))
     rng = random.Random(0); Rs = R[:]; rng.shuffle(Rs); h = len(Rs) // 2
@@ -34,6 +35,7 @@ for k in ref["samples"]:
         t = test(cats(R, f), cats(T, f)); n0 = test(cats(Rs[:h], f), cats(Rs[h:2 * h], f))
         rows[name] = dict(test=t, null_split_half=n0)
         if name != "pos1": allp.append(t["p"]); nullp.append(n0["p"])
+        if name.startswith("pos") and name != "pos1": posp.append(t["p"]); posnull.append(n0["p"])
     vc = [v for v in (tst.get("verify_ct", {}).get(k) or []) if v is not None]
     res[k] = dict(n_ref=len(R), n_test=len(T), rows=rows, mean_verify_rounds_test=(sum(vc) / len(vc) if vc else None))
     print(f"\n{k}: n_ref={len(R)} n_test={len(T)} mean verify rounds (test) {res[k]['mean_verify_rounds_test']}")
@@ -43,6 +45,9 @@ for k in ref["samples"]:
         print(f"{name:10s} {t['cats']:5d}  {t['p']:.3f}           {t['kl']:.4f}        {t['tv']:.3f}  |  {n0['p']:.3f}  {n0['kl']:.4f}")
 summ = dict(n_tests=len(allp), min_p=min(allp), frac_p_below_005=sum(p < .05 for p in allp) / len(allp),
             fisher_p=float(combine_pvalues(allp, method="fisher")[1]),
-            null_min_p=min(nullp), null_fisher_p=float(combine_pvalues(nullp, method="fisher")[1]))
+            null_min_p=min(nullp), null_fisher_p=float(combine_pvalues(nullp, method="fisher")[1]),
+            # marginals of positions 2..8 only (joint12/joint123 largely duplicate pos2/pos3 when token 1 is near-deterministic)
+            pos_n_tests=len(posp), pos_min_p=min(posp), pos_frac_p_below_005=sum(p < .05 for p in posp) / len(posp),
+            pos_fisher_p=float(combine_pvalues(posp, method="fisher")[1]), pos_null_fisher_p=float(combine_pvalues(posnull, method="fisher")[1]))
 print("\nsummary (positions >= 2 and joints):", json.dumps(summ))
 if outp: json.dump(dict(per_prompt=res, summary=summ), open(outp, "w"), indent=1)

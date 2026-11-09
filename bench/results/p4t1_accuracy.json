@@ -1,0 +1,182 @@
+[
+ {
+  "file": "p4t1_acc_ar_gsm8k_T1_c16_s0.json",
+  "method": "acc_ar",
+  "dataset": "gsm8k",
+  "T": 1.0,
+  "seed": 0,
+  "n": 100,
+  "correct": 85,
+  "acc": 0.85
+ },
+ {
+  "file": "p4t1_acc_ar_gsm8k_T1_c16_s1.json",
+  "method": "acc_ar",
+  "dataset": "gsm8k",
+  "T": 1.0,
+  "seed": 1,
+  "n": 100,
+  "correct": 86,
+  "acc": 0.86
+ },
+ {
+  "file": "p4t1_acc_ar_gsm8k_T1_c16_s2.json",
+  "method": "acc_ar",
+  "dataset": "gsm8k",
+  "T": 1.0,
+  "seed": 2,
+  "n": 100,
+  "correct": 88,
+  "acc": 0.88
+ },
+ {
+  "file": "p4t1_acc_ar_math500_T1_c16_s0.json",
+  "method": "acc_ar",
+  "dataset": "math500",
+  "T": 1.0,
+  "seed": 0,
+  "n": 100,
+  "correct": 73,
+  "acc": 0.73
+ },
+ {
+  "file": "p4t1_acc_ar_math500_T1_c16_s1.json",
+  "method": "acc_ar",
+  "dataset": "math500",
+  "T": 1.0,
+  "seed": 1,
+  "n": 100,
+  "correct": 74,
+  "acc": 0.74
+ },
+ {
+  "file": "p4t1_acc_ar_math500_T1_c16_s2.json",
+  "method": "acc_ar",
+  "dataset": "math500",
+  "T": 1.0,
+  "seed": 2,
+  "n": 100,
+  "correct": 73,
+  "acc": 0.73
+ },
+ {
+  "file": "p4t1_acc_chain16_gsm8k_T1_c16_s0.json",
+  "method": "acc_chain16",
+  "dataset": "gsm8k",
+  "T": 1.0,
+  "seed": 0,
+  "n": 100,
+  "correct": 86,
+  "acc": 0.86
+ },
+ {
+  "file": "p4t1_acc_chain16_gsm8k_T1_c16_s1.json",
+  "method": "acc_chain16",
+  "dataset": "gsm8k",
+  "T": 1.0,
+  "seed": 1,
+  "n": 100,
+  "correct": 81,
+  "acc": 0.81
+ },
+ {
+  "file": "p4t1_acc_chain16_gsm8k_T1_c16_s2.json",
+  "method": "acc_chain16",
+  "dataset": "gsm8k",
+  "T": 1.0,
+  "seed": 2,
+  "n": 100,
+  "correct": 85,
+  "acc": 0.85
+ },
+ {
+  "file": "p4t1_acc_chain16_math500_T1_c16_s0.json",
+  "method": "acc_chain16",
+  "dataset": "math500",
+  "T": 1.0,
+  "seed": 0,
+  "n": 100,
+  "correct": 75,
+  "acc": 0.75
+ },
+ {
+  "file": "p4t1_acc_chain16_math500_T1_c16_s1.json",
+  "method": "acc_chain16",
+  "dataset": "math500",
+  "T": 1.0,
+  "seed": 1,
+  "n": 100,
+  "correct": 80,
+  "acc": 0.8
+ },
+ {
+  "file": "p4t1_acc_chain16_math500_T1_c16_s2.json",
+  "method": "acc_chain16",
+  "dataset": "math500",
+  "T": 1.0,
+  "seed": 2,
+  "n": 100,
+  "correct": 79,
+  "acc": 0.79
+ },
+ {
+  "file": "p4t1_acc_fastf_rrs48_gsm8k_T1_c1_s0.json",
+  "method": "acc_fastf_rrs48",
+  "dataset": "gsm8k",
+  "T": 1.0,
+  "seed": 0,
+  "n": 100,
+  "correct": 89,
+  "acc": 0.89
+ },
+ {
+  "file": "p4t1_acc_fastf_rrs48_gsm8k_T1_c1_s1.json",
+  "method": "acc_fastf_rrs48",
+  "dataset": "gsm8k",
+  "T": 1.0,
+  "seed": 1,
+  "n": 100,
+  "correct": 90,
+  "acc": 0.9
+ },
+ {
+  "file": "p4t1_acc_fastf_rrs48_gsm8k_T1_c1_s2.json",
+  "method": "acc_fastf_rrs48",
+  "dataset": "gsm8k",
+  "T": 1.0,
+  "seed": 2,
+  "n": 100,
+  "correct": 89,
+  "acc": 0.89
+ },
+ {
+  "file": "p4t1_acc_fastf_rrs48_math500_T1_c1_s0.json",
+  "method": "acc_fastf_rrs48",
+  "dataset": "math500",
+  "T": 1.0,
+  "seed": 0,
+  "n": 100,
+  "correct": 74,
+  "acc": 0.74
+ },
+ {
+  "file": "p4t1_acc_fastf_rrs48_math500_T1_c1_s1.json",
+  "method": "acc_fastf_rrs48",
+  "dataset": "math500",
+  "T": 1.0,
+  "seed": 1,
+  "n": 100,
+  "correct": 76,
+  "acc": 0.76
+ },
+ {
+  "file": "p4t1_acc_fastf_rrs48_math500_T1_c1_s2.json",
+  "method": "acc_fastf_rrs48",
+  "dataset": "math500",
+  "T": 1.0,
+  "seed": 2,
+  "n": 100,
+  "correct": 72,
+  "acc": 0.72
+ }
+]

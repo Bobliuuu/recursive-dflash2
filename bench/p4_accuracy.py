@@ -14,7 +14,7 @@ def norm(s):
     if s is None: return None
     s = s.replace(",", "").replace("$", "").replace("\\!", "").replace("\\left", "").replace("\\right", "").replace("\\dfrac", "\\frac").replace("\\tfrac", "\\frac")
     s = re.sub(r"\\text\{([^}]*)\}", r"\1", s).replace("^\\circ", "").replace("^{\\circ}", "").replace("\\%", "").replace("%", "")
-    s = s.replace(" ", "").replace("\\,", "").replace("\;", "").strip().rstrip(".")
+    s = s.replace(" ", "").replace("\\,", "").replace("\\;", "").strip().rstrip(".")
     if s.startswith("x=") or s.startswith("y="): s = s[2:]
     try: return str(float(s)).rstrip("0").rstrip(".") if re.fullmatch(r"-?[0-9.]+", s) else s
     except ValueError: return s

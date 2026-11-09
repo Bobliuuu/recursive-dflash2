@@ -11,6 +11,7 @@ ap.add_argument("--n", type=int, default=2500)
 ap.add_argument("--max-new", type=int, default=8)
 ap.add_argument("--conc", type=int, default=1)
 ap.add_argument("--temp", type=float, default=1.0)
+ap.add_argument("--prompts", default="", help="comma-separated subset of the fixed prompt keys")
 ap.add_argument("--out", required=True)
 a = ap.parse_args()
 from transformers import AutoTokenizer
@@ -19,6 +20,7 @@ def first(ds, i=0): return [json.loads(l) for l in open(f"{a.prompts_dir}/{ds}.j
 # fixed prompts: open chat (high entropy), math, code, and an explicitly random-choice prompt
 P = {"mtbench0": first("mtbench"), "gsm8k0": first("gsm8k"), "humaneval0": first("humaneval"),
      "story": "Write the opening line of a short story about a lighthouse keeper."}
+if a.prompts: P = {k: v for k, v in P.items() if k in a.prompts.split(",")}
 def build(p): return tok.apply_chat_template([{"role": "user", "content": p}], tokenize=False, add_generation_prompt=True, enable_thinking=False)
 def post(body):
     r = urllib.request.Request(a.url + "/generate", data=json.dumps(body).encode(), headers={"Content-Type": "application/json"})

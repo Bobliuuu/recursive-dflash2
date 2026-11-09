@@ -1,3 +1,4 @@
+# python test_t1_sampling.py 30000 det,rrs,hyb,det2,rrs2,hyb2
 [det] o1 ~ p_root: p = 0.113
 [det] o2 | o1=35 (n=1532): p = 0.533
 [det] o2 | o1=19 (n=1347): p = 0.654
@@ -16,23 +17,42 @@
 [hyb] o2 | o1=19 (n=1324): p = 0.573
 [hyb] o3 | o1=19, o2=2 (n=1114): p = 0.623
 [hyb] mean accepted drafts 0.4484 (min chi2 p 0.453)
+[det2] o1 ~ p_root: p = 0.864
+[det2] o2 | o1=35 (n=1525): p = 0.758
+[det2] o2 | o1=7 (n=1309): p = 0.876
+[det2] o2 | o1=19 (n=1244): p = 0.449
+[det2] o3 | o1=7, o2=2 (n=214): p = 0.758
+[det2] mean accepted drafts 0.1932 (min chi2 p 0.449)
+[rrs2] o1 ~ p_root: p = 0.192
+[rrs2] o2 | o1=3 (n=2207): p = 0.957
+[rrs2] o2 | o1=35 (n=1564): p = 0.810
+[rrs2] o2 | o1=19 (n=1294): p = 0.550
+[rrs2] o3 | o1=3, o2=35 (n=285): p = 0.766
+[rrs2] mean accepted drafts 0.4662 (min chi2 p 0.192)
+[hyb2] o1 ~ p_root: p = 0.744
+[hyb2] o2 | o1=3 (n=2169): p = 0.063
+[hyb2] o2 | o1=35 (n=1506): p = 0.468
+[hyb2] o2 | o1=19 (n=1337): p = 0.580
+[hyb2] o3 | o1=19, o2=2 (n=1149): p = 0.896
+[hyb2] mean accepted drafts 0.4567 (min chi2 p 0.063)
 OK
-[det] o1 ~ p_root: p = 0.016
-[det] o2 | o1=3 (n=8096): p = 0.897
-[det] o2 | o1=7 (n=4639): p = 0.065
-[det] o2 | o1=36 (n=4206): p = 0.650
-[det] o3 | o1=7, o2=2 (n=1739): p = 0.345
-[det] mean accepted drafts 0.8360 (min chi2 p 0.016)
-[rrs] o1 ~ p_root: p = 0.279
-[rrs] o2 | o1=3 (n=7781): p = 0.449
-[rrs] o2 | o1=7 (n=4661): p = 0.915
-[rrs] o2 | o1=36 (n=4197): p = 0.571
-[rrs] o3 | o1=3, o2=35 (n=1865): p = 0.919
-[rrs] mean accepted drafts 1.3151 (min chi2 p 0.279)
-[hyb] o1 ~ p_root: p = 0.828
-[hyb] o2 | o1=3 (n=7890): p = 0.176
-[hyb] o2 | o1=7 (n=4605): p = 0.149
-[hyb] o2 | o1=36 (n=4213): p = 0.812
-[hyb] o3 | o1=7, o2=2 (n=1662): p = 0.442
-[hyb] mean accepted drafts 0.8368 (min chi2 p 0.149)
+# python test_t1_sampling.py 30000 det2,rrs2,hyb2 aligned
+[det2] o1 ~ p_root: p = 0.322
+[det2] o2 | o1=3 (n=7987): p = 0.846
+[det2] o2 | o1=7 (n=4658): p = 0.901
+[det2] o2 | o1=36 (n=4134): p = 0.468
+[det2] o3 | o1=7, o2=2 (n=1725): p = 0.018
+[det2] mean accepted drafts 0.8338 (min chi2 p 0.018)
+[rrs2] o1 ~ p_root: p = 0.825
+[rrs2] o2 | o1=3 (n=7911): p = 0.979
+[rrs2] o2 | o1=7 (n=4678): p = 0.319
+[rrs2] o2 | o1=36 (n=4104): p = 0.642
+[rrs2] o3 | o1=3, o2=35 (n=1883): p = 0.830
+[rrs2] mean accepted drafts 1.3182 (min chi2 p 0.319)
+[hyb2] o1 ~ p_root: p = 0.948
+[hyb2] o2 | o1=3 (n=7824): p = 0.256
+[hyb2] o2 | o1=7 (n=4676): p = 0.283
+[hyb2] o2 | o1=36 (n=4137): p = 0.137
+[hyb2] o3 | o1=7, o2=2 (n=1708): p = 0.811
+[hyb2] mean accepted drafts 0.8418 (min chi2 p 0.137)
 OK
