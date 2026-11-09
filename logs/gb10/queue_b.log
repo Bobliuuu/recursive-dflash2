@@ -1,0 +1,38 @@
+=== hold: python ~/rdf2/recursive-dflash2/bench/gb10/linear_sweep.py ~/rdf2/recursive-dflash2/bench/results/gb10/linear_sweep.json; bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh treefast f_tree48_d31 'gsm8k math500 humaneval mbpp mtbench' 40 48 31; bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh treefast f_tree64_d31 'gsm8k math500 humaneval mbpp mtbench' 20 64 31; bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh treefast f_tree32_d31 'gsm8k math500 humaneval mbpp mtbench' 20 32 31 Mon Nov  9 09:57:33 AM EST 2026
+1 86.32 72.82813339233398
+4 84.65 72.01244316101074
+8 84.74 72.75164394378663
+16 85.06 72.83201308250428
+24 85.83 72.81910915374755
+32 85.85 43.74090242385864
+48 96.64 42.45192947387695
+64 103.71 42.342412376403814
+96 105.33 44.98149118423463
+128 91.82 63.512141704559326
+192 141.39 59.78883647918701
+256 142.85 86.91202754974364
+start f_tree48_d31 Mon Nov  9 10:41:06 AM EST 2026 avail=117GB
+already patched
+already patched
+patched dflash_utils.py
+patched dflash_worker_v2.py
+patched flashinfer_backend.py
+patched ~/rdf2/DSpine/sglang_dspine/runtime/worker.py
+patched prefill.cuh: 2 site(s)
+patched prefill.cuh: 1 site(s)
+removed 7 cached prefill JIT dirs
+gsm8k 106.8 tok/s tau 15.63
+math500 97.1 tok/s tau 13.42
+humaneval 74.7 tok/s tau 10.46
+mbpp 73.5 tok/s tau 10.2
+mtbench 43.0 tok/s tau 5.9
+suite f_tree48_d31 done
+start f_tree64_d31 Mon Nov  9 11:08:41 AM EST 2026 avail=117GB
+already patched
+already patched
+already patched dflash_utils.py
+already patched dflash_worker_v2.py
+already patched flashinfer_backend.py
+already patched ~/rdf2/DSpine/sglang_dspine/runtime/worker.py
+already patched prefill.cuh
+removed 0 cached prefill JIT dirs
