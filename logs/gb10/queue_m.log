@@ -217,3 +217,26 @@ ValueError: The DSPINE draft does not support quantized weights
 === exit 1 Mon Nov  9 05:43:39 PM EST 2026
 === hold: export TARGET=nvidia/Qwen3-8B-NVFP4 EXTRA='--quantization modelopt_fp4'; bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh dspine nvfp4_dspine_b16 'gsm8k math500 humaneval mbpp mtbench' 20; bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh treefast nvfp4_f_tree48_d31 'gsm8k math500 humaneval mbpp mtbench' 20 48 31; EXTRA="$EXTRA --speculative-draft-model-quantization fp8" bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh treefast nvfp4_f_tree32_d31_fp8draft 'gsm8k math500 humaneval mbpp mtbench' 20 32 31 Mon Nov  9 05:43:39 PM EST 2026
 === hold: export TARGET=nvidia/Qwen3-8B-NVFP4 EXTRA='--quantization modelopt_fp4 --speculative-draft-model-quantization unquant'; bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh treefast nvfp4_f_tree32_d31 'gsm8k math500 humaneval mbpp mtbench' 20 32 31; bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh dspine nvfp4_dspine_b16 'gsm8k math500 humaneval mbpp mtbench' 20; bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh treefast nvfp4_f_tree48_d31 'gsm8k math500 humaneval mbpp mtbench' 20 48 31 Mon Nov  9 05:46:11 PM EST 2026
+start nvfp4_f_tree32_d31 Mon Nov  9 06:24:13 PM EST 2026 avail=117GB
+already patched
+already patched
+already patched dflash_utils.py
+already patched dflash_worker_v2.py
+already patched flashinfer_backend.py
+already patched ~/rdf2/DSpine/sglang_dspine/runtime/worker.py
+already patched prefill.cuh
+removed 0 cached prefill JIT dirs
+gsm8k 204.3 tok/s tau 13.1
+math500 190.6 tok/s tau 11.54
+humaneval 159.1 tok/s tau 9.92
+mbpp 159.5 tok/s tau 9.78
+mtbench 70.4 tok/s tau 4.24
+suite nvfp4_f_tree32_d31 done
+start nvfp4_dspine_b16 Mon Nov  9 06:34:19 PM EST 2026 avail=116GB
+2131246, [No data], 170 MiB
+already patched
+already patched
+reverted dflash_utils.py
+reverted dflash_worker_v2.py
+reverted flashinfer_backend.py
+reverted ~/rdf2/DSpine/sglang_dspine/runtime/worker.py

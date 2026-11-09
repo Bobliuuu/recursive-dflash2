@@ -1,150 +1,150 @@
-[2026-11-09 17:42:25] Auto-detected template features: reasoning_config=ReasoningToggleConfig(toggle_param='enable_thinking', default_enabled=True, special_case=None, effort_kwarg=None), reasoning_parser=qwen3, tool_call_parser=qwen
-~/rdf2/venv/lib/python3.12/site-packages/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
-  warnings.warn(
-~/rdf2/venv/lib/python3.12/site-packages/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
-  warnings.warn(
-~/rdf2/venv/lib/python3.12/site-packages/torch/jit/_script.py:1643: FutureWarning: `torch.jit.interface` is deprecated. Please use `torch.compile` instead.
-  warnings.warn(
-~/rdf2/venv/lib/python3.12/site-packages/torch/jit/_script.py:1643: FutureWarning: `torch.jit.interface` is deprecated. Please use `torch.compile` instead.
-  warnings.warn(
-~/rdf2/venv/lib/python3.12/site-packages/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
-  warnings.warn(
-~/rdf2/venv/lib/python3.12/site-packages/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
-  warnings.warn(
-[2026-11-09 17:42:36] Multiple AROUND hooks on 'sglang.srt.model_executor.runner_backend.full_cuda_graph_backend.FullCudaGraphBackend.capture_one' (2 hooks, from: plugin=dspine, dist=sglang-dspine, plugin=dspine, dist=sglang-dspine). If any AROUND hook skips calling original_fn, inner hooks will be bypassed.
-[2026-11-09 17:42:36] Multiple AROUND hooks on 'sglang.srt.model_executor.runner_backend.full_cuda_graph_backend.FullCudaGraphBackend.capture_one' (2 hooks, from: plugin=dspine, dist=sglang-dspine, plugin=dspine, dist=sglang-dspine). If any AROUND hook skips calling original_fn, inner hooks will be bypassed.
-[2026-11-09 17:42:36] Init parallel begin.
-[2026-11-09 17:42:37] Init parallel ends. elapsed=0.44 s
-[2026-11-09 17:42:38] Memory baseline taken. mem usage=0.00 GB
-[2026-11-09 17:42:38] Load weight begin. avail mem=113.88 GB
-[2026-11-09 17:42:38] Using ModelOptModelLoader due to ModelOpt quantization config.
-[2026-11-09 17:42:38] ModelOptModelLoader: Loading base model...
-[2026-11-09 17:42:38] Model is already quantized, loading directly...
-[2026-11-09 17:42:38] Detected nvfp4 checkpoint.
-[2026-11-09 17:42:39] Found local HF snapshot for nvidia/Qwen3-8B-NVFP4 at ~/rdf2/hf/hub/models--nvidia--Qwen3-8B-NVFP4/snapshots/ccd10a893cbca613259517c3efe08e151ddf2b8e; skipping download.
-
-[2026-11-09 17:42:52] Found .v_scale in the checkpoint (e.g. model.layers.0.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.0.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:42:53] Found .k_scale in the checkpoint (e.g. model.layers.1.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.1.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:42:53] Found .v_scale in the checkpoint (e.g. model.layers.1.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.1.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:42:53] Found .k_scale in the checkpoint (e.g. model.layers.10.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.10.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:42:54] Found .v_scale in the checkpoint (e.g. model.layers.10.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.10.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:42:54] Found .k_scale in the checkpoint (e.g. model.layers.11.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.11.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:42:55] Found .v_scale in the checkpoint (e.g. model.layers.11.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.11.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:42:55] Found .k_scale in the checkpoint (e.g. model.layers.12.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.12.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:42:56] Found .v_scale in the checkpoint (e.g. model.layers.12.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.12.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:42:56] Found .k_scale in the checkpoint (e.g. model.layers.13.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.13.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:42:57] Found .v_scale in the checkpoint (e.g. model.layers.13.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.13.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:42:58] Found .k_scale in the checkpoint (e.g. model.layers.14.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.14.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:42:58] Found .v_scale in the checkpoint (e.g. model.layers.14.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.14.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:42:59] Found .k_scale in the checkpoint (e.g. model.layers.15.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.15.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:42:59] Found .v_scale in the checkpoint (e.g. model.layers.15.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.15.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:43:00] Found .k_scale in the checkpoint (e.g. model.layers.16.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.16.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:43:00] Found .v_scale in the checkpoint (e.g. model.layers.16.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.16.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:43:00] Found .k_scale in the checkpoint (e.g. model.layers.17.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.17.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:43:01] Found .v_scale in the checkpoint (e.g. model.layers.17.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.17.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:43:01] Found .k_scale in the checkpoint (e.g. model.layers.18.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.18.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:43:02] Found .v_scale in the checkpoint (e.g. model.layers.18.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.18.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:43:02] Found .k_scale in the checkpoint (e.g. model.layers.19.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.19.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:43:03] Found .v_scale in the checkpoint (e.g. model.layers.19.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.19.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:43:03] Found .k_scale in the checkpoint (e.g. model.layers.2.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.2.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:43:04] Found .v_scale in the checkpoint (e.g. model.layers.2.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.2.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:43:04] Found .k_scale in the checkpoint (e.g. model.layers.20.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.20.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:43:05] Found .v_scale in the checkpoint (e.g. model.layers.20.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.20.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:43:05] Found .k_scale in the checkpoint (e.g. model.layers.21.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.21.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:43:06] Found .v_scale in the checkpoint (e.g. model.layers.21.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.21.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:43:06] Found .k_scale in the checkpoint (e.g. model.layers.22.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.22.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:43:07] Found .v_scale in the checkpoint (e.g. model.layers.22.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.22.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:43:07] Found .k_scale in the checkpoint (e.g. model.layers.23.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.23.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:43:08] Found .v_scale in the checkpoint (e.g. model.layers.23.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.23.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:43:08] Found .k_scale in the checkpoint (e.g. model.layers.24.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.24.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:43:08] Found .v_scale in the checkpoint (e.g. model.layers.24.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.24.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:43:09] Found .k_scale in the checkpoint (e.g. model.layers.25.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.25.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:43:09] Found .v_scale in the checkpoint (e.g. model.layers.25.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.25.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:43:10] Found .k_scale in the checkpoint (e.g. model.layers.26.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.26.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:43:10] Found .v_scale in the checkpoint (e.g. model.layers.26.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.26.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:43:11] Found .k_scale in the checkpoint (e.g. model.layers.27.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.27.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:43:11] Found .v_scale in the checkpoint (e.g. model.layers.27.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.27.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:43:12] Found .k_scale in the checkpoint (e.g. model.layers.28.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.28.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:43:12] Found .v_scale in the checkpoint (e.g. model.layers.28.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.28.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:43:13] Found .k_scale in the checkpoint (e.g. model.layers.29.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.29.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:43:13] Found .v_scale in the checkpoint (e.g. model.layers.29.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.29.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:43:14] Found .k_scale in the checkpoint (e.g. model.layers.3.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.3.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:43:14] Found .v_scale in the checkpoint (e.g. model.layers.3.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.3.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:43:15] Found .k_scale in the checkpoint (e.g. model.layers.30.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.30.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:43:15] Found .v_scale in the checkpoint (e.g. model.layers.30.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.30.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:43:16] Found .k_scale in the checkpoint (e.g. model.layers.31.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.31.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:43:16] Found .v_scale in the checkpoint (e.g. model.layers.31.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.31.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:43:17] Found .k_scale in the checkpoint (e.g. model.layers.32.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.32.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:43:17] Found .v_scale in the checkpoint (e.g. model.layers.32.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.32.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:43:18] Found .k_scale in the checkpoint (e.g. model.layers.33.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.33.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:43:18] Found .v_scale in the checkpoint (e.g. model.layers.33.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.33.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:43:19] Found .k_scale in the checkpoint (e.g. model.layers.34.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.34.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:43:19] Found .v_scale in the checkpoint (e.g. model.layers.34.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.34.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:43:20] Found .k_scale in the checkpoint (e.g. model.layers.4.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.4.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:43:20] Found .v_scale in the checkpoint (e.g. model.layers.4.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.4.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:43:21] Found .k_scale in the checkpoint (e.g. model.layers.5.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.5.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:43:21] Found .v_scale in the checkpoint (e.g. model.layers.5.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.5.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:43:22] Found .k_scale in the checkpoint (e.g. model.layers.6.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.6.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:43:22] Found .v_scale in the checkpoint (e.g. model.layers.6.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.6.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:43:23] Found .k_scale in the checkpoint (e.g. model.layers.7.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.7.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:43:23] Found .v_scale in the checkpoint (e.g. model.layers.7.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.7.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:43:24] Found .k_scale in the checkpoint (e.g. model.layers.8.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.8.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:43:24] Found .v_scale in the checkpoint (e.g. model.layers.8.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.8.self_attn.attn.v_scale). .v_scale is not loaded.
-[2026-11-09 17:43:25] Found .k_scale in the checkpoint (e.g. model.layers.9.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.9.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:43:25] Found .v_scale in the checkpoint (e.g. model.layers.9.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.9.self_attn.attn.v_scale). .v_scale is not loaded.
-
-Multi-thread loading shards:  50% Completed | 1/2 [00:45<00:45, 45.83s/it][2026-11-09 17:43:27] Found .k_scale in the checkpoint (e.g. model.layers.35.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.35.self_attn.attn.k_scale). .k_scale is not loaded.
-[2026-11-09 17:43:28] Found .v_scale in the checkpoint (e.g. model.layers.35.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.35.self_attn.attn.v_scale). .v_scale is not loaded.
-
-Multi-thread loading shards: 100% Completed | 2/2 [00:48<00:00, 20.60s/it]
-Multi-thread loading shards: 100% Completed | 2/2 [00:48<00:00, 24.38s/it]
-[2026-11-09 17:43:29] Load weight end. elapsed=50.87 s, type=Qwen3ForCausalLM, quant=modelopt_fp4, quant_algo=NVFP4, avail mem=106.25 GB, mem usage=7.63 GB.
-[2026-11-09 17:43:30] Memory baseline taken. mem usage=0.00 GB
-[2026-11-09 17:43:30] Load weight begin. avail mem=106.05 GB
-[2026-11-09 17:43:30] Scheduler hit an exception: Traceback (most recent call last):
-  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/managers/scheduler.py", line 6128, in run_scheduler_process
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/plugins/hook_registry.py", line 377, in wrapper
-    result = original_fn(*args, **kwargs)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/managers/scheduler.py", line 563, in __init__
-    self.init_model_worker()
-  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/managers/scheduler.py", line 1103, in init_model_worker
-    self.maybe_init_draft_worker()
-  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/managers/scheduler.py", line 1040, in maybe_init_draft_worker
-    self.draft_worker = DraftWorkerClass(**draft_worker_kwargs)
-                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "~/rdf2/DSpine/sglang_dspine/runtime/worker.py", line 496, in __init__
-  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/speculative/dflash_worker_v2.py", line 422, in __init__
-    bundle = build_draft_tp_worker(
-             ^^^^^^^^^^^^^^^^^^^^^^
-  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/speculative/draft_worker_common.py", line 92, in build_draft_tp_worker
-    draft_worker = draft_worker_cls(
-                   ^^^^^^^^^^^^^^^^^
-  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/managers/tp_worker.py", line 318, in __init__
-    self._init_model_runner()
-  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/managers/tp_worker.py", line 480, in _init_model_runner
-    self._model_runner = ModelRunner(
-                         ^^^^^^^^^^^^
-  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/model_executor/model_runner.py", line 488, in __init__
-    self.initialize()
-  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/model_executor/model_runner.py", line 705, in initialize
-    self.load_model()
-  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/model_executor/model_runner.py", line 1293, in load_model
-    loaded = load_model_with_memory_saver(
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/model_executor/model_runner_components/load_model_utils.py", line 346, in load_model_with_memory_saver
-    model = loader.load_model(
-            ^^^^^^^^^^^^^^^^^^
-  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/model_loader/loader.py", line 1012, in load_model
-    model = _initialize_model(
-            ^^^^^^^^^^^^^^^^^^
-  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/model_loader/loader.py", line 308, in _initialize_model
-    model = model_class(**kwargs)
-            ^^^^^^^^^^^^^^^^^^^^^
-  File "~/rdf2/DSpine/sglang_dspine/models/dspine.py", line 395, in __init__
-    raise ValueError("The DSPINE draft does not support quantized weights")
-ValueError: The DSPINE draft does not support quantized weights
-
-[2026-11-09 17:43:30] Received sigquit from a child process. It usually means the child failed.
-[2026-11-09 17:43:30] kill_process_tree called: parent_pid=2065489, include_parent=True, pid=2065489
+[2026-11-09 18:29:21] Prefill batch, #new-seq: 1, #new-token: 77, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 14.03
+[2026-11-09 18:29:23] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:29:23] Prefill batch, #new-seq: 1, #new-token: 94, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 48.35
+[2026-11-09 18:29:33] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:29:33] Prefill batch, #new-seq: 1, #new-token: 83, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 8.41
+[2026-11-09 18:29:37] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:29:37] Prefill batch, #new-seq: 1, #new-token: 45, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 10.01
+[2026-11-09 18:29:38] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:29:38] Prefill batch, #new-seq: 1, #new-token: 228, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 321.86
+[2026-11-09 18:29:50] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:29:50] Prefill batch, #new-seq: 1, #new-token: 134, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 11.11
+[2026-11-09 18:30:01] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:30:01] Prefill batch, #new-seq: 1, #new-token: 342, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 31.68
+[2026-11-09 18:30:03] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:30:10] Prefill batch, #new-seq: 1, #new-token: 141, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 15.57
+[2026-11-09 18:30:13] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:30:13] Prefill batch, #new-seq: 1, #new-token: 111, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 37.25
+[2026-11-09 18:30:15] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:30:15] Prefill batch, #new-seq: 1, #new-token: 141, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 77.77
+[2026-11-09 18:30:18] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:30:18] Prefill batch, #new-seq: 1, #new-token: 111, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 37.23
+[2026-11-09 18:30:19] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:30:20] Prefill batch, #new-seq: 1, #new-token: 143, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 78.08
+[2026-11-09 18:30:21] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:30:21] Prefill batch, #new-seq: 1, #new-token: 118, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 62.43
+[2026-11-09 18:30:23] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:30:23] Prefill batch, #new-seq: 1, #new-token: 138, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 73.05
+[2026-11-09 18:30:26] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:30:26] Prefill batch, #new-seq: 1, #new-token: 119, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 47.97
+[2026-11-09 18:30:28] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:30:28] Prefill batch, #new-seq: 1, #new-token: 126, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 61.07
+[2026-11-09 18:30:29] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:30:30] Prefill batch, #new-seq: 1, #new-token: 128, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 77.56
+[2026-11-09 18:30:31] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:30:31] Prefill batch, #new-seq: 1, #new-token: 98, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 64.52
+[2026-11-09 18:30:33] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:30:33] Prefill batch, #new-seq: 1, #new-token: 85, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 37.91
+[2026-11-09 18:30:35] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:30:35] Prefill batch, #new-seq: 1, #new-token: 96, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 65.36
+[2026-11-09 18:30:36] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:30:36] Prefill batch, #new-seq: 1, #new-token: 198, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 119.71
+[2026-11-09 18:30:39] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:30:39] Prefill batch, #new-seq: 1, #new-token: 131, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 48.42
+[2026-11-09 18:30:42] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:30:42] Prefill batch, #new-seq: 1, #new-token: 192, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 67.43
+[2026-11-09 18:30:46] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:30:46] Prefill batch, #new-seq: 1, #new-token: 151, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 39.37
+[2026-11-09 18:30:48] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:30:48] Prefill batch, #new-seq: 1, #new-token: 118, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 52.57
+[2026-11-09 18:30:50] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:30:50] Prefill batch, #new-seq: 1, #new-token: 110, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 54.77
+[2026-11-09 18:30:52] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:30:52] Prefill batch, #new-seq: 1, #new-token: 74, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 40.20
+[2026-11-09 18:30:53] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:30:54] Prefill batch, #new-seq: 1, #new-token: 113, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 66.16
+[2026-11-09 18:30:55] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:30:55] Prefill batch, #new-seq: 1, #new-token: 287, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 155.31
+[2026-11-09 18:31:01] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:31:08] Prefill batch, #new-seq: 1, #new-token: 205, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 16.99
+[2026-11-09 18:31:09] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:31:09] Prefill batch, #new-seq: 1, #new-token: 134, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 71.45
+[2026-11-09 18:31:11] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:31:11] Prefill batch, #new-seq: 1, #new-token: 205, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 109.50
+[2026-11-09 18:31:13] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:31:13] Prefill batch, #new-seq: 1, #new-token: 134, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 71.39
+[2026-11-09 18:31:15] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:31:15] Prefill batch, #new-seq: 1, #new-token: 72, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 38.14
+[2026-11-09 18:31:17] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:31:17] Prefill batch, #new-seq: 1, #new-token: 76, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 32.22
+[2026-11-09 18:31:19] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:31:19] Prefill batch, #new-seq: 1, #new-token: 65, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 39.41
+[2026-11-09 18:31:21] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:31:21] Prefill batch, #new-seq: 1, #new-token: 207, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 117.31
+[2026-11-09 18:31:23] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:31:23] Prefill batch, #new-seq: 1, #new-token: 106, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 40.80
+[2026-11-09 18:31:26] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:31:26] Prefill batch, #new-seq: 1, #new-token: 83, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 37.02
+[2026-11-09 18:31:31] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:31:31] Prefill batch, #new-seq: 1, #new-token: 72, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 12.80
+[2026-11-09 18:31:41] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:31:41] Prefill batch, #new-seq: 1, #new-token: 120, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 12.53
+[2026-11-09 18:31:45] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:31:45] Prefill batch, #new-seq: 1, #new-token: 96, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 23.10
+[2026-11-09 18:31:47] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:31:47] Prefill batch, #new-seq: 1, #new-token: 151, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 65.71
+[2026-11-09 18:31:53] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:31:53] Prefill batch, #new-seq: 1, #new-token: 191, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 34.94
+[2026-11-09 18:31:55] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:31:55] Prefill batch, #new-seq: 1, #new-token: 81, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 34.89
+[2026-11-09 18:31:59] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:31:59] Prefill batch, #new-seq: 1, #new-token: 63, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 16.54
+[2026-11-09 18:32:01] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:32:01] Prefill batch, #new-seq: 1, #new-token: 95, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 37.52
+[2026-11-09 18:32:03] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:32:03] Prefill batch, #new-seq: 1, #new-token: 90, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 63.67
+[2026-11-09 18:32:06] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:32:06] Prefill batch, #new-seq: 1, #new-token: 239, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 71.57
+[2026-11-09 18:32:09] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:32:09] Prefill batch, #new-seq: 1, #new-token: 305, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 119.01
+[2026-11-09 18:32:12] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:32:12] Prefill batch, #new-seq: 1, #new-token: 78, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 22.08
+[2026-11-09 18:32:13] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:32:20] Prefill batch, #new-seq: 1, #new-token: 34, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 4.31
+[2026-11-09 18:32:34] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:32:34] Prefill batch, #new-seq: 1, #new-token: 58, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 4.17
+[2026-11-09 18:32:35] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:32:35] Prefill batch, #new-seq: 1, #new-token: 34, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 52.82
+[2026-11-09 18:32:49] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:32:49] Prefill batch, #new-seq: 1, #new-token: 58, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 4.16
+[2026-11-09 18:32:49] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:32:49] Prefill batch, #new-seq: 1, #new-token: 69, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 107.59
+[2026-11-09 18:32:52] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:32:52] Prefill batch, #new-seq: 1, #new-token: 51, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 16.97
+[2026-11-09 18:32:55] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:32:55] Prefill batch, #new-seq: 1, #new-token: 34, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 11.21
+[2026-11-09 18:32:58] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:32:58] Prefill batch, #new-seq: 1, #new-token: 42, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 13.25
+[2026-11-09 18:33:02] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:33:02] Prefill batch, #new-seq: 1, #new-token: 44, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 11.74
+[2026-11-09 18:33:13] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:33:14] Prefill batch, #new-seq: 1, #new-token: 42, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 3.70
+[2026-11-09 18:33:16] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:33:16] Prefill batch, #new-seq: 1, #new-token: 53, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 23.91
+[2026-11-09 18:33:19] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:33:19] Prefill batch, #new-seq: 1, #new-token: 108, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 31.44
+[2026-11-09 18:33:20] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:33:20] Prefill batch, #new-seq: 1, #new-token: 44, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 53.61
+[2026-11-09 18:33:24] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:33:24] Prefill batch, #new-seq: 1, #new-token: 62, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 16.08
+[2026-11-09 18:33:27] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:33:27] Prefill batch, #new-seq: 1, #new-token: 84, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 27.49
+[2026-11-09 18:33:43] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:33:43] Prefill batch, #new-seq: 1, #new-token: 103, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 6.45
+[2026-11-09 18:33:45] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:33:45] Prefill batch, #new-seq: 1, #new-token: 105, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 42.88
+[2026-11-09 18:33:48] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:33:48] Prefill batch, #new-seq: 1, #new-token: 72, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 24.69
+[2026-11-09 18:33:54] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:33:54] Prefill batch, #new-seq: 1, #new-token: 85, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 14.67
+[2026-11-09 18:34:04] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:34:05] Prefill batch, #new-seq: 1, #new-token: 52, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 4.96
+[2026-11-09 18:34:07] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:34:07] Prefill batch, #new-seq: 1, #new-token: 52, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 21.35
+[2026-11-09 18:34:10] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:34:10] Prefill batch, #new-seq: 1, #new-token: 63, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 19.52
+[2026-11-09 18:34:13] INFO:     127.0.0.1:PORT - "POST /generate HTTP/1.1" 200 OK
+[2026-11-09 18:34:14] SIGTERM received. signum=None frame=None. Draining requests and shutting down...
+[2026-11-09 18:34:15] Subprocess detokenizer (pid=2131316) crashed with exit code -15. Triggering SIGQUIT for cleanup...
+[2026-11-09 18:34:15] SIGQUIT received. signum=None, frame=None. It usually means one child failed.
+[2026-11-09 18:34:15] Sleeping 5 seconds before crash diagnostics to let GPU activity settle.
