@@ -1,0 +1,28 @@
+already patched
+=== hold: export RDF2_GEMM_PAD=128; bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh treefast p_tree48_d31 'gsm8k math500 humaneval mbpp mtbench' 20 48 31; bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh treefast p_tree64_d31 'gsm8k math500 humaneval mbpp mtbench' 20 64 31; bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh treefast p_tree96_d31 'gsm8k math500 humaneval mbpp mtbench' 20 96 31 Mon Nov  9 11:11:51 AM EST 2026
+start p_tree48_d31 Mon Nov  9 12:14:33 PM EST 2026 avail=117GB
+already patched
+already patched
+already patched dflash_utils.py
+already patched dflash_worker_v2.py
+already patched flashinfer_backend.py
+already patched ~/rdf2/DSpine/sglang_dspine/runtime/worker.py
+already patched prefill.cuh
+removed 0 cached prefill JIT dirs
+gsm8k 105.3 tok/s tau 15.7
+math500 92.2 tok/s tau 12.83
+humaneval 74.3 tok/s tau 10.36
+mbpp 73.3 tok/s tau 10.21
+mtbench 31.0 tok/s tau 4.21
+suite p_tree48_d31 done
+start p_tree64_d31 Mon Nov  9 12:31:40 PM EST 2026 avail=116GB
+1665817, [No data], 170 MiB
+already patched
+already patched
+already patched dflash_utils.py
+already patched dflash_worker_v2.py
+already patched flashinfer_backend.py
+already patched ~/rdf2/DSpine/sglang_dspine/runtime/worker.py
+already patched prefill.cuh
+removed 0 cached prefill JIT dirs
+gsm8k 112.4 tok/s tau 16.72
