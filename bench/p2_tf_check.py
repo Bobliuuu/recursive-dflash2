@@ -14,6 +14,7 @@ for spec in sys.argv[2:]:
     prompts = {}
     for l in open(f"{pdir}/{ds}.jsonl"):
         j = json.loads(l); prompts[j["id"]] = j["prompt"]
+    if not os.path.exists(f"{R}/{pre}_{ds}_T0_c1.json"): print(spec, "missing, skipped", flush=True); continue
     reqs = json.load(open(f"{R}/{pre}_{ds}_T0_c1.json"))["requests"][: int(n)]
     tot = mism = 0; margins = []
     for r in reqs:
