@@ -1,0 +1,107 @@
+samples train=29627 hold=256 mean_len=686 mean_sup=552
+loaded official; missing [] unexpected []
+draft params (M): 1081.657088 transfer dtype torch.bfloat16
+plan: total_steps=925 steps/epoch=925 seqs/step=32 warmup=37
+step 10/925 ep 0 loss 0.5122 acc 0.4039 gn 0.21 lr 5.95e-05 14.08s/step tok/s 1423 eta 3.58h
+step 20/925 ep 0 loss 0.5159 acc 0.4175 gn 0.19 lr 1.14e-04 13.42s/step tok/s 1579 eta 3.37h
+step 30/925 ep 0 loss 0.5933 acc 0.3944 gn 0.26 lr 1.68e-04 12.74s/step tok/s 1685 eta 3.17h
+step 40/925 ep 0 loss 0.6308 acc 0.3950 gn 0.28 lr 2.00e-04 12.36s/step tok/s 1754 eta 3.04h
+step 50/925 ep 0 loss 0.6274 acc 0.3996 gn 0.27 lr 2.00e-04 12.13s/step tok/s 1793 eta 2.95h
+step 60/925 ep 0 loss 0.5564 acc 0.4287 gn 0.23 lr 2.00e-04 11.95s/step tok/s 1804 eta 2.87h
+step 70/925 ep 0 loss 0.6413 acc 0.3998 gn 0.29 lr 1.99e-04 11.84s/step tok/s 1830 eta 2.81h
+step 80/925 ep 0 loss 0.6037 acc 0.4104 gn 0.23 lr 1.99e-04 11.78s/step tok/s 1863 eta 2.77h
+step 90/925 ep 0 loss 0.6340 acc 0.3977 gn 0.34 lr 1.98e-04 11.72s/step tok/s 1882 eta 2.72h
+step 100/925 ep 0 loss 0.6457 acc 0.3974 gn 0.21 lr 1.98e-04 11.67s/step tok/s 1900 eta 2.67h
+EVAL 100 {"acc": 0.4004925530667292, "ce": 1.906544702136615, "l1": 0.7318842541066359, "cov": 0.7651577342558931, "ref": 1.2043657942977053}
+step 110/925 ep 0 loss 0.6694 acc 0.3809 gn 0.25 lr 1.97e-04 11.79s/step tok/s 1894 eta 2.67h
+step 120/925 ep 0 loss 0.6347 acc 0.3986 gn 0.23 lr 1.96e-04 11.73s/step tok/s 1895 eta 2.62h
+step 130/925 ep 0 loss 0.6133 acc 0.4082 gn 0.20 lr 1.95e-04 11.68s/step tok/s 1899 eta 2.58h
+step 140/925 ep 0 loss 0.6875 acc 0.3771 gn 0.22 lr 1.93e-04 11.66s/step tok/s 1911 eta 2.54h
+step 150/925 ep 0 loss 0.6348 acc 0.3993 gn 0.31 lr 1.92e-04 11.63s/step tok/s 1919 eta 2.50h
+step 160/925 ep 0 loss 0.6034 acc 0.4101 gn 0.19 lr 1.91e-04 11.59s/step tok/s 1919 eta 2.46h
+step 170/925 ep 0 loss 0.6200 acc 0.4021 gn 0.20 lr 1.89e-04 11.57s/step tok/s 1924 eta 2.43h
+step 180/925 ep 0 loss 0.6226 acc 0.4003 gn 0.21 lr 1.87e-04 11.54s/step tok/s 1925 eta 2.39h
+step 190/925 ep 0 loss 0.6319 acc 0.3954 gn 0.19 lr 1.86e-04 11.52s/step tok/s 1926 eta 2.35h
+step 200/925 ep 0 loss 0.5760 acc 0.4188 gn 0.20 lr 1.84e-04 11.50s/step tok/s 1926 eta 2.32h
+EVAL 200 {"acc": 0.3980825028384004, "ce": 1.9308169458132318, "l1": 0.741186100843434, "cov": 0.7648627055212144, "ref": 1.2120043920431536}
+step 210/925 ep 0 loss 0.6303 acc 0.4020 gn 0.22 lr 1.82e-04 11.54s/step tok/s 1921 eta 2.29h
+step 220/925 ep 0 loss 0.6179 acc 0.4099 gn 0.21 lr 1.80e-04 11.52s/step tok/s 1918 eta 2.26h
+step 230/925 ep 0 loss 0.6275 acc 0.4088 gn 0.20 lr 1.78e-04 11.51s/step tok/s 1924 eta 2.22h
+step 240/925 ep 0 loss 0.5875 acc 0.4210 gn 0.20 lr 1.75e-04 11.49s/step tok/s 1922 eta 2.19h
+step 250/925 ep 0 loss 0.6371 acc 0.3956 gn 0.22 lr 1.73e-04 11.47s/step tok/s 1921 eta 2.15h
+step 260/925 ep 0 loss 0.6338 acc 0.4069 gn 0.20 lr 1.70e-04 11.48s/step tok/s 1918 eta 2.12h
+step 270/925 ep 0 loss 0.6543 acc 0.3837 gn 0.24 lr 1.68e-04 11.47s/step tok/s 1921 eta 2.09h
+step 280/925 ep 0 loss 0.6419 acc 0.4030 gn 0.34 lr 1.65e-04 11.46s/step tok/s 1924 eta 2.05h
+step 290/925 ep 0 loss 0.6762 acc 0.3917 gn 0.21 lr 1.63e-04 11.44s/step tok/s 1925 eta 2.02h
+step 300/925 ep 0 loss 0.5903 acc 0.4233 gn 0.24 lr 1.60e-04 11.43s/step tok/s 1922 eta 1.98h
+EVAL 300 {"acc": 0.40285738226914697, "ce": 1.8828442954152924, "l1": 0.727606804292531, "cov": 0.7708061002178649, "ref": 1.1726807905637064}
+step 310/925 ep 0 loss 0.6349 acc 0.4012 gn 0.18 lr 1.57e-04 11.46s/step tok/s 1921 eta 1.96h
+step 320/925 ep 0 loss 0.5915 acc 0.4169 gn 0.21 lr 1.54e-04 11.45s/step tok/s 1923 eta 1.92h
+step 330/925 ep 0 loss 0.6557 acc 0.3881 gn 0.19 lr 1.51e-04 11.44s/step tok/s 1927 eta 1.89h
+step 340/925 ep 0 loss 0.6432 acc 0.3965 gn 0.19 lr 1.48e-04 11.43s/step tok/s 1926 eta 1.86h
+step 350/925 ep 0 loss 0.5930 acc 0.4205 gn 0.21 lr 1.45e-04 11.42s/step tok/s 1924 eta 1.82h
+step 360/925 ep 0 loss 0.6305 acc 0.4071 gn 0.21 lr 1.42e-04 11.41s/step tok/s 1928 eta 1.79h
+step 370/925 ep 0 loss 0.6267 acc 0.3988 gn 0.19 lr 1.38e-04 11.41s/step tok/s 1931 eta 1.76h
+step 380/925 ep 0 loss 0.6409 acc 0.3946 gn 0.22 lr 1.35e-04 11.40s/step tok/s 1933 eta 1.73h
+step 390/925 ep 0 loss 0.6243 acc 0.4064 gn 0.26 lr 1.32e-04 11.40s/step tok/s 1935 eta 1.69h
+step 400/925 ep 0 loss 0.5917 acc 0.4137 gn 0.17 lr 1.28e-04 11.39s/step tok/s 1936 eta 1.66h
+EVAL 400 {"acc": 0.4016684935862571, "ce": 1.908797639594791, "l1": 0.7380066030669363, "cov": 0.767858487645282, "ref": 1.21225249292779}
+step 410/925 ep 0 loss 0.6146 acc 0.4094 gn 0.18 lr 1.25e-04 11.41s/step tok/s 1931 eta 1.63h
+step 420/925 ep 0 loss 0.5632 acc 0.4294 gn 0.18 lr 1.21e-04 11.40s/step tok/s 1930 eta 1.60h
+step 430/925 ep 0 loss 0.5984 acc 0.4184 gn 0.23 lr 1.18e-04 11.39s/step tok/s 1927 eta 1.57h
+step 440/925 ep 0 loss 0.6294 acc 0.4035 gn 0.21 lr 1.14e-04 11.38s/step tok/s 1927 eta 1.53h
+step 450/925 ep 0 loss 0.6160 acc 0.4015 gn 0.23 lr 1.11e-04 11.38s/step tok/s 1929 eta 1.50h
+step 460/925 ep 0 loss 0.6499 acc 0.3962 gn 0.20 lr 1.07e-04 11.38s/step tok/s 1932 eta 1.47h
+step 470/925 ep 0 loss 0.6051 acc 0.4156 gn 0.20 lr 1.04e-04 11.38s/step tok/s 1934 eta 1.44h
+step 480/925 ep 0 loss 0.6066 acc 0.4076 gn 0.20 lr 1.00e-04 11.37s/step tok/s 1934 eta 1.41h
+step 490/925 ep 0 loss 0.5868 acc 0.4204 gn 0.20 lr 9.68e-05 11.36s/step tok/s 1933 eta 1.37h
+step 500/925 ep 0 loss 0.6315 acc 0.4039 gn 0.19 lr 9.33e-05 11.36s/step tok/s 1935 eta 1.34h
+EVAL 500 {"acc": 0.39869887698701384, "ce": 1.8998818346688224, "l1": 0.7343809158994749, "cov": 0.7689921313833212, "ref": 1.1879094959450605}
+step 510/925 ep 0 loss 0.6308 acc 0.4036 gn 0.20 lr 8.98e-05 11.39s/step tok/s 1931 eta 1.31h
+step 520/925 ep 0 loss 0.6215 acc 0.4060 gn 0.19 lr 8.62e-05 11.38s/step tok/s 1932 eta 1.28h
+step 530/925 ep 0 loss 0.6366 acc 0.4049 gn 0.19 lr 8.28e-05 11.38s/step tok/s 1932 eta 1.25h
+step 540/925 ep 0 loss 0.6919 acc 0.3830 gn 0.18 lr 7.93e-05 11.37s/step tok/s 1933 eta 1.22h
+step 550/925 ep 0 loss 0.6127 acc 0.4086 gn 0.20 lr 7.58e-05 11.37s/step tok/s 1935 eta 1.18h
+step 560/925 ep 0 loss 0.6107 acc 0.4084 gn 0.20 lr 7.24e-05 11.37s/step tok/s 1936 eta 1.15h
+step 570/925 ep 0 loss 0.6144 acc 0.4127 gn 0.19 lr 6.90e-05 11.36s/step tok/s 1935 eta 1.12h
+step 580/925 ep 0 loss 0.6556 acc 0.3955 gn 0.28 lr 6.57e-05 11.36s/step tok/s 1935 eta 1.09h
+step 590/925 ep 0 loss 0.6286 acc 0.4054 gn 0.21 lr 6.24e-05 11.36s/step tok/s 1939 eta 1.06h
+step 600/925 ep 0 loss 0.6279 acc 0.4084 gn 0.38 lr 5.91e-05 11.35s/step tok/s 1939 eta 1.02h
+EVAL 600 {"acc": 0.40237398645824624, "ce": 1.8987436111469227, "l1": 0.7319903772105607, "cov": 0.7732174203795035, "ref": 1.1835912182895088}
+step 610/925 ep 0 loss 0.6057 acc 0.4110 gn 0.20 lr 5.59e-05 11.36s/step tok/s 1936 eta 0.99h
+step 620/925 ep 0 loss 0.5942 acc 0.4170 gn 0.24 lr 5.28e-05 11.36s/step tok/s 1935 eta 0.96h
+step 630/925 ep 0 loss 0.6137 acc 0.4136 gn 0.22 lr 4.97e-05 11.35s/step tok/s 1935 eta 0.93h
+step 640/925 ep 0 loss 0.6119 acc 0.4185 gn 0.20 lr 4.67e-05 11.35s/step tok/s 1933 eta 0.90h
+step 650/925 ep 0 loss 0.5482 acc 0.4365 gn 0.23 lr 4.37e-05 11.34s/step tok/s 1933 eta 0.87h
+step 660/925 ep 0 loss 0.6247 acc 0.4103 gn 0.20 lr 4.08e-05 11.34s/step tok/s 1933 eta 0.83h
+step 670/925 ep 0 loss 0.6550 acc 0.3950 gn 0.25 lr 3.80e-05 11.34s/step tok/s 1934 eta 0.80h
+step 680/925 ep 0 loss 0.6426 acc 0.4011 gn 0.30 lr 3.53e-05 11.33s/step tok/s 1934 eta 0.77h
+step 690/925 ep 0 loss 0.5671 acc 0.4301 gn 0.20 lr 3.26e-05 11.33s/step tok/s 1934 eta 0.74h
+step 700/925 ep 0 loss 0.5912 acc 0.4273 gn 0.20 lr 3.00e-05 11.33s/step tok/s 1934 eta 0.71h
+EVAL 700 {"acc": 0.4024374931989587, "ce": 1.9034582977522416, "l1": 0.7371777867808852, "cov": 0.7716105702830071, "ref": 1.192135265482511}
+step 710/925 ep 0 loss 0.6291 acc 0.4047 gn 0.36 lr 2.76e-05 11.34s/step tok/s 1932 eta 0.68h
+step 720/925 ep 0 loss 0.6477 acc 0.4026 gn 0.22 lr 2.52e-05 11.34s/step tok/s 1932 eta 0.65h
+step 730/925 ep 0 loss 0.6010 acc 0.4122 gn 0.21 lr 2.29e-05 11.33s/step tok/s 1932 eta 0.61h
+step 740/925 ep 0 loss 0.6185 acc 0.4085 gn 0.19 lr 2.07e-05 11.33s/step tok/s 1932 eta 0.58h
+step 750/925 ep 0 loss 0.6266 acc 0.4003 gn 0.21 lr 1.86e-05 11.33s/step tok/s 1934 eta 0.55h
+step 760/925 ep 0 loss 0.6135 acc 0.4131 gn 0.21 lr 1.66e-05 11.33s/step tok/s 1932 eta 0.52h
+step 770/925 ep 0 loss 0.6297 acc 0.4010 gn 0.24 lr 1.47e-05 11.33s/step tok/s 1933 eta 0.49h
+step 780/925 ep 0 loss 0.5628 acc 0.4268 gn 0.27 lr 1.29e-05 11.33s/step tok/s 1932 eta 0.46h
+step 790/925 ep 0 loss 0.6055 acc 0.4071 gn 0.18 lr 1.12e-05 11.33s/step tok/s 1934 eta 0.42h
+step 800/925 ep 0 loss 0.6258 acc 0.4098 gn 0.20 lr 9.62e-06 11.32s/step tok/s 1933 eta 0.39h
+EVAL 800 {"acc": 0.40987027353177796, "ce": 1.8733673331230345, "l1": 0.7217005746565943, "cov": 0.7737664253150979, "ref": 1.1569697756611619}
+step 810/925 ep 0 loss 0.5791 acc 0.4293 gn 0.19 lr 8.16e-06 11.33s/step tok/s 1930 eta 0.36h
+step 820/925 ep 0 loss 0.6133 acc 0.4099 gn 0.19 lr 6.82e-06 11.33s/step tok/s 1931 eta 0.33h
+step 830/925 ep 0 loss 0.6423 acc 0.4019 gn 0.19 lr 5.59e-06 11.33s/step tok/s 1932 eta 0.30h
+step 840/925 ep 0 loss 0.5810 acc 0.4295 gn 0.19 lr 4.49e-06 11.33s/step tok/s 1931 eta 0.27h
+step 850/925 ep 0 loss 0.6166 acc 0.4068 gn 0.21 lr 3.50e-06 11.33s/step tok/s 1932 eta 0.24h
+step 860/925 ep 0 loss 0.6295 acc 0.4066 gn 0.19 lr 2.63e-06 11.32s/step tok/s 1932 eta 0.20h
+step 870/925 ep 0 loss 0.6391 acc 0.3992 gn 1.86 lr 1.89e-06 11.34s/step tok/s 1931 eta 0.17h
+step 880/925 ep 0 loss 0.6800 acc 0.3901 gn 0.22 lr 1.26e-06 11.33s/step tok/s 1932 eta 0.14h
+step 890/925 ep 0 loss 0.6454 acc 0.3933 gn 0.21 lr 7.66e-07 11.34s/step tok/s 1934 eta 0.11h
+step 900/925 ep 0 loss 0.5803 acc 0.4222 gn 0.21 lr 3.91e-07 11.33s/step tok/s 1933 eta 0.08h
+EVAL 900 {"acc": 0.4083035123153122, "ce": 1.8575944710461902, "l1": 0.7251886810044116, "cov": 0.7770672879495152, "ref": 1.1599860382964216}
+step 910/925 ep 0 loss 0.5811 acc 0.4220 gn 0.22 lr 1.41e-07 11.34s/step tok/s 1932 eta 0.05h
+step 920/925 ep 0 loss 0.6237 acc 0.4035 gn 0.18 lr 1.56e-08 11.34s/step tok/s 1934 eta 0.02h
+FINAL EVAL {"acc": 0.40324957418712803, "ce": 1.9202023974295628, "l1": 0.7333263713193863, "cov": 0.7637817711689069, "ref": 1.1930807589363763}
+saved final 925
