@@ -517,7 +517,14 @@ __global__ void tree_accept_rrs2_kernel(const float* logits, const float* inv_t,
   __shared__ float segs[NSEG];
   __shared__ long s_bonus;
   int t = threadIdx.x, nt = blockDim.x;
-  for (int i = t; i < N; i += nt) { s_par[i] = parent[i]; s_dep[i] = depth[i]; s_lane[i] = lane[i]; }
+  // lanes are derived from the node tokens (lane of node i = position of tokens[i] in cand[depth_i - 1]), so the walk never depends on a
+  // separately maintained lane array; the lane argument is unused.
+  for (int i = t; i < N; i += nt) {
+    s_par[i] = parent[i]; s_dep[i] = depth[i];
+    int ln = 0;
+    if (i > 0) { const long* cr = cand + (size_t)(depth[i] - 1) * 16; long tk = tokens[i]; for (int k = 0; k < 16; ++k) if (cr[k] == tk) { ln = k; break; } }
+    s_lane[i] = ln;
+  }
   if (t == 0) { s_cur = 0; s_L = 0; s_mode = 0; s_path[0] = 0; }
   float it = inv_t[0];
   __syncthreads();
