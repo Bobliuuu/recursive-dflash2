@@ -1,0 +1,7 @@
+SERVER FAILED t27_dbgtrs2
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+[rank0]:[W1109 14:30:47.746766570 CUDAEvent.h:57] Warning: CUDA warning: device-side assert triggered (function ~CUDAEvent)
+[rank0]:[W1109 14:30:47.746808695 CUDAEvent.h:57] Warning: CUDA warning: device-side assert triggered (function ~CUDAEvent)
+[rank0]:[W1109 14:30:47.746814989 CUDAEvent.h:57] Warning: CUDA warning: device-side assert triggered (function ~CUDAEvent)

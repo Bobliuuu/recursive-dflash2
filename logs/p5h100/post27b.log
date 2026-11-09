@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/workspace/recursive-dflash2/bench/p5h100/apply_trs_patch.py", line 63, in <module>
+    patch("srt/layers/attention/hybrid_linear_attn_backend.py", [
+  File "/workspace/recursive-dflash2/bench/p5h100/apply_trs_patch.py", line 22, in patch
+    assert src.count(old) == 1, (rel, old[:80])
+           ^^^^^^^^^^^^^^^^^^^
+AssertionError: ('srt/layers/attention/hybrid_linear_attn_backend.py', '        self.cached_cuda_graph_decode_query_start_loc = torch.arange(\n          ')
+t27_trs32 gsm8k: 276.1 tok/s, tau=9.023622047244094, trunc=0.00

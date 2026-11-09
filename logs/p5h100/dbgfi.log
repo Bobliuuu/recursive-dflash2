@@ -1,0 +1,5 @@
+t27_dbgfi gsm8k: 215.9 tok/s, tau=7.25, trunc=0.50
+mismatch at 64 margin 6.875
+mismatch at 66 margin 11.563
+mismatch at 67 margin 4.688
+t27_dbgfi__gsm8k__T0__c1.json:2 {'tokens': 464, 'mismatch': 43, 'mismatch_rate': 0.09267241379310345, 'margin_max': 18.37500010803342, 'margin_median': 1.4999999701976776, 'n_margin_gt_0.5': 34}

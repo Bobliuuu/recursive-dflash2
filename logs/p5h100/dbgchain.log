@@ -1,0 +1,4 @@
+t27_dbgchain gsm8k: 36.0 tok/s, tau=1.0702127659574467, trunc=0.50
+mismatch at 21 margin 0.125
+mismatch at 96 margin 0.125
+t27_dbgchain__gsm8k__T0__c1.json:2 {'tokens': 503, 'mismatch': 2, 'mismatch_rate': 0.003976143141153081, 'margin_max': 0.125, 'margin_median': 0.125, 'n_margin_gt_0.5': 0}

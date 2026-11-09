@@ -1,0 +1,5 @@
+t27_dbgtrs gsm8k: 272.0 tok/s, tau=8.688524590163935, trunc=0.50
+mismatch at 138 margin 1.0
+mismatch at 146 margin 0.875
+mismatch at 180 margin 0.625
+t27_dbgtrs__gsm8k__T0__c1.json:2 {'tokens': 530, 'mismatch': 40, 'mismatch_rate': 0.07547169811320754, 'margin_max': 11.874999523233782, 'margin_median': 0.875, 'n_margin_gt_0.5': 27}

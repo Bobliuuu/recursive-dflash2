@@ -1,0 +1,10 @@
+{
+ "/workspace/p5/dbg_t27_dbgfi/t27_dbgfi__gsm8k__T0__c1.json:2": {
+  "tokens": 464,
+  "mismatch": 43,
+  "mismatch_rate": 0.09267241379310345,
+  "margin_max": 18.37500010803342,
+  "margin_median": 1.4999999701976776,
+  "n_margin_gt_0.5": 34
+ }
+}

@@ -1,0 +1,29 @@
+== tree t27_tree32 32:31
+t27_tree32 gsm8k: 275.7 tok/s, tau=9.023622047244094, trunc=0.00
+t27_tree32 math500: 283.5 tok/s, tau=8.52454780361757, trunc=0.25
+t27_tree32 humaneval: 235.2 tok/s, tau=6.945638432364096, trunc=0.50
+t27_tree32 mbpp: 224.1 tok/s, tau=6.638141809290953, trunc=0.25
+t27_tree32 mt-bench: 202.3 tok/s, tau=6.0293819655521785, trunc=0.25
+== tree t27_tree48 48:31
+t27_tree48 gsm8k: 272.1 tok/s, tau=9.537254901960784, trunc=0.00
+t27_tree48 math500: 285.0 tok/s, tau=9.3125, trunc=0.12
+t27_tree48 humaneval: 247.9 tok/s, tau=7.948957584471603, trunc=0.38
+t27_tree48 mbpp: 222.8 tok/s, tau=7.1415094339622645, trunc=0.25
+t27_tree48 mt-bench: 192.9 tok/s, tau=6.22972972972973, trunc=0.25
+== tree t27_tree24 24:23
+t27_tree24 gsm8k: 273.6 tok/s, tau=8.58364312267658, trunc=0.00
+t27_tree24 math500: 280.0 tok/s, tau=8.04739336492891, trunc=0.25
+t27_tree24 humaneval: 238.2 tok/s, tau=6.730933496034167, trunc=0.50
+t27_tree24 mbpp: 228.1 tok/s, tau=6.474151857835218, trunc=0.25
+t27_tree24 mt-bench: 200.8 tok/s, tau=5.703306523681859, trunc=0.25
+== chain t27_chain16 16
+/workspace/recursive-dflash2/bench/p5h100/run27b.sh: line 31: 78165 Killed                  nohup sglang serve $COMMON $A $EXTRA > $L/serve_$TAG.log 2>&1
+SERVER FAILED t27_chain16
+RuntimeError: shape '[30, 16]' is invalid for input of size 240
+== ar t27_ar
+t27_ar gsm8k: 48.9 tok/s, tau=None, trunc=0.00
+t27_ar math500: 49.4 tok/s, tau=None, trunc=0.25
+t27_ar humaneval: 49.5 tok/s, tau=None, trunc=0.50
+t27_ar mbpp: 49.4 tok/s, tau=None, trunc=0.25
+t27_ar mt-bench: 49.4 tok/s, tau=None, trunc=0.25
+QUEUE DONE

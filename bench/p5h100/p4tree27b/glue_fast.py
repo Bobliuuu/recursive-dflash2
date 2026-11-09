@@ -44,10 +44,15 @@ class TreeGlue27(glue_fast.TreeGlue):
 
     def links(self, worker, bs, is_tree):
         lin = self._linear_backend(worker)
+        trs = sys.modules.get("rdf2_trs")
         if is_tree:
             nt, ns = lin.retrieve_next_token_list[0], lin.retrieve_next_sibling_list[0]
             a, b = self.tree_links(); nt.copy_(a); ns.copy_(b)
+            if trs is not None and trs.BUF is not None:
+                trs.set_flags(self.ft.parent)
             return nt, ns
+        if trs is not None and trs.BUF is not None:
+            trs.set_all_flags()
         if bs not in self.chain:
             N = int(worker.block_size)
             a = torch.arange(1, N + 1, dtype=torch.int32, device="cuda"); a[-1] = -1
