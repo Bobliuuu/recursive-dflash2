@@ -117,6 +117,8 @@ __global__ void tree_pack_kernel(const PT* __restrict__ prefix_len, int N, const
 void tree_select(torch::Tensor table, torch::Tensor cand, torch::Tensor anchor, int64_t D, int64_t N,
                  torch::Tensor tokens, torch::Tensor parent, torch::Tensor depth, torch::Tensor anc) {
   size_t smem = (size_t)D * 256 * sizeof(float) + (size_t)D * 16 * sizeof(long) + (size_t)D * 16 * EXPAND;
+  static size_t smem_optin = 48 * 1024;   // D > ~40 needs more than the default 48 KB of dynamic shared memory: opt in once
+  if (smem > smem_optin) { cudaFuncSetAttribute(tree_select_kernel, cudaFuncAttributeMaxDynamicSharedMemorySize, (int)smem); smem_optin = smem; }
   tree_select_kernel<<<1, 256, smem, at::cuda::getCurrentCUDAStream()>>>(
       table.data_ptr<float>(), cand.data_ptr<long>(), anchor.data_ptr<long>(), (int)D, (int)N, tokens.data_ptr<long>(),
       parent.data_ptr<int>(), depth.data_ptr<int>(), (unsigned long long*)anc.data_ptr<int64_t>());

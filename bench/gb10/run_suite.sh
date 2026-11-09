@@ -1,7 +1,8 @@
 #!/bin/bash
 # GB10 (DGX Spark) benchmark suite runner: start one SGLang server (own process group), run the c=1 T=0 cells, stop the server.
 # Usage: run_suite.sh MODE TAG "datasets" NPROMPTS [N] [D]
-#   MODE: ar | dflash | dspine (b16 chain) | dspine_blk (chain at block N) | tree (DSpine tree, N nodes, depth D)
+#   MODE: ar | dflash | dspine (b16 chain) | dspine_blk (chain at block N) | tree (DSpine tree, N nodes, depth D, Phase 2 glue)
+#         | treefast (same tree, Phase 4 fast glue: factored table + selection in the draft graph, FlashInfer custom-mask prefix-tile skip)
 # Env (from $R/env.sh): R (work dir, default ~/rdf2), RDF2_PORT, MEMF (mem-fraction-static, default 0.25), EXTRA (extra sglang args)
 # Wrap in `flock -w 7200 ~/.gpu.lock` for timing runs.
 set -u
@@ -19,16 +20,23 @@ case $MODE in
   dflash) A="--speculative-algorithm DFLASH --speculative-draft-model-path z-lab/Qwen3-8B-DFlash-b16 --speculative-num-draft-tokens 16"; BLK=16 ;;
   dspine) A="--speculative-algorithm DSPINE --speculative-draft-model-path tencent/Qwen3-8B-DSpine-b16 --speculative-num-draft-tokens 16"; BLK=16 ;;
   dspine_blk) A="--speculative-algorithm DSPINE --speculative-draft-model-path $R/dspine_b$N --speculative-num-draft-tokens $N"; BLK=$N ;;
+  treefast) export RDF2_TREE_SPEC=$N:$D RDF2_TREE_DIR=$B/p4tree RDF2_TABLE=${RDF2_TABLE:-factored}
+        A="--speculative-algorithm DSPINE --speculative-draft-model-path $R/dspine_b$N --speculative-num-draft-tokens $N"; BLK=$N ;;
   tree) export RDF2_TREE_SPEC=$N:$D RDF2_TREE_DIR=$B/p2tree
         A="--speculative-algorithm DSPINE --speculative-draft-model-path $R/dspine_b$N --speculative-num-draft-tokens $N"; BLK=$N ;;
 esac
-if [ "$MODE" = tree ]; then python $B/p2tree/apply_tree_patch.py; else python $B/p2tree/apply_tree_patch.py --revert; fi
+python $B/patches/apply_timing_patch.py; python $B/patches/apply_timing_patch_p4.py   # p4 = fine-grained per-segment round timer
+case $MODE in
+  tree) python $B/p2tree/apply_tree_patch.py ;;                                                       # Phase 2 glue (eager table + build kernel)
+  treefast) python $B/p4tree/apply_tree_patch_fast.py; python $B/p4tree/apply_fi_mask_patch.py ;;     # Phase 4 fast path (in-graph factored table) + FlashInfer custom-mask tile skip
+  *) python $B/p4tree/apply_tree_patch_fast.py --revert ;;
+esac
 export SPEC_TIMING_FILE=$LOG/timing_$TAG.jsonl; rm -f $SPEC_TIMING_FILE
 setsid sglang serve $COMMON $A > $LOG/serve_$TAG.log 2>&1 &
 SPID=$!
 trap 'kill -TERM -- -$SPID 2>/dev/null; sleep 5; kill -KILL -- -$SPID 2>/dev/null' EXIT
 ok=0
-for i in $(seq 1 240); do sleep 5; curl -s 127.0.0.1:$PORT/health_generate >/dev/null && { ok=1; break; }; kill -0 $SPID 2>/dev/null || break; done
+for i in $(seq 1 150); do sleep 5; curl -s 127.0.0.1:$PORT/health_generate >/dev/null && { ok=1; break; }; kill -0 $SPID 2>/dev/null || break; done
 [ $ok = 1 ] || { echo "server failed"; tail -30 $LOG/serve_$TAG.log; exit 1; }
 for ds in $DSS; do
   python $B/run_cell.py --url http://127.0.0.1:$PORT --prompts-dir $B/data/prompts --method $TAG --dataset $ds --temp 0 --conc 1 --n $NP --warmup ${WARMUP:-2} --block $BLK \
