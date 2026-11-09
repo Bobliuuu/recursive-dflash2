@@ -4,7 +4,7 @@ Per trial:
   det: every node draws s_i ~ p_i and tree_accept walks the deterministic tree (TreeGlue sampled mode 'det');
   rrs: children are re-drawn without replacement from q (tree_relabel, fresh Gumbels) and tree_accept_rrs walks it (mode 'rrs').
 Checks the emitted o1, o2 | o1, o3 | (o1, o2) against the exact Markov law (chi-square goodness of fit) and prints mean accepted drafts.
-Usage: python test_t1_sampling.py [trials] [modes]"""
+Usage: python test_t1_sampling.py [trials] [det,rrs] [aligned]"""
 import sys, os, numpy as np, torch
 from scipy.stats import chisquare as _cs
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -26,11 +26,14 @@ dev = "cuda"
 cand = torch.stack([torch.randperm(V, device=dev)[:16] for _ in range(D)])
 table = torch.randn(D, 16, 16, device=dev) * 1.5
 anchor = 3
+aligned = len(sys.argv) > 3 and sys.argv[3] == "aligned"   # q also favours lanes 0..3 -> deep accepted paths
+if aligned:
+    table[:, :, :4] += 3.0
 # Markov target: logits noise + boost on the q-favoured candidate of the next depth (so paths go deep)
 ML = torch.randn(D + 1, V, V, device=dev) * 1.5
 for d in range(D):
     for l in range(16):
-        ML[d, :, cand[d, l]] += float(np.random.uniform(0, 2.5)) * (l < 4)
+        ML[d, :, cand[d, l]] += float(np.random.uniform(0, 2.5) + 2.0 * aligned) * (l < 4)
 Mp = torch.softmax(ML, -1)                        # Mp[d, last_token] = p(next | depth d, last token)
 loc = torch.arange(1000, 1000 + N, device=dev); pl = torch.tensor([100], device=dev)
 ok = True
