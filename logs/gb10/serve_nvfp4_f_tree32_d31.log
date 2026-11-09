@@ -1,0 +1,150 @@
+[2026-11-09 17:42:25] Auto-detected template features: reasoning_config=ReasoningToggleConfig(toggle_param='enable_thinking', default_enabled=True, special_case=None, effort_kwarg=None), reasoning_parser=qwen3, tool_call_parser=qwen
+~/rdf2/venv/lib/python3.12/site-packages/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+~/rdf2/venv/lib/python3.12/site-packages/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+~/rdf2/venv/lib/python3.12/site-packages/torch/jit/_script.py:1643: FutureWarning: `torch.jit.interface` is deprecated. Please use `torch.compile` instead.
+  warnings.warn(
+~/rdf2/venv/lib/python3.12/site-packages/torch/jit/_script.py:1643: FutureWarning: `torch.jit.interface` is deprecated. Please use `torch.compile` instead.
+  warnings.warn(
+~/rdf2/venv/lib/python3.12/site-packages/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+~/rdf2/venv/lib/python3.12/site-packages/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+[2026-11-09 17:42:36] Multiple AROUND hooks on 'sglang.srt.model_executor.runner_backend.full_cuda_graph_backend.FullCudaGraphBackend.capture_one' (2 hooks, from: plugin=dspine, dist=sglang-dspine, plugin=dspine, dist=sglang-dspine). If any AROUND hook skips calling original_fn, inner hooks will be bypassed.
+[2026-11-09 17:42:36] Multiple AROUND hooks on 'sglang.srt.model_executor.runner_backend.full_cuda_graph_backend.FullCudaGraphBackend.capture_one' (2 hooks, from: plugin=dspine, dist=sglang-dspine, plugin=dspine, dist=sglang-dspine). If any AROUND hook skips calling original_fn, inner hooks will be bypassed.
+[2026-11-09 17:42:36] Init parallel begin.
+[2026-11-09 17:42:37] Init parallel ends. elapsed=0.44 s
+[2026-11-09 17:42:38] Memory baseline taken. mem usage=0.00 GB
+[2026-11-09 17:42:38] Load weight begin. avail mem=113.88 GB
+[2026-11-09 17:42:38] Using ModelOptModelLoader due to ModelOpt quantization config.
+[2026-11-09 17:42:38] ModelOptModelLoader: Loading base model...
+[2026-11-09 17:42:38] Model is already quantized, loading directly...
+[2026-11-09 17:42:38] Detected nvfp4 checkpoint.
+[2026-11-09 17:42:39] Found local HF snapshot for nvidia/Qwen3-8B-NVFP4 at ~/rdf2/hf/hub/models--nvidia--Qwen3-8B-NVFP4/snapshots/ccd10a893cbca613259517c3efe08e151ddf2b8e; skipping download.
+
+[2026-11-09 17:42:52] Found .v_scale in the checkpoint (e.g. model.layers.0.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.0.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:42:53] Found .k_scale in the checkpoint (e.g. model.layers.1.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.1.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:42:53] Found .v_scale in the checkpoint (e.g. model.layers.1.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.1.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:42:53] Found .k_scale in the checkpoint (e.g. model.layers.10.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.10.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:42:54] Found .v_scale in the checkpoint (e.g. model.layers.10.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.10.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:42:54] Found .k_scale in the checkpoint (e.g. model.layers.11.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.11.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:42:55] Found .v_scale in the checkpoint (e.g. model.layers.11.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.11.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:42:55] Found .k_scale in the checkpoint (e.g. model.layers.12.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.12.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:42:56] Found .v_scale in the checkpoint (e.g. model.layers.12.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.12.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:42:56] Found .k_scale in the checkpoint (e.g. model.layers.13.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.13.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:42:57] Found .v_scale in the checkpoint (e.g. model.layers.13.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.13.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:42:58] Found .k_scale in the checkpoint (e.g. model.layers.14.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.14.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:42:58] Found .v_scale in the checkpoint (e.g. model.layers.14.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.14.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:42:59] Found .k_scale in the checkpoint (e.g. model.layers.15.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.15.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:42:59] Found .v_scale in the checkpoint (e.g. model.layers.15.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.15.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:43:00] Found .k_scale in the checkpoint (e.g. model.layers.16.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.16.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:43:00] Found .v_scale in the checkpoint (e.g. model.layers.16.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.16.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:43:00] Found .k_scale in the checkpoint (e.g. model.layers.17.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.17.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:43:01] Found .v_scale in the checkpoint (e.g. model.layers.17.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.17.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:43:01] Found .k_scale in the checkpoint (e.g. model.layers.18.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.18.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:43:02] Found .v_scale in the checkpoint (e.g. model.layers.18.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.18.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:43:02] Found .k_scale in the checkpoint (e.g. model.layers.19.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.19.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:43:03] Found .v_scale in the checkpoint (e.g. model.layers.19.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.19.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:43:03] Found .k_scale in the checkpoint (e.g. model.layers.2.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.2.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:43:04] Found .v_scale in the checkpoint (e.g. model.layers.2.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.2.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:43:04] Found .k_scale in the checkpoint (e.g. model.layers.20.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.20.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:43:05] Found .v_scale in the checkpoint (e.g. model.layers.20.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.20.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:43:05] Found .k_scale in the checkpoint (e.g. model.layers.21.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.21.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:43:06] Found .v_scale in the checkpoint (e.g. model.layers.21.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.21.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:43:06] Found .k_scale in the checkpoint (e.g. model.layers.22.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.22.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:43:07] Found .v_scale in the checkpoint (e.g. model.layers.22.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.22.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:43:07] Found .k_scale in the checkpoint (e.g. model.layers.23.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.23.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:43:08] Found .v_scale in the checkpoint (e.g. model.layers.23.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.23.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:43:08] Found .k_scale in the checkpoint (e.g. model.layers.24.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.24.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:43:08] Found .v_scale in the checkpoint (e.g. model.layers.24.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.24.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:43:09] Found .k_scale in the checkpoint (e.g. model.layers.25.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.25.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:43:09] Found .v_scale in the checkpoint (e.g. model.layers.25.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.25.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:43:10] Found .k_scale in the checkpoint (e.g. model.layers.26.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.26.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:43:10] Found .v_scale in the checkpoint (e.g. model.layers.26.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.26.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:43:11] Found .k_scale in the checkpoint (e.g. model.layers.27.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.27.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:43:11] Found .v_scale in the checkpoint (e.g. model.layers.27.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.27.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:43:12] Found .k_scale in the checkpoint (e.g. model.layers.28.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.28.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:43:12] Found .v_scale in the checkpoint (e.g. model.layers.28.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.28.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:43:13] Found .k_scale in the checkpoint (e.g. model.layers.29.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.29.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:43:13] Found .v_scale in the checkpoint (e.g. model.layers.29.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.29.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:43:14] Found .k_scale in the checkpoint (e.g. model.layers.3.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.3.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:43:14] Found .v_scale in the checkpoint (e.g. model.layers.3.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.3.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:43:15] Found .k_scale in the checkpoint (e.g. model.layers.30.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.30.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:43:15] Found .v_scale in the checkpoint (e.g. model.layers.30.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.30.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:43:16] Found .k_scale in the checkpoint (e.g. model.layers.31.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.31.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:43:16] Found .v_scale in the checkpoint (e.g. model.layers.31.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.31.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:43:17] Found .k_scale in the checkpoint (e.g. model.layers.32.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.32.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:43:17] Found .v_scale in the checkpoint (e.g. model.layers.32.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.32.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:43:18] Found .k_scale in the checkpoint (e.g. model.layers.33.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.33.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:43:18] Found .v_scale in the checkpoint (e.g. model.layers.33.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.33.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:43:19] Found .k_scale in the checkpoint (e.g. model.layers.34.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.34.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:43:19] Found .v_scale in the checkpoint (e.g. model.layers.34.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.34.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:43:20] Found .k_scale in the checkpoint (e.g. model.layers.4.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.4.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:43:20] Found .v_scale in the checkpoint (e.g. model.layers.4.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.4.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:43:21] Found .k_scale in the checkpoint (e.g. model.layers.5.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.5.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:43:21] Found .v_scale in the checkpoint (e.g. model.layers.5.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.5.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:43:22] Found .k_scale in the checkpoint (e.g. model.layers.6.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.6.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:43:22] Found .v_scale in the checkpoint (e.g. model.layers.6.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.6.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:43:23] Found .k_scale in the checkpoint (e.g. model.layers.7.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.7.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:43:23] Found .v_scale in the checkpoint (e.g. model.layers.7.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.7.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:43:24] Found .k_scale in the checkpoint (e.g. model.layers.8.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.8.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:43:24] Found .v_scale in the checkpoint (e.g. model.layers.8.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.8.self_attn.attn.v_scale). .v_scale is not loaded.
+[2026-11-09 17:43:25] Found .k_scale in the checkpoint (e.g. model.layers.9.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.9.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:43:25] Found .v_scale in the checkpoint (e.g. model.layers.9.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.9.self_attn.attn.v_scale). .v_scale is not loaded.
+
+Multi-thread loading shards:  50% Completed | 1/2 [00:45<00:45, 45.83s/it][2026-11-09 17:43:27] Found .k_scale in the checkpoint (e.g. model.layers.35.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.35.self_attn.attn.k_scale). .k_scale is not loaded.
+[2026-11-09 17:43:28] Found .v_scale in the checkpoint (e.g. model.layers.35.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.35.self_attn.attn.v_scale). .v_scale is not loaded.
+
+Multi-thread loading shards: 100% Completed | 2/2 [00:48<00:00, 20.60s/it]
+Multi-thread loading shards: 100% Completed | 2/2 [00:48<00:00, 24.38s/it]
+[2026-11-09 17:43:29] Load weight end. elapsed=50.87 s, type=Qwen3ForCausalLM, quant=modelopt_fp4, quant_algo=NVFP4, avail mem=106.25 GB, mem usage=7.63 GB.
+[2026-11-09 17:43:30] Memory baseline taken. mem usage=0.00 GB
+[2026-11-09 17:43:30] Load weight begin. avail mem=106.05 GB
+[2026-11-09 17:43:30] Scheduler hit an exception: Traceback (most recent call last):
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/managers/scheduler.py", line 6128, in run_scheduler_process
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/plugins/hook_registry.py", line 377, in wrapper
+    result = original_fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/managers/scheduler.py", line 563, in __init__
+    self.init_model_worker()
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/managers/scheduler.py", line 1103, in init_model_worker
+    self.maybe_init_draft_worker()
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/managers/scheduler.py", line 1040, in maybe_init_draft_worker
+    self.draft_worker = DraftWorkerClass(**draft_worker_kwargs)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/rdf2/DSpine/sglang_dspine/runtime/worker.py", line 496, in __init__
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/speculative/dflash_worker_v2.py", line 422, in __init__
+    bundle = build_draft_tp_worker(
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/speculative/draft_worker_common.py", line 92, in build_draft_tp_worker
+    draft_worker = draft_worker_cls(
+                   ^^^^^^^^^^^^^^^^^
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/managers/tp_worker.py", line 318, in __init__
+    self._init_model_runner()
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/managers/tp_worker.py", line 480, in _init_model_runner
+    self._model_runner = ModelRunner(
+                         ^^^^^^^^^^^^
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/model_executor/model_runner.py", line 488, in __init__
+    self.initialize()
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/model_executor/model_runner.py", line 705, in initialize
+    self.load_model()
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/model_executor/model_runner.py", line 1293, in load_model
+    loaded = load_model_with_memory_saver(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/model_executor/model_runner_components/load_model_utils.py", line 346, in load_model_with_memory_saver
+    model = loader.load_model(
+            ^^^^^^^^^^^^^^^^^^
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/model_loader/loader.py", line 1012, in load_model
+    model = _initialize_model(
+            ^^^^^^^^^^^^^^^^^^
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/model_loader/loader.py", line 308, in _initialize_model
+    model = model_class(**kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^
+  File "~/rdf2/DSpine/sglang_dspine/models/dspine.py", line 395, in __init__
+    raise ValueError("The DSPINE draft does not support quantized weights")
+ValueError: The DSPINE draft does not support quantized weights
+
+[2026-11-09 17:43:30] Received sigquit from a child process. It usually means the child failed.
+[2026-11-09 17:43:30] kill_process_tree called: parent_pid=2065489, include_parent=True, pid=2065489

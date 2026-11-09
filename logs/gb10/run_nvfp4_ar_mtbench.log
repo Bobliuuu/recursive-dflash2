@@ -1,0 +1,15 @@
+{
+ "method": "nvfp4_ar",
+ "dataset": "mtbench",
+ "temperature": 0.0,
+ "concurrency": 1,
+ "n": 8,
+ "max_new_tokens": 2048,
+ "seed": 0,
+ "thinking": false,
+ "tokens_out": 2694,
+ "makespan_s": 91.04161357879639,
+ "agg_tok_s": 29.59086393683419,
+ "mean_req_tok_s": 29.455107666532054,
+ "frac_hit_cap": 0.0
+}

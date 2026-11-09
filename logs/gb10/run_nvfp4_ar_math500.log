@@ -1,0 +1,15 @@
+{
+ "method": "nvfp4_ar",
+ "dataset": "math500",
+ "temperature": 0.0,
+ "concurrency": 1,
+ "n": 8,
+ "max_new_tokens": 2048,
+ "seed": 0,
+ "thinking": false,
+ "tokens_out": 7886,
+ "makespan_s": 267.5385367870331,
+ "agg_tok_s": 29.476127419645117,
+ "mean_req_tok_s": 29.52791086815926,
+ "frac_hit_cap": 0.125
+}

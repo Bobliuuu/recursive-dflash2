@@ -114,3 +114,27 @@ logits/argmax over 48 rows; not broken down further).
 40-prompt set, so absolute values are a bit lower than the headline (mtbench's first 20 prompts are harder), but every row uses the same 20.
 Draft time is flat to 32 nodes (the in-graph table and selection add ~0.5 ms over the b32 chain) and +3-4 ms above that (the DSpine draft itself runs
 over N block rows and hits the same GEMM cliff).
+
+## Quantized target weights (stretch): FP8
+
+Bytes dominate on GB10, so the target was also served as `Qwen/Qwen3-8B-FP8` (Qwen's block-128 FP8 checkpoint; SGLang picks its SM120 CUTLASS
+FP8 GEMM). The DSpine drafter stays bf16 (the plugin refuses a quantized draft: `ValueError: The DSPINE draft does not support quantized weights`).
+20 prompts per dataset for the spec cells, 8 for AR, paired with the bf16 cells on the same 20 prompts:
+
+| config (20 prompts) | tau | tok/s | x bf16 AR | x FP8 AR | draft ms | verify ms | round ms (GPU) |
+|---|---|---|---|---|---|---|---|
+| bf16 AR | 1 | 10.8 | 1.00x | 0.56x | - | 92.8 / token | |
+| FP8 AR | 1 | 19.4 | 1.80x | 1.00x | - | 51.5 / token | |
+| bf16 target, DSpine b16 chain | 7.62 | 63.8 | 5.92x | 3.29x | 20.1 | 92.5 | |
+| bf16 target, tree 32 | 9.92 | 79.9 | 7.41x | 4.12x | 21.0 | 94.6 | 122 |
+| FP8 target, DSpine b16 chain | 7.55 | 98.5 | 9.14x | 5.08x | 19.9 | 51.6 | 73.4 |
+| **FP8 target, tree 32** | **10.17** | **126.4** | **11.73x** | **6.52x** | 20.9 | 53.2 | 76.1 |
+| FP8 target, tree 48 | 10.92 | 125.8 | 11.67x | 6.49x | 23.5 | 56.3 | 81.9 |
+
+Per dataset (FP8 target, tree 32): 175 / 164 / 122 / 119 / 53 tok/s (gsm8k / math500 / humaneval / mbpp / mtbench).
+- Acceptance does not drop with the FP8 target (tau 10.17 vs 9.92 for the bf16 target on the same prompts): the bf16 DSpine drafter predicts the
+  FP8 model's greedy tokens as well as the bf16 model's.
+- FP8 verify cost is flatter in width than bf16 (51.6 / 53.2 / 56.3 ms at 16 / 32 / 48 tokens), so 32 and 48 nodes tie.
+- With the FP8 target the bf16 drafter is 27% of the round (20.9 of 76 ms), so the speedup over FP8 AR (6.5x) is lower than over bf16 AR.
+  A quantized drafter would be the next lever (see the experimental patch below).
+- "Lossless" here means lossless with respect to the FP8 target (teacher-forced check below), not byte-identical to the bf16 model.

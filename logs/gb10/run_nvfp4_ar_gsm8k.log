@@ -1,0 +1,15 @@
+{
+ "method": "nvfp4_ar",
+ "dataset": "gsm8k",
+ "temperature": 0.0,
+ "concurrency": 1,
+ "n": 8,
+ "max_new_tokens": 2048,
+ "seed": 0,
+ "thinking": false,
+ "tokens_out": 2318,
+ "makespan_s": 78.56301975250244,
+ "agg_tok_s": 29.504975843627314,
+ "mean_req_tok_s": 29.486196109059538,
+ "frac_hit_cap": 0.0
+}
