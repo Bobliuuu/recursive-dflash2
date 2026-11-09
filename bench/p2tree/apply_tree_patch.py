@@ -32,8 +32,8 @@ patch("dflash_worker_v2.py", [
  "                _sys.path.insert(0, _rdf2_os.environ.get('RDF2_TREE_DIR', '/workspace/recursive-dflash2/bench/p2tree'))\n"
  "                from glue import TreeGlue\n"
  "                _RDF2_TREE = TreeGlue()\n"
- "            if bs == 1 and (_is_all_greedy(batch.sampling_info) or (_rdf2_os.environ.get('RDF2_TREE_SAMPLED', '1') == '1' and _RDF2_TREE.eligible(batch.sampling_info))) and self._draft_sampler is not None and draft_out.can_run_graph:\n"
- "                _rdf2_tree = _RDF2_TREE.prepare(self, bs, block_ids, prefix_lens, draft_tokens, positions_2d, sampling_info=batch.sampling_info)\n"),
+ "            if bs == 1 and (_is_all_greedy(batch.sampling_info) or (_rdf2_os.environ.get('RDF2_TREE_SAMPLED', '1') == '1' and hasattr(_RDF2_TREE, 'eligible') and _RDF2_TREE.eligible(batch.sampling_info))) and self._draft_sampler is not None and draft_out.can_run_graph:\n"
+ "                _rdf2_tree = _RDF2_TREE.prepare(self, bs, block_ids, prefix_lens, draft_tokens, positions_2d, **({'sampling_info': batch.sampling_info} if hasattr(_RDF2_TREE, 'eligible') else {}))\n"),
 # mask
 ("        custom_mask = None\n\n        verify_input_ids = draft_tokens.reshape(-1)",
  "        custom_mask = None\n"
@@ -49,7 +49,7 @@ patch("dflash_worker_v2.py", [
 ("        candidates = draft_tokens\n        (\n            accept_len,\n            commit_lens,\n            bonus,\n            out_tokens,\n            new_seq_lens,\n        ) = self._accept_block(\n            candidates=candidates,\n            next_token_logits=logits_output.next_token_logits,\n            sampling_info=sampling_info,\n            draft_input=draft_input,\n            prefix_lens=prefix_lens,\n            bs=bs,\n        )\n",
  "        candidates = draft_tokens\n"
  "        if _rdf2_tree is not None:  " + MARK + "\n"
- "            (accept_len, commit_lens, bonus, out_tokens, new_seq_lens) = _rdf2_tree.accept(self, logits_output, kv_loc_plan, prefix_lens, sampling_info=sampling_info)\n"
+ "            (accept_len, commit_lens, bonus, out_tokens, new_seq_lens) = _rdf2_tree.accept(self, logits_output, kv_loc_plan, prefix_lens, **({'sampling_info': sampling_info} if hasattr(_rdf2_tree, 'eligible') else {}))\n"
  "        else:\n"
  "          (\n            accept_len,\n            commit_lens,\n            bonus,\n            out_tokens,\n            new_seq_lens,\n        ) = self._accept_block(\n            candidates=candidates,\n            next_token_logits=logits_output.next_token_logits,\n            sampling_info=sampling_info,\n            draft_input=draft_input,\n            prefix_lens=prefix_lens,\n            bs=bs,\n        )\n"),
 # draft KV append positions
