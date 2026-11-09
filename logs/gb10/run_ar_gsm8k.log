@@ -1,0 +1,15 @@
+{
+ "method": "ar",
+ "dataset": "gsm8k",
+ "temperature": 0.0,
+ "concurrency": 1,
+ "n": 8,
+ "max_new_tokens": 2048,
+ "seed": 0,
+ "thinking": false,
+ "tokens_out": 2346,
+ "makespan_s": 217.88844919204712,
+ "agg_tok_s": 10.766977362495398,
+ "mean_req_tok_s": 10.765990110874206,
+ "frac_hit_cap": 0.0
+}

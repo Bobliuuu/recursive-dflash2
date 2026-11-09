@@ -1,0 +1,46 @@
+{
+ "ar": {
+  "datasets": [
+   "gsm8k",
+   "math500",
+   "humaneval",
+   "mbpp",
+   "mtbench"
+  ],
+  "tau_mean": 1.0,
+  "tok_s_mean": 10.778243422448526,
+  "x_ar_mean": 1.0,
+  "tok_s": {
+   "gsm8k": 10.766977362495398,
+   "math500": 10.775231928483256,
+   "humaneval": 10.785523574768842,
+   "mbpp": 10.782109518975018,
+   "mtbench": 10.781374727520117
+  },
+  "tau": {
+   "gsm8k": 1.0,
+   "math500": 1.0,
+   "humaneval": 1.0,
+   "mbpp": 1.0,
+   "mtbench": 1.0
+  },
+  "x_ar": {
+   "gsm8k": 1.0,
+   "math500": 1.0,
+   "humaneval": 1.0,
+   "mbpp": 1.0,
+   "mtbench": 1.0
+  },
+  "round_ms": 92.78040244907676,
+  "draft_ms_median": null,
+  "verify_ms_median": null,
+  "other_ms": null,
+  "n": {
+   "gsm8k": 8,
+   "math500": 8,
+   "humaneval": 8,
+   "mbpp": 8,
+   "mtbench": 8
+  }
+ }
+}

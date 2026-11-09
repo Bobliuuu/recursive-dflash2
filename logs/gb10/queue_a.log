@@ -1,0 +1,10 @@
+=== ar ar gsm8k math500 humaneval mbpp mtbench 8 Mon Nov  9 04:47:13 AM EST 2026
+start ar Mon Nov  9 04:50:03 AM EST 2026 avail=117GB
+gsm8k 10.8 tok/s tau 1
+math500 10.8 tok/s tau 1
+humaneval 10.8 tok/s tau 1
+mbpp 10.8 tok/s tau 1
+mtbench 10.8 tok/s tau 1
+suite ar done
+=== exit 0 Mon Nov  9 05:23:48 AM EST 2026
+=== dspine dspine_b16 gsm8k math500 humaneval mbpp mtbench 40 Mon Nov  9 05:23:48 AM EST 2026
