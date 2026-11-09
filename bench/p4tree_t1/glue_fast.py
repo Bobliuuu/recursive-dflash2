@@ -35,11 +35,14 @@ _fast.factored_table = _keep(_fast.factored_table)
 _orig_init, _orig_prepare = G.__init__, G.prepare
 def _init(self):
     _orig_init(self)
-    self.sampled = False; self.staging_patched = False; self.n_sampled = 0; self.neg_control = None
+    self.sampled = False; self.staging_patched = False; self.n_sampled = 0
+    nc = os.environ.get("RDF2_TREE_NEG_CONTROL")          # distribution-test negative control only (wrong node temperature)
+    self.neg_control = float(nc) if nc else None
     self.inv_t = torch.ones(1, 1, dtype=torch.float32, device="cuda")
     self.t1_mode = os.environ.get("RDF2_TREE_T1_MODE", "det"); assert self.t1_mode in ("det", "rrs")
     self.det_thresh = float(os.environ.get("RDF2_TREE_DET_THRESH", "2.0"))
     self.graph_tab = None; self.eager_tab = None
+    self.rrs_v = int(os.environ.get("RDF2_TREE_RRS_V", "2"))
     self.tv.depth = self.ft.depth
     self.gum_u = torch.empty(self.N * 16, dtype=torch.float32, device="cuda")
     self.unif = torch.empty(self.N * 17 + 2, dtype=torch.float32, device="cuda")
@@ -55,15 +58,16 @@ def _prepare(self, worker, bs, block_ids, prefix_lens, draft_tokens, positions_2
         torch.reciprocal(sampling_info.temperatures.view(-1)[:1].to(torch.float32).clamp_min(1e-5), out=self.inv_t.view(-1))
         if self.n_sampled == 0:
             print(f"[RDF2_TREE fast] sampled tree round: DSpine sampled-chain staged={worker._draft_sampler.round_samples}", file=sys.stderr, flush=True)
-    if self.sampled and self.t1_mode == "rrs":
+    if self.sampled and (self.t1_mode == "rrs" or self.rrs_v == 2):
         tab, cand = self.graph_tab if self.graph_tab is not None else self.eager_tab
         self.tab_s = (tab[: self.D] * self.inv_t.view(1, 1, 1)).contiguous(); self.cand_s = cand[: self.D].contiguous()
+    if self.sampled and self.t1_mode == "rrs":
         dep = self.ft.depth.long()
         rows = self.cand_s[(dep - 1).clamp_min(0)]                                  # lanes of the in-graph tree's nodes
         lane = (rows == self.ft.tokens[:, None]).int().argmax(1).int(); lane[0] = 0
         self.tv.lane.copy_(lane)
         self.gum_u.uniform_()
-        self.tv.relabel(self.tab_s, self.cand_s, self.gum_u, self.det_thresh)          # rewrites ft.tokens before the pack
+        (self.tv.relabel2 if self.rrs_v == 2 else self.tv.relabel)(self.tab_s, self.cand_s, self.gum_u, self.det_thresh)   # rewrites ft.tokens before the pack
     return _orig_prepare(self, worker, bs, block_ids, prefix_lens, draft_tokens, positions_2d)
 def _accept(self, worker, logits_output, kv_loc_plan, prefix_lens, sampling_info=None):
     tv = self.tv
@@ -74,8 +78,14 @@ def _accept(self, worker, logits_output, kv_loc_plan, prefix_lens, sampling_info
     if loc.dtype != torch.int64: loc = loc.to(torch.int64)
     pl = prefix_lens[:1]
     if pl.dtype != torch.int64: pl = pl.to(torch.int64)
-    if self.sampled and self.t1_mode == "rrs":
-        probs = torch.softmax(logits_output.next_token_logits.to(torch.float32) * self.inv_t, dim=-1).contiguous()
+    if self.sampled and self.rrs_v == 2:
+        lg = logits_output.next_token_logits
+        if lg.dtype != torch.float32 or not lg.is_contiguous(): lg = lg.float().contiguous()
+        inv_t = self.inv_t if self.neg_control is None else self.inv_t * self.neg_control
+        self.unif.uniform_(); self.n_sampled += 1
+        tv.accept_rrs2(lg, inv_t.view(-1), self.tab_s, self.cand_s, self.unif, loc, pl, self.det_thresh if self.t1_mode == "rrs" else 0.0)
+    elif self.sampled and self.t1_mode == "rrs":
+        probs = torch.softmax(logits_output.next_token_logits.to(torch.float32) * (self.inv_t if self.neg_control is None else self.inv_t * self.neg_control), dim=-1).contiguous()
         self.unif.uniform_(); self.n_sampled += 1
         tv.accept_rrs(probs, self.tab_s, self.cand_s, self.unif, loc, pl, self.det_thresh)
     else:

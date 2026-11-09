@@ -37,6 +37,7 @@ class TreeGlue:
         # rrs hybrid: nodes whose q top-probability >= RDF2_TREE_DET_THRESH keep deterministic children (point-mass drafts); > 1 = pure rrs;
         # a negative value -t keeps deterministic children where the top probability is < t instead
         self.det_thresh = float(os.environ.get("RDF2_TREE_DET_THRESH", "2.0"))
+        self.rrs_v = int(os.environ.get("RDF2_TREE_RRS_V", "2"))     # 2: low-overhead kernels (row stats + walk; det = walk with det_thresh 0)
         self.gum_u = torch.empty(self.N * 16, dtype=torch.float32, device="cuda")
         self.unif = torch.empty(self.N * 17 + 2, dtype=torch.float32, device="cuda")
         try:
@@ -121,7 +122,9 @@ class TreeGlue:
         if self.sampled and self.t1_mode == "rrs":
             self.tab_s = tab[: self.D].contiguous(); self.cand_s = cand[: self.D].contiguous()
             self.gum_u.uniform_()
-            self.tv.relabel(self.tab_s, self.cand_s, self.gum_u, self.det_thresh)
+            (self.tv.relabel2 if self.rrs_v == 2 else self.tv.relabel)(self.tab_s, self.cand_s, self.gum_u, self.det_thresh)
+        elif self.sampled and self.rrs_v == 2:
+            self.tab_s = tab[: self.D].contiguous(); self.cand_s = cand[: self.D].contiguous()
         draft_tokens[0].copy_(self.tv.tokens)
         positions_2d[0].copy_(self.tv.positions)
         torch.add(pl, self.ar, out=self.commit_pos_buf)
@@ -149,7 +152,14 @@ class TreeGlue:
             pool = worker.target_worker.model_runner.token_to_kv_pool
             tv.set_kv(pool.k_buffer, pool.v_buffer); self.kv_ready = True
         loc = kv_loc_plan.write_ids(worker.target_worker.model_runner.kv_index_translator).reshape(-1).to(torch.int64)
-        if self.sampled and self.t1_mode == "rrs":
+        if self.sampled and self.rrs_v == 2:
+            inv_t = self.inv_t if self.neg_control is None else self.inv_t * self.neg_control
+            lg = logits_output.next_token_logits
+            if lg.dtype != torch.float32 or not lg.is_contiguous(): lg = lg.float().contiguous()
+            self.unif.uniform_(); self.n_sampled += 1
+            tv.accept_rrs2(lg, inv_t.view(-1), self.tab_s, self.cand_s, self.unif, loc, prefix_lens[:1].to(torch.int64),
+                           self.det_thresh if self.t1_mode == "rrs" else 0.0)
+        elif self.sampled and self.t1_mode == "rrs":
             inv_t = self.inv_t if self.neg_control is None else self.inv_t * self.neg_control
             probs = torch.softmax(logits_output.next_token_logits.to(torch.float32) * inv_t, dim=-1).contiguous()
             self.unif.uniform_(); self.n_sampled += 1

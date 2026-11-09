@@ -379,6 +379,278 @@ void tree_accept_rrs(torch::Tensor probs, torch::Tensor table, torch::Tensor can
       bonus.data_ptr<long>(), new_seq_lens.data_ptr<long>(), path.data_ptr<long>());
   slots_kernel<<<1, 128, 0, st>>>(loc.data_ptr<long>(), path.data_ptr<long>(), (int)N, src_slot.data_ptr<long>(), dst_slot.data_ptr<long>());
 }
+// ---------------- Phase 4 v2: same verifiers, lower overhead ----------------
+// relabel2: one block; all (node, parent-lane) Gumbel-top orders computed in parallel into shared memory, then thread 0 resolves lanes
+// top-down with everything in shared memory. Same draws as relabel for the same uniforms.
+#define NSEG 256
+__global__ void tree_relabel2_kernel(const float* table, const long* cand, const int* parent, const int* depth, int* lane, long* tokens,
+                                     const float* gum_u, int N, int D, float det_thresh) {
+  __shared__ unsigned char order[MAXN * 16 * 16];
+  __shared__ unsigned char isdet[MAXN * 16];
+  __shared__ int s_par[MAXN], s_dep[MAXN];
+  int t = threadIdx.x, nt = blockDim.x;
+  for (int i = t; i < N; i += nt) { s_par[i] = parent[i]; s_dep[i] = depth[i]; }
+  __syncthreads();
+  for (int rowi = t; rowi < N * 16; rowi += nt) {
+    int v = rowi / 16, pl = rowi % 16, d = s_dep[v];
+    if (d >= D || (d == 0 && pl != 0)) continue;
+    const float* row = table + ((size_t)d * 16 + pl) * 16;
+    float sc[16]; float mx = -1e30f;
+    for (int k = 0; k < 16; ++k) {
+      float u = fminf(fmaxf(gum_u[(size_t)v * 16 + k], 1e-12f), 1.f - 1e-7f);
+      sc[k] = row[k] - logf(-logf(u)); mx = fmaxf(mx, row[k]);
+    }
+    float den = 0.f; for (int k = 0; k < 16; ++k) den += __expf(row[k] - mx);
+    float top = 1.f / den;
+    isdet[rowi] = det_thresh >= 0.f ? (top >= det_thresh) : (top < -det_thresh);
+    for (int k = 0; k < 16; ++k) {
+      int rk = 0;
+      for (int m = 0; m < 16; ++m) if (sc[m] > sc[k] || (sc[m] == sc[k] && m < k)) ++rk;
+      order[rowi * 16 + rk] = (unsigned char)k;
+    }
+  }
+  __syncthreads();
+  if (t == 0) {
+    int ln[MAXN]; ln[0] = 0;
+    for (int v = 0; v < N; ++v) {
+      int d = s_dep[v];
+      int pl = (d == 0) ? 0 : ln[v];
+      int r = 0;
+      bool dt = (d >= D) || isdet[v * 16 + pl];
+      for (int j = v + 1; j < N; ++j) if (s_par[j] == v) {
+        if (dt) { ln[j] = lane[j]; continue; }
+        int l = order[(v * 16 + pl) * 16 + r++];
+        ln[j] = l;
+        lane[j] = l; tokens[j] = cand[(size_t)d * 16 + l];
+      }
+    }
+  }
+}
+
+// row statistics for the sampled walk, reading the logits once: per node row v of logits*inv_t: max, sum exp, and 256 segment sums of
+// exp (full, and excluding the 16 candidates of depth(v)). grid = N blocks.
+__global__ void row_stats_kernel(const float* logits, const float* inv_t, const long* cand, const int* depth, int D, long V,
+                                 float* rmax, float* rsum, float* seg_full, float* seg_ex) {
+  int v = blockIdx.x, t = threadIdx.x, nt = blockDim.x;
+  const float* l = logits + (size_t)v * V;
+  float it = inv_t[0];
+  __shared__ float red[32];
+  __shared__ float s_m;
+  float mx = -1e30f;
+  for (long i = t; i < V; i += nt) mx = fmaxf(mx, l[i] * it);
+  for (int o = 16; o > 0; o >>= 1) mx = fmaxf(mx, __shfl_down_sync(0xffffffff, mx, o));
+  if ((t & 31) == 0) red[t >> 5] = mx;
+  __syncthreads();
+  if (t == 0) { float m = red[0]; for (int w = 1; w < nt / 32; ++w) m = fmaxf(m, red[w]); s_m = m; }
+  __syncthreads();
+  float m = s_m;
+  long ss = (V + NSEG - 1) / NSEG;
+  int d = depth[v];
+  for (int sgi = t; sgi < NSEG; sgi += nt) {
+    long b0 = sgi * ss, b1 = min(V, b0 + ss);
+    float acc = 0.f;
+    for (long i = b0; i < b1; ++i) acc += __expf(l[i] * it - m);
+    float ex = acc;
+    if (d < D) for (int k = 0; k < 16; ++k) { long c = cand[(size_t)d * 16 + k]; if (c >= b0 && c < b1) ex -= __expf(l[c] * it - m); }
+    seg_full[(size_t)v * NSEG + sgi] = acc; seg_ex[(size_t)v * NSEG + sgi] = fmaxf(ex, 0.f);
+  }
+  __syncthreads();
+  if (t == 0) { float s = 0.f; for (int k = 0; k < NSEG; ++k) s += seg_full[(size_t)v * NSEG + k]; rmax[v] = m; rsum[v] = s; }
+}
+
+// faster row statistics: grid (N, 8) x 256 threads, one warp per segment (coalesced, online max/sum), then a per-row finalize that rescales
+// the segment masses to the row max. Same outputs as row_stats_kernel up to fp32 summation order.
+__global__ void seg_stats_kernel(const float* logits, const float* inv_t, const long* cand, const int* depth, int D, long V,
+                                 float* seg_m, float* seg_s, float* seg_e) {
+  int v = blockIdx.x, w = threadIdx.x >> 5, lane = threadIdx.x & 31;
+  const float* l = logits + (size_t)v * V;
+  float it = inv_t[0];
+  long ss = (V + NSEG - 1) / NSEG;
+  int d = depth[v];
+  int per = NSEG / gridDim.y;                       // segments per block
+  for (int sgi = blockIdx.y * per + w; sgi < (blockIdx.y + 1) * per; sgi += blockDim.x / 32) {
+    long b0 = sgi * ss, b1 = min(V, b0 + ss);
+    float m = -1e30f, sm = 0.f;
+    for (long i = b0 + lane; i < b1; i += 32) {
+      float x = l[i] * it;
+      if (x > m) { sm = sm * __expf(m - x) + 1.f; m = x; } else sm += __expf(x - m);
+    }
+    for (int o = 16; o > 0; o >>= 1) {
+      float m2 = __shfl_down_sync(0xffffffff, m, o), s2 = __shfl_down_sync(0xffffffff, sm, o);
+      float mm = fmaxf(m, m2);
+      sm = sm * __expf(m - mm) + s2 * __expf(m2 - mm); m = mm;
+    }
+    if (lane == 0) {
+      float ex = sm;
+      if (d < D) for (int k = 0; k < 16; ++k) { long c = cand[(size_t)d * 16 + k]; if (c >= b0 && c < b1) ex -= __expf(l[c] * it - m); }
+      seg_m[(size_t)v * NSEG + sgi] = m; seg_s[(size_t)v * NSEG + sgi] = sm; seg_e[(size_t)v * NSEG + sgi] = fmaxf(ex, 0.f);
+    }
+  }
+}
+__global__ void row_finalize_kernel(const float* seg_m, const float* seg_s, const float* seg_e, float* rmax, float* rsum, float* seg_full, float* seg_ex) {
+  int v = blockIdx.x, t = threadIdx.x;           // blockDim = NSEG
+  __shared__ float red[NSEG];
+  float m = seg_m[(size_t)v * NSEG + t];
+  red[t] = m; __syncthreads();
+  for (int o = NSEG / 2; o > 0; o >>= 1) { if (t < o) red[t] = fmaxf(red[t], red[t + o]); __syncthreads(); }
+  float M = red[0]; __syncthreads();
+  float sc = __expf(m - M);
+  float f = seg_s[(size_t)v * NSEG + t] * sc;
+  seg_full[(size_t)v * NSEG + t] = f; seg_ex[(size_t)v * NSEG + t] = seg_e[(size_t)v * NSEG + t] * sc;
+  red[t] = f; __syncthreads();
+  for (int o = NSEG / 2; o > 0; o >>= 1) { if (t < o) red[t] += red[t + o]; __syncthreads(); }
+  if (t == 0) { rmax[v] = M; rsum[v] = red[0]; }
+}
+
+// walk (same algorithm as tree_accept_rrs) with tree arrays in shared memory and target probabilities from the row statistics;
+// det_thresh = 0 makes every node deterministic, which is exactly the det verifier.
+__global__ void tree_accept_rrs2_kernel(const float* logits, const float* inv_t, const float* rmax, const float* rsum, const float* seg_full,
+                                        const float* seg_ex, const float* table, const long* cand, const long* tokens, const int* parent,
+                                        const int* depth, const int* lane, int N, int D, long V, const float* unif, float det_thresh,
+                                        const long* prefix_len, long* out_tokens, int* accept_len, int* commit_lens,
+                                        long* bonus, long* new_seq_lens, long* path) {
+  __shared__ float r[16], q[16];
+  __shared__ long ctok[16];
+  __shared__ int s_par[MAXN], s_dep[MAXN], s_lane[MAXN], s_path[MAXN];
+  __shared__ int s_cur, s_L, s_mode, s_seg;
+  __shared__ float s_R, s_x;
+  __shared__ float segs[NSEG];
+  __shared__ long s_bonus;
+  int t = threadIdx.x, nt = blockDim.x;
+  for (int i = t; i < N; i += nt) { s_par[i] = parent[i]; s_dep[i] = depth[i]; s_lane[i] = lane[i]; }
+  if (t == 0) { s_cur = 0; s_L = 0; s_mode = 0; s_path[0] = 0; }
+  float it = inv_t[0];
+  __syncthreads();
+  int ui = 0;
+  while (true) {
+    int cur = s_cur; int d = s_dep[cur];
+    bool has_child = false;
+    if (d < D) for (int j = cur + 1; j < N; ++j) if (s_par[j] == cur) { has_child = true; break; }
+    if (!has_child) { if (t == 0) s_mode = 2; __syncthreads(); break; }
+    if (t < 16) {
+      int pl = (d == 0) ? 0 : s_lane[cur];
+      const float* row = table + ((size_t)d * 16 + pl) * 16;
+      float mx = -1e30f; for (int k = 0; k < 16; ++k) mx = fmaxf(mx, row[k]);
+      float den = 0.f; for (int k = 0; k < 16; ++k) den += __expf(row[k] - mx);
+      q[t] = __expf(row[t] - mx) / den;
+      ctok[t] = cand[(size_t)d * 16 + t];
+      r[t] = __expf(logits[(size_t)cur * V + ctok[t]] * it - rmax[cur]) / rsum[cur];
+    }
+    __syncthreads();
+    if (t == 0) {
+      float sr = 0.f; for (int k = 0; k < 16; ++k) sr += r[k];
+      float R = fmaxf(1.f - sr, 0.f);
+      float qmass = 1.f, top = 0.f;
+      for (int k = 0; k < 16; ++k) top = fmaxf(top, q[k]);
+      const bool det = det_thresh >= 0.f ? (top >= det_thresh) : (top < -det_thresh);
+      int next = -1;
+      for (int j = cur + 1; j < N; ++j) {
+        if (s_par[j] != cur) continue;
+        int l = s_lane[j];
+        float Z = R; for (int k = 0; k < 16; ++k) Z += r[k];
+        float qi = det ? 1.f : q[l] / qmass;
+        float u = unif[ui++];
+        if (Z > 0.f && u * qi * Z < r[l]) { next = j; break; }
+        if (det) { for (int k = 0; k < 16; ++k) r[k] = r[k] / Z; r[l] = 0.f; R = R / Z; continue; }
+        for (int k = 0; k < 16; ++k) r[k] = fmaxf(r[k] / Z - q[k] / qmass, 0.f);
+        R = R / Z;
+        qmass -= q[l]; q[l] = 0.f;
+        if (qmass <= 1e-12f) qmass = 1e-12f;
+      }
+      if (next >= 0) { s_cur = next; s_L++; s_path[s_L] = next; }
+      else { s_mode = 1; s_R = R; }
+      s_x = (float)ui;
+    }
+    __syncthreads();
+    ui = (int)s_x;
+    if (s_mode == 1) break;
+    __syncthreads();
+  }
+  int cur = s_cur;
+  const float* l = logits + (size_t)cur * V;
+  float m = rmax[cur], S = rsum[cur];
+  float u = unif[N * 17 + 0], u2 = unif[N * 17 + 1];
+  if (t == 0) {
+    s_bonus = -1;
+    if (s_mode == 1) {
+      float sr = 0.f; for (int k = 0; k < 16; ++k) sr += r[k];
+      float x = u * (s_R + sr);
+      if (x < sr) { float c = 0.f; int pick = -1; for (int k = 0; k < 16; ++k) { if (r[k] > 0.f) { pick = k; c += r[k]; if (x < c) break; } } s_bonus = ctok[pick]; }
+    }
+  }
+  __syncthreads();
+  if (s_bonus < 0) {
+    bool excl = (s_mode == 1);
+    const float* sg = (excl ? seg_ex : seg_full) + (size_t)cur * NSEG;
+    for (int k = t; k < NSEG; k += nt) segs[k] = sg[k];
+    __syncthreads();
+    if (t == 0) {
+      float tot = 0.f; for (int k = 0; k < NSEG; ++k) tot += segs[k];
+      float x = u2 * tot, c = 0.f; int ch = -1;
+      for (int k = 0; k < NSEG; ++k) { if (segs[k] > 0.f) { ch = k; if (x < c + segs[k]) break; } c += segs[k]; }
+      if (ch < 0) ch = 0;
+      float before = 0.f; for (int k = 0; k < ch; ++k) before += segs[k];
+      s_seg = ch; s_x = x - before;          // residual target inside the chosen segment
+    }
+    __syncthreads();
+    if (t < 32) {
+      long ss = (V + NSEG - 1) / NSEG;
+      long b0 = (long)s_seg * ss, b1 = min(V, b0 + ss);
+      float target = s_x, run = 0.f; long pick = -1, lastpos = -1;
+      for (long base = b0; base < b1 && pick < 0; base += 32) {
+        long i = base + t;
+        float v = 0.f;
+        if (i < b1) {
+          v = __expf(l[i] * it - m);
+          if (excl) for (int k = 0; k < 16; ++k) if (ctok[k] == i) { v = 0.f; break; }
+        }
+        float incl = v;
+        for (int o = 1; o < 32; o <<= 1) { float y = __shfl_up_sync(0xffffffff, incl, o); if (t >= o) incl += y; }
+        unsigned hit = __ballot_sync(0xffffffff, (v > 0.f) && (run + incl > target));
+        unsigned pos = __ballot_sync(0xffffffff, v > 0.f);
+        if (pos) lastpos = base + 31 - __clz(pos);
+        if (hit) pick = base + __ffs(hit) - 1;
+        run += __shfl_sync(0xffffffff, incl, 31);
+      }
+      if (t == 0) s_bonus = pick >= 0 ? pick : (lastpos >= 0 ? lastpos : b0);   // fp32 round-off at the segment end: last positive entry
+    }
+    __syncthreads();
+  }
+  if (t == 0) {
+    int L = s_L; long b = s_bonus;
+    for (int i = 0; i <= L; ++i) path[i] = s_path[i];
+    for (int i = 0; i < N; ++i) out_tokens[i] = 0;
+    for (int i = 0; i < L; ++i) out_tokens[i] = tokens[s_path[i + 1]];
+    out_tokens[L] = b;
+    for (int i = L + 1; i < N; ++i) path[i] = i;
+    accept_len[0] = L; commit_lens[0] = L + 1; bonus[0] = b; new_seq_lens[0] = prefix_len[0] + L + 1;
+  }
+}
+
+void tree_relabel2(torch::Tensor table, torch::Tensor cand, torch::Tensor parent, torch::Tensor depth, torch::Tensor lane, torch::Tensor tokens,
+                   torch::Tensor gum_u, int64_t N, int64_t D, double det_thresh) {
+  tree_relabel2_kernel<<<1, 256, 0, at::cuda::getCurrentCUDAStream()>>>(table.data_ptr<float>(), cand.data_ptr<long>(), parent.data_ptr<int>(),
+      depth.data_ptr<int>(), lane.data_ptr<int>(), tokens.data_ptr<long>(), gum_u.data_ptr<float>(), (int)N, (int)D, (float)det_thresh);
+}
+void tree_accept_rrs2(torch::Tensor logits, torch::Tensor inv_t, torch::Tensor stats, torch::Tensor table, torch::Tensor cand, torch::Tensor tokens,
+                      torch::Tensor parent, torch::Tensor depth, torch::Tensor lane, int64_t N, int64_t D, torch::Tensor unif, double det_thresh,
+                      torch::Tensor loc, torch::Tensor prefix_len, torch::Tensor out_tokens, torch::Tensor accept_len, torch::Tensor commit_lens,
+                      torch::Tensor bonus, torch::Tensor new_seq_lens, torch::Tensor path, torch::Tensor src_slot, torch::Tensor dst_slot) {
+  auto st = at::cuda::getCurrentCUDAStream();
+  long V = logits.size(1);
+  float* sp = stats.data_ptr<float>();             // [N] max, [N] sum, [N*NSEG] full, [N*NSEG] excl, 3x[N*NSEG] scratch
+  float *rmax = sp, *rsum = sp + N, *sf = sp + 2 * N, *se = sp + 2 * N + N * NSEG;
+  float *sgm = sp + 2 * N + 2 * N * NSEG, *sgs = sgm + N * NSEG, *sge = sgs + N * NSEG;
+  seg_stats_kernel<<<dim3(N, 8), 256, 0, st>>>(logits.data_ptr<float>(), inv_t.data_ptr<float>(), cand.data_ptr<long>(), depth.data_ptr<int>(),
+                                               (int)D, V, sgm, sgs, sge);
+  row_finalize_kernel<<<N, NSEG, 0, st>>>(sgm, sgs, sge, rmax, rsum, sf, se);
+  tree_accept_rrs2_kernel<<<1, 256, 0, st>>>(logits.data_ptr<float>(), inv_t.data_ptr<float>(), rmax, rsum, sf, se, table.data_ptr<float>(),
+      cand.data_ptr<long>(), tokens.data_ptr<long>(), parent.data_ptr<int>(), depth.data_ptr<int>(), lane.data_ptr<int>(), (int)N, (int)D, V,
+      unif.data_ptr<float>(), (float)det_thresh, prefix_len.data_ptr<long>(), out_tokens.data_ptr<long>(), accept_len.data_ptr<int>(),
+      commit_lens.data_ptr<int>(), bonus.data_ptr<long>(), new_seq_lens.data_ptr<long>(), path.data_ptr<long>());
+  slots_kernel<<<1, 128, 0, st>>>(loc.data_ptr<long>(), path.data_ptr<long>(), (int)N, src_slot.data_ptr<long>(), dst_slot.data_ptr<long>());
+}
+
 '''
 CPP_SRC = r'''
 void tree_build(torch::Tensor table, torch::Tensor cand, torch::Tensor anchor, torch::Tensor prefix_len, int64_t D,
@@ -394,13 +666,19 @@ void tree_accept_rrs(torch::Tensor probs, torch::Tensor table, torch::Tensor can
                      torch::Tensor lane, int64_t N, int64_t D, torch::Tensor unif, torch::Tensor loc, torch::Tensor prefix_len,
                      torch::Tensor out_tokens, torch::Tensor accept_len, torch::Tensor commit_lens, torch::Tensor bonus, torch::Tensor new_seq_lens,
                      torch::Tensor path, torch::Tensor src_slot, torch::Tensor dst_slot, double det_thresh);
+void tree_relabel2(torch::Tensor table, torch::Tensor cand, torch::Tensor parent, torch::Tensor depth, torch::Tensor lane, torch::Tensor tokens,
+                   torch::Tensor gum_u, int64_t N, int64_t D, double det_thresh);
+void tree_accept_rrs2(torch::Tensor logits, torch::Tensor inv_t, torch::Tensor stats, torch::Tensor table, torch::Tensor cand, torch::Tensor tokens,
+                      torch::Tensor parent, torch::Tensor depth, torch::Tensor lane, int64_t N, int64_t D, torch::Tensor unif, double det_thresh,
+                      torch::Tensor loc, torch::Tensor prefix_len, torch::Tensor out_tokens, torch::Tensor accept_len, torch::Tensor commit_lens,
+                      torch::Tensor bonus, torch::Tensor new_seq_lens, torch::Tensor path, torch::Tensor src_slot, torch::Tensor dst_slot);
 '''
 _mod = None
 def get_module():
     global _mod
     if _mod is None:
         os.environ.setdefault("TORCH_CUDA_ARCH_LIST", "8.0")
-        _mod = load_inline("rdf2_tree_ext", cpp_sources=CPP_SRC, cuda_sources=CUDA_SRC, functions=["tree_build", "tree_accept", "kv_move", "tree_relabel", "tree_accept_rrs"],
+        _mod = load_inline("rdf2_tree_ext", cpp_sources=CPP_SRC, cuda_sources=CUDA_SRC, functions=["tree_build", "tree_accept", "kv_move", "tree_relabel", "tree_accept_rrs", "tree_relabel2", "tree_accept_rrs2"],
                            with_cuda=True, extra_cuda_cflags=["-O3"], verbose=False)
     return _mod
 
@@ -442,6 +720,20 @@ class TreeVerifier:
         self.m.tree_accept_rrs(probs, table.contiguous(), cand.contiguous(), self.tokens, self.parent, self.depth, self.lane, self.N, self.D, unif,
                                loc, prefix_len, self.out_tokens, self.accept_len, self.commit_lens, self.bonus, self.new_seq_lens, self.path,
                                self.src_slot, self.dst_slot, float(det_thresh))
+        if self.kv_ptrs is not None:
+            self.m.kv_move(self.kv_ptrs, self.row_bytes, self.src_slot, self.dst_slot, self.N, self.kv_tmp)
+
+    def relabel2(self, table, cand, gum_u, det_thresh=2.0):
+        """v2 of relabel (same draws, parallel order precompute)."""
+        self.m.tree_relabel2(table.contiguous(), cand.contiguous(), self.parent, self.depth, self.lane, self.tokens, gum_u, self.N, self.D, float(det_thresh))
+
+    def accept_rrs2(self, logits, inv_t, table, cand, unif, loc, prefix_len, det_thresh=2.0):
+        """v2 of accept_rrs: logits [N, V] fp32 (target = softmax(logits * inv_t)), inv_t [1] fp32 device; det_thresh 0 = det verifier."""
+        if getattr(self, "stats", None) is None:
+            self.stats = torch.empty(2 * self.N + 5 * self.N * 256, dtype=torch.float32, device=self.device)
+        self.m.tree_accept_rrs2(logits, inv_t, self.stats, table.contiguous(), cand.contiguous(), self.tokens, self.parent, self.depth, self.lane,
+                                self.N, self.D, unif, float(det_thresh), loc, prefix_len, self.out_tokens, self.accept_len, self.commit_lens,
+                                self.bonus, self.new_seq_lens, self.path, self.src_slot, self.dst_slot)
         if self.kv_ptrs is not None:
             self.m.kv_move(self.kv_ptrs, self.row_bytes, self.src_slot, self.dst_slot, self.N, self.kv_tmp)
 

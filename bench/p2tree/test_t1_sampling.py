@@ -17,7 +17,7 @@ def chisquare(f, e):
 torch.manual_seed(0); np.random.seed(0)
 N, D, V = 48, 31, 40
 M = int(sys.argv[1]) if len(sys.argv) > 1 else 40000
-modes = sys.argv[2].split(",") if len(sys.argv) > 2 else ["det", "rrs", "hyb"]
+modes = sys.argv[2].split(",") if len(sys.argv) > 2 else ["det", "rrs", "hyb", "det2", "rrs2", "hyb2"]   # *2 = v2 kernels
 try:
     from flashinfer.sampling import sampling_from_probs as sfp
 except Exception:
@@ -36,6 +36,7 @@ for d in range(D):
         ML[d, :, cand[d, l]] += float(np.random.uniform(0, 2.5) + 2.0 * aligned) * (l < 4)
 Mp = torch.softmax(ML, -1)                        # Mp[d, last_token] = p(next | depth d, last token)
 loc = torch.arange(1000, 1000 + N, device=dev); pl = torch.tensor([100], device=dev)
+one = torch.ones(1, dtype=torch.float32, device=dev)
 ok = True
 for mode in modes:
     tv = TreeVerifier(N, D); tv.set_mask_buffer(torch.zeros(1 << 20, dtype=torch.uint8, device=dev))
@@ -43,12 +44,17 @@ for mode in modes:
     base_tokens = tv.tokens.clone(); base_lane = tv.lane.clone()
     O = np.full((M, 3), -1, np.int64); L = np.zeros(M, np.int64)
     for t in range(M):
-        th = 0.35 if mode == "hyb" else 2.0      # hyb: confident nodes keep deterministic children
-        if mode != "det":
+        th = {"hyb": 0.35, "hyb2": 0.35, "det2": 0.0}.get(mode, 2.0)    # hyb: confident nodes keep deterministic children; det2 = all det
+        if mode in ("rrs", "hyb"):
             tv.tokens.copy_(base_tokens); tv.lane.copy_(base_lane)
             tv.relabel(table, cand, torch.rand(N * 16, device=dev), th)
+        if mode in ("rrs2", "hyb2"):
+            tv.tokens.copy_(base_tokens); tv.lane.copy_(base_lane)
+            tv.relabel2(table, cand, torch.rand(N * 16, device=dev), th)
         probs = Mp[tv.depth.long(), tv.tokens].contiguous()
-        if mode == "det":
+        if mode.endswith("2"):
+            tv.accept_rrs2(torch.log(probs), one, table, cand, torch.rand(N * 17 + 2, device=dev), loc, pl, th)
+        elif mode == "det":
             s = sfp(probs).to(torch.int64) if sfp is not None else torch.multinomial(probs, 1).view(-1)
             tv.accept(s, loc, pl)
         else:
