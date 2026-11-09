@@ -1,11 +1,11 @@
 """Phase 4 summary: tau / tok/s / x AR per config (5 datasets, c=1, T=0) plus the per-round timer breakdown (median ms).
-Usage: python p4_summarize.py PREFIX[=TIMING.jsonl] ...    (PREFIX as in bench/results/PREFIX_<ds>_T0_c1.json). Writes results/p4_summary.json (merged)."""
-import json, os, sys, statistics as st
+Usage: python p4_summarize.py PREFIX[=TIMING.jsonl] ...    (PREFIX as in bench/results/PREFIX_<ds>_T0_c1.json). Writes results/p4_summary.json."""
+import json, os, sys, gzip, statistics as st
 R = os.path.join(os.path.dirname(os.path.abspath(__file__)), "results")
 dss = ["gsm8k", "math500", "humaneval", "mbpp", "mtbench"]
 ar = {d: json.load(open(f"{R}/p1_ar_{d}_T0_c1.json"))["summary"]["agg_tok_s"] for d in dss}
 out_f = f"{R}/p4_summary.json"
-allres = json.load(open(out_f)) if os.path.exists(out_f) else {}
+allres = {}
 for spec in sys.argv[1:]:
     pre, _, tf = spec.partition("=")
     c = {}
@@ -18,7 +18,7 @@ for spec in sys.argv[1:]:
         row.update(mean_tau=sum(v["tau"] for v in c.values()) / 5, mean_tok_s=sum(v["tok_s"] for v in c.values()) / 5,
                    mean_x_ar=sum(v["x_ar"] for v in c.values()) / 5)
     if tf and os.path.exists(tf):
-        rows = [json.loads(l) for l in open(tf)][50:]
+        rows = [json.loads(l) for l in (gzip.open(tf, "rt") if tf.endswith(".gz") else open(tf))][50:]
         if rows and "round_ms" in rows[0]:
             rows = [r for r in rows if r["round_ms"] < 60]
         keys = [k for k in rows[0] if k != "bs"] if rows else []

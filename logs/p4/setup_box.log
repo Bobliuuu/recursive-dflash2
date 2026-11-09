@@ -1,0 +1,24 @@
+downloading uv 0.13.7 x86_64-unknown-linux-gnu
+installing to /root/.local/bin
+  uv
+  uvx
+everything's installed!
+
+To add $HOME/.local/bin to your PATH, either restart your shell or run:
+
+    source $HOME/.local/bin/env (sh, bash, zsh)
+    source $HOME/.local/bin/env.fish (fish)
+Downloading cpython-3.12.16-linux-x86_64-gnu (download) (32.9MiB)
+ Downloaded cpython-3.12.16-linux-x86_64-gnu (download)
+Using CPython 3.12.16
+Creating virtual environment at: venv
+Activate with: source venv/bin/activate
+Fetching 15 files:   0%|          | 0/15 [00:00<?, ?it/s]Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Fetching 15 files:   7%|▋         | 1/15 [00:00<00:02,  6.06it/s]Fetching 15 files:  40%|████      | 6/15 [00:00<00:00, 22.55it/s]Fetching 15 files:  60%|██████    | 9/15 [00:00<00:00, 13.72it/s]Fetching 15 files:  67%|██████▋   | 10/15 [00:20<00:00, 13.72it/s]Fetching 15 files:  73%|███████▎  | 11/15 [00:33<00:19,  4.75s/it]Fetching 15 files:  80%|████████  | 12/15 [01:42<00:47, 15.92s/it]Fetching 15 files:  87%|████████▋ | 13/15 [02:02<00:33, 16.60s/it]Fetching 15 files:  93%|█████████▎| 14/15 [02:03<00:13, 13.20s/it]Fetching 15 files: 100%|██████████| 15/15 [02:04<00:00,  8.32s/it]
+/workspace/hf/hub/models--Qwen--Qwen3-8B/snapshots/b968826d9c46dd6066d109eabc6255188de91218
+Fetching 5 files:   0%|          | 0/5 [00:00<?, ?it/s]Fetching 5 files:  20%|██        | 1/5 [00:00<00:00,  5.94it/s]Fetching 5 files: 100%|██████████| 5/5 [00:19<00:00,  4.23s/it]Fetching 5 files: 100%|██████████| 5/5 [00:19<00:00,  3.98s/it]
+/workspace/hf/hub/models--tencent--Qwen3-8B-DSpine-b16/snapshots/9fc2ab3d4db06ca06dd30d91b2f8d28537673add
+Fetching 5 files:   0%|          | 0/5 [00:00<?, ?it/s]Fetching 5 files: 100%|██████████| 5/5 [00:00<00:00, 1432.48it/s]
+patched /workspace/venv/lib/python3.12/site-packages/sglang/srt/speculative/dflash_worker_v2.py
+2.14.1+cu130 0.5.22 0.7.1
+setup ok
