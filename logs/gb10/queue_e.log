@@ -1,0 +1,26 @@
+=== hold: bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh treefast f40_tree32_d31 'gsm8k math500 humaneval mbpp mtbench' 40 32 31; bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh treefast f_tree24_d23 'gsm8k math500 humaneval mbpp mtbench' 20 24 23 Mon Nov  9 11:43:28 AM EST 2026
+start f40_tree32_d31 Mon Nov  9 01:05:35 PM EST 2026 avail=117GB
+already patched
+already patched
+already patched dflash_utils.py
+already patched dflash_worker_v2.py
+already patched flashinfer_backend.py
+already patched ~/rdf2/DSpine/sglang_dspine/runtime/worker.py
+already patched prefill.cuh
+removed 0 cached prefill JIT dirs
+gsm8k 113.1 tok/s tau 14.67
+math500 106.2 tok/s tau 12.93
+humaneval 79.0 tok/s tau 9.78
+mbpp 78.1 tok/s tau 9.58
+mtbench 43.9 tok/s tau 5.33
+suite f40_tree32_d31 done
+start f_tree24_d23 Mon Nov  9 01:30:57 PM EST 2026 avail=116GB
+1736968, [No data], 170 MiB
+already patched
+already patched
+already patched dflash_utils.py
+already patched dflash_worker_v2.py
+already patched flashinfer_backend.py
+already patched ~/rdf2/DSpine/sglang_dspine/runtime/worker.py
+already patched prefill.cuh
+removed 0 cached prefill JIT dirs
