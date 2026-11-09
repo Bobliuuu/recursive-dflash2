@@ -34,7 +34,8 @@ class TreeGlue:
         # "rrs" = same shape, children re-drawn from q without replacement, recursive rejection sampling without replacement.
         self.t1_mode = os.environ.get("RDF2_TREE_T1_MODE", "det")
         assert self.t1_mode in ("det", "rrs"), self.t1_mode
-        # rrs hybrid: nodes whose q top-probability >= RDF2_TREE_DET_THRESH keep deterministic children (point-mass drafts); > 1 = pure rrs
+        # rrs hybrid: nodes whose q top-probability >= RDF2_TREE_DET_THRESH keep deterministic children (point-mass drafts); > 1 = pure rrs;
+        # a negative value -t keeps deterministic children where the top probability is < t instead
         self.det_thresh = float(os.environ.get("RDF2_TREE_DET_THRESH", "2.0"))
         self.gum_u = torch.empty(self.N * 16, dtype=torch.float32, device="cuda")
         self.unif = torch.empty(self.N * 17 + 2, dtype=torch.float32, device="cuda")

@@ -191,7 +191,8 @@ __device__ __forceinline__ bool node_is_det(const float* row, float det_thresh) 
   // hybrid rule (a function of the table only): keep deterministic top-k children where q's top probability >= det_thresh
   float mx = -1e30f; for (int k = 0; k < 16; ++k) mx = fmaxf(mx, row[k]);
   float den = 0.f; for (int k = 0; k < 16; ++k) den += __expf(row[k] - mx);
-  return (1.f / den) >= det_thresh;
+  float top = 1.f / den;
+  return det_thresh >= 0.f ? (top >= det_thresh) : (top < -det_thresh);   // negative threshold: det where q is flat
 }
 
 __global__ void tree_relabel_kernel(const float* table, const long* cand, const int* parent, const int* depth, int* lane, long* tokens,
