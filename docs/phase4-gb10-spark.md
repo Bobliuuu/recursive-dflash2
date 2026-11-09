@@ -4,7 +4,16 @@ Question: GB10 has ~273 GB/s of LPDDR5x unified memory (A100: ~2 TB/s of HBM) an
 model is slow and a wide verify should cost about the same as a 1-token step. Are DFlash / DSpine / DSpine-tree speedups on GB10 larger
 than on A100 (hypothesis: tree >= 8-10x)?
 
-**Answer: larger, but only by 4-7%, not 8-10x.** STATUS: draft, filled in as runs finish.
+**Answer: same-config speedups are 4-10% larger than on A100, not 8-10x for bf16; the big wins come from quantized targets.**
+- bf16 target: best is a **32-node DSpine tree: tau 10.46, 84.1 tok/s, 7.80x AR** (A100 best: 48-node tree, 7.20x). DSpine b16 chain 6.11x
+  (A100 5.75x), DFlash b16 4.71x (A100 4.50x). The A100's 48-node optimum moves down to 32 nodes on GB10 because cuBLAS bf16 GEMMs on
+  sm_121 get slower above 32 rows (verify +2% at 32 tokens, +16% at 48), not wider.
+- Why not 8-10x: tau is the same on both GPUs, and the round time relative to one AR step barely changes. The DSpine draft streams 3.7 GB per
+  round, 22% of a target step on GB10 (27% on A100); only the fixed per-round overhead shrinks (A100 ~12% of a step, GB10 ~6%).
+- Quantized target, same bf16 drafter, same 32-node tree: **FP8 126 tok/s (11.7x bf16 AR, 6.5x FP8 AR)**; **NVFP4 157 tok/s (14.6x bf16 AR,
+  5.3x NVFP4 AR)**, on the first 20 prompts per dataset. gsm8k reaches 175 (FP8) and 204 (NVFP4) tok/s.
+- Losslessness: teacher-forced checks pass for every reported tree config (mismatch rates and max logit margins at the level of the b16 chain,
+  i.e. bf16 near-ties only); details at the end.
 
 ## Setup (what was actually run)
 - Box: spark2 (DGX Spark GB10), aarch64, sm_121, 121 GB unified memory, CUDA 13.0 driver. Shared box: every timing run held an exclusive

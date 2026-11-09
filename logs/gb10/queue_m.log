@@ -240,3 +240,27 @@ reverted dflash_utils.py
 reverted dflash_worker_v2.py
 reverted flashinfer_backend.py
 reverted ~/rdf2/DSpine/sglang_dspine/runtime/worker.py
+gsm8k 164.4 tok/s tau 10.03
+math500 151.2 tok/s tau 8.78
+humaneval 125.4 tok/s tau 7.43
+mbpp 120.9 tok/s tau 7.05
+mtbench 53.2 tok/s tau 3.06
+suite nvfp4_dspine_b16 done
+start nvfp4_f_tree48_d31 Mon Nov  9 06:45:23 PM EST 2026 avail=116GB
+2134797, [No data], 170 MiB
+already patched
+already patched
+patched dflash_utils.py
+patched dflash_worker_v2.py
+patched flashinfer_backend.py
+patched ~/rdf2/DSpine/sglang_dspine/runtime/worker.py
+already patched prefill.cuh
+removed 0 cached prefill JIT dirs
+gsm8k 210.6 tok/s tau 15.02
+math500 184.9 tok/s tau 12.38
+humaneval 139.9 tok/s tau 9.59
+mbpp 148.2 tok/s tau 10.03
+mtbench 63.7 tok/s tau 4.22
+suite nvfp4_f_tree48_d31 done
+=== exit 0 Mon Nov  9 06:55:31 PM EST 2026
+=== hold: bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh treefast f_tree16_d15 'gsm8k math500 humaneval mbpp mtbench' 20 16 15; bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh treefast f_tree32_d15 'gsm8k math500 humaneval mbpp mtbench' 20 32 15; bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh treefast f_tree32_d23 'gsm8k math500 humaneval mbpp mtbench' 20 32 23; python ~/rdf2/recursive-dflash2/bench/p2_tf_check.py ~/rdf2/recursive-dflash2/bench/results/gb10/tf_check_a.json gb10/tree48_d31:gsm8k gb10/tree48_d31:math500 gb10/tree48_d31:humaneval gb10/tree48_d31:mbpp gb10/tree48_d31:mtbench gb10/f_tree48_d31:gsm8k gb10/f_tree48_d31:mtbench gb10/p_tree64_d31:gsm8k gb10/p_tree64_d31:mtbench gb10/dspine_b32:gsm8k gb10/dflash_b16:gsm8k Mon Nov  9 06:55:31 PM EST 2026
