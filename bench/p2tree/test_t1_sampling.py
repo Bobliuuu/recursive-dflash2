@@ -17,7 +17,7 @@ def chisquare(f, e):
 torch.manual_seed(0); np.random.seed(0)
 N, D, V = 48, 31, 40
 M = int(sys.argv[1]) if len(sys.argv) > 1 else 40000
-modes = sys.argv[2].split(",") if len(sys.argv) > 2 else ["det", "rrs"]
+modes = sys.argv[2].split(",") if len(sys.argv) > 2 else ["det", "rrs", "hyb"]
 try:
     from flashinfer.sampling import sampling_from_probs as sfp
 except Exception:
@@ -43,15 +43,16 @@ for mode in modes:
     base_tokens = tv.tokens.clone(); base_lane = tv.lane.clone()
     O = np.full((M, 3), -1, np.int64); L = np.zeros(M, np.int64)
     for t in range(M):
-        if mode == "rrs":
+        th = 0.35 if mode == "hyb" else 2.0      # hyb: confident nodes keep deterministic children
+        if mode != "det":
             tv.tokens.copy_(base_tokens); tv.lane.copy_(base_lane)
-            tv.relabel(table, cand, torch.rand(N * 16, device=dev))
+            tv.relabel(table, cand, torch.rand(N * 16, device=dev), th)
         probs = Mp[tv.depth.long(), tv.tokens].contiguous()
         if mode == "det":
             s = sfp(probs).to(torch.int64) if sfp is not None else torch.multinomial(probs, 1).view(-1)
             tv.accept(s, loc, pl)
         else:
-            tv.accept_rrs(probs, table, cand, torch.rand(N * 17 + 2, device=dev), loc, pl)
+            tv.accept_rrs(probs, table, cand, torch.rand(N * 17 + 2, device=dev), loc, pl, th)
         l = int(tv.accept_len.item()); out = tv.out_tokens[:3].cpu().numpy()
         L[t] = l; O[t, : min(l + 1, 3)] = out[: min(l + 1, 3)]
     P = Mp.double().cpu().numpy()

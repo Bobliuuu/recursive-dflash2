@@ -187,15 +187,22 @@ void kv_move(torch::Tensor ptrs, int64_t row_bytes, torch::Tensor src, torch::Te
 // Relabel a best-first tree shape: children of every node v (in index = deterministic-rank order) get lanes drawn WITHOUT replacement from
 // q_v = softmax(row_v) by Gumbel-top-k (row_v = table[d][lane_v] at depth d, row 0 for the root). Shape (parent/depth/mask/positions) is
 // a function of the table only, so the number of children of each node never depends on its own children's draws.
+__device__ __forceinline__ bool node_is_det(const float* row, float det_thresh) {
+  // hybrid rule (a function of the table only): keep deterministic top-k children where q's top probability >= det_thresh
+  float mx = -1e30f; for (int k = 0; k < 16; ++k) mx = fmaxf(mx, row[k]);
+  float den = 0.f; for (int k = 0; k < 16; ++k) den += __expf(row[k] - mx);
+  return (1.f / den) >= det_thresh;
+}
+
 __global__ void tree_relabel_kernel(const float* table, const long* cand, const int* parent, const int* depth, int* lane, long* tokens,
-                                    const float* gum_u, int N, int D) {
+                                    const float* gum_u, int N, int D, float det_thresh) {
   __shared__ float sc[16];
   __shared__ int order[16];
   int t = threadIdx.x;
   for (int v = 0; v < N; ++v) {
     int d = depth[v];
     if (d >= D) continue;
-    // any children?
+    if (node_is_det(table + ((size_t)d * 16 + ((d == 0) ? 0 : lane[v])) * 16, det_thresh)) continue;
     __syncthreads();
     if (t < 16) {
       int pl = (d == 0) ? 0 : lane[v];
@@ -228,7 +235,7 @@ __global__ void tree_relabel_kernel(const float* table, const long* cand, const 
 // on rejection r <- max(r/Z - q_i, 0), R <- R/Z. If all children are rejected (or v is a leaf) the bonus is drawn from the residual
 // (leaf: from p_v). probs: [N, V] fp32 target distribution per node.
 __global__ void tree_accept_rrs_kernel(const float* probs, const float* table, const long* cand, const long* tokens, const int* parent,
-                                       const int* depth, const int* lane, int N, int D, long V, const float* unif,
+                                       const int* depth, const int* lane, int N, int D, long V, const float* unif, float det_thresh,
                                        const long* loc, const long* prefix_len, long* out_tokens, int* accept_len, int* commit_lens,
                                        long* bonus, long* new_seq_lens, long* path) {
   __shared__ float r[16], q[16];
@@ -265,14 +272,16 @@ __global__ void tree_accept_rrs_kernel(const float* probs, const float* table, c
       float sr = 0.f; for (int k = 0; k < 16; ++k) sr += r[k];
       float R = fmaxf(1.f - sr, 0.f);
       float qmass = 1.f;
+      const bool det = node_is_det(table + ((size_t)d * 16 + ((d == 0) ? 0 : lane[cur])) * 16, det_thresh);
       int next = -1;
       for (int j = cur + 1; j < N && next < 0; ++j) {
         if (parent[j] != cur) continue;
         int l = lane[j];
         float Z = R; for (int k = 0; k < 16; ++k) Z += r[k];
-        float qi = q[l] / qmass;
+        float qi = det ? 1.f : q[l] / qmass;   // det node: point-mass draft at the deterministic child
         float u = unif[ui++];
         if (Z > 0.f && u * qi * Z < r[l]) { next = j; break; }
+        if (det) { for (int k = 0; k < 16; ++k) r[k] = r[k] / Z; r[l] = 0.f; R = R / Z; continue; }
         // reject: residual update against q_i (q without the already-tried lanes, renormalised)
         for (int k = 0; k < 16; ++k) r[k] = fmaxf(r[k] / Z - q[k] / qmass, 0.f);
         R = R / Z;
@@ -354,17 +363,17 @@ __global__ void slots_kernel(const long* loc, const long* path, int N, long* src
 }
 
 void tree_relabel(torch::Tensor table, torch::Tensor cand, torch::Tensor parent, torch::Tensor depth, torch::Tensor lane, torch::Tensor tokens,
-                  torch::Tensor gum_u, int64_t N, int64_t D) {
+                  torch::Tensor gum_u, int64_t N, int64_t D, double det_thresh) {
   tree_relabel_kernel<<<1, 32, 0, at::cuda::getCurrentCUDAStream()>>>(table.data_ptr<float>(), cand.data_ptr<long>(), parent.data_ptr<int>(),
-      depth.data_ptr<int>(), lane.data_ptr<int>(), tokens.data_ptr<long>(), gum_u.data_ptr<float>(), (int)N, (int)D);
+      depth.data_ptr<int>(), lane.data_ptr<int>(), tokens.data_ptr<long>(), gum_u.data_ptr<float>(), (int)N, (int)D, (float)det_thresh);
 }
 void tree_accept_rrs(torch::Tensor probs, torch::Tensor table, torch::Tensor cand, torch::Tensor tokens, torch::Tensor parent, torch::Tensor depth,
                      torch::Tensor lane, int64_t N, int64_t D, torch::Tensor unif, torch::Tensor loc, torch::Tensor prefix_len,
                      torch::Tensor out_tokens, torch::Tensor accept_len, torch::Tensor commit_lens, torch::Tensor bonus, torch::Tensor new_seq_lens,
-                     torch::Tensor path, torch::Tensor src_slot, torch::Tensor dst_slot) {
+                     torch::Tensor path, torch::Tensor src_slot, torch::Tensor dst_slot, double det_thresh) {
   auto st = at::cuda::getCurrentCUDAStream();
   tree_accept_rrs_kernel<<<1, 256, 0, st>>>(probs.data_ptr<float>(), table.data_ptr<float>(), cand.data_ptr<long>(), tokens.data_ptr<long>(),
-      parent.data_ptr<int>(), depth.data_ptr<int>(), lane.data_ptr<int>(), (int)N, (int)D, probs.size(1), unif.data_ptr<float>(),
+      parent.data_ptr<int>(), depth.data_ptr<int>(), lane.data_ptr<int>(), (int)N, (int)D, probs.size(1), unif.data_ptr<float>(), (float)det_thresh,
       loc.data_ptr<long>(), prefix_len.data_ptr<long>(), out_tokens.data_ptr<long>(), accept_len.data_ptr<int>(), commit_lens.data_ptr<int>(),
       bonus.data_ptr<long>(), new_seq_lens.data_ptr<long>(), path.data_ptr<long>());
   slots_kernel<<<1, 128, 0, st>>>(loc.data_ptr<long>(), path.data_ptr<long>(), (int)N, src_slot.data_ptr<long>(), dst_slot.data_ptr<long>());
@@ -379,11 +388,11 @@ void tree_accept(torch::Tensor argmax, torch::Tensor tokens, torch::Tensor paren
                  torch::Tensor new_seq_lens, torch::Tensor path, torch::Tensor src_slot, torch::Tensor dst_slot);
 void kv_move(torch::Tensor ptrs, int64_t row_bytes, torch::Tensor src, torch::Tensor dst, int64_t N, torch::Tensor tmp);
 void tree_relabel(torch::Tensor table, torch::Tensor cand, torch::Tensor parent, torch::Tensor depth, torch::Tensor lane, torch::Tensor tokens,
-                  torch::Tensor gum_u, int64_t N, int64_t D);
+                  torch::Tensor gum_u, int64_t N, int64_t D, double det_thresh);
 void tree_accept_rrs(torch::Tensor probs, torch::Tensor table, torch::Tensor cand, torch::Tensor tokens, torch::Tensor parent, torch::Tensor depth,
                      torch::Tensor lane, int64_t N, int64_t D, torch::Tensor unif, torch::Tensor loc, torch::Tensor prefix_len,
                      torch::Tensor out_tokens, torch::Tensor accept_len, torch::Tensor commit_lens, torch::Tensor bonus, torch::Tensor new_seq_lens,
-                     torch::Tensor path, torch::Tensor src_slot, torch::Tensor dst_slot);
+                     torch::Tensor path, torch::Tensor src_slot, torch::Tensor dst_slot, double det_thresh);
 '''
 _mod = None
 def get_module():
@@ -422,16 +431,16 @@ class TreeVerifier:
         self.m.tree_build(table.contiguous(), cand.contiguous(), anchor, prefix_len, self.D, self.N, self.tokens, self.parent,
                           self.depth, self.lane, self.tmask, self.fmask, self.positions)
 
-    def relabel(self, table, cand, gum_u):
+    def relabel(self, table, cand, gum_u, det_thresh=2.0):
         """Phase 4 sampled drafts: keep the built shape, redraw every node's children lanes without replacement from q (Gumbel-top-k).
         table must be the same (temperature-scaled) table later passed to accept_rrs; gum_u [N*16] fresh uniforms."""
-        self.m.tree_relabel(table.contiguous(), cand.contiguous(), self.parent, self.depth, self.lane, self.tokens, gum_u, self.N, self.D)
+        self.m.tree_relabel(table.contiguous(), cand.contiguous(), self.parent, self.depth, self.lane, self.tokens, gum_u, self.N, self.D, float(det_thresh))
 
-    def accept_rrs(self, probs, table, cand, unif, loc, prefix_len):
+    def accept_rrs(self, probs, table, cand, unif, loc, prefix_len, det_thresh=2.0):
         """probs [N, V] fp32 target per node, unif [N*17+2] fresh uniforms. Recursive rejection sampling without replacement."""
         self.m.tree_accept_rrs(probs, table.contiguous(), cand.contiguous(), self.tokens, self.parent, self.depth, self.lane, self.N, self.D, unif,
                                loc, prefix_len, self.out_tokens, self.accept_len, self.commit_lens, self.bonus, self.new_seq_lens, self.path,
-                               self.src_slot, self.dst_slot)
+                               self.src_slot, self.dst_slot, float(det_thresh))
         if self.kv_ptrs is not None:
             self.m.kv_move(self.kv_ptrs, self.row_bytes, self.src_slot, self.dst_slot, self.N, self.kv_tmp)
 

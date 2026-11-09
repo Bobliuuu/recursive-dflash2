@@ -34,6 +34,8 @@ class TreeGlue:
         # "rrs" = same shape, children re-drawn from q without replacement, recursive rejection sampling without replacement.
         self.t1_mode = os.environ.get("RDF2_TREE_T1_MODE", "det")
         assert self.t1_mode in ("det", "rrs"), self.t1_mode
+        # rrs hybrid: nodes whose q top-probability >= RDF2_TREE_DET_THRESH keep deterministic children (point-mass drafts); > 1 = pure rrs
+        self.det_thresh = float(os.environ.get("RDF2_TREE_DET_THRESH", "2.0"))
         self.gum_u = torch.empty(self.N * 16, dtype=torch.float32, device="cuda")
         self.unif = torch.empty(self.N * 17 + 2, dtype=torch.float32, device="cuda")
         try:
@@ -118,7 +120,7 @@ class TreeGlue:
         if self.sampled and self.t1_mode == "rrs":
             self.tab_s = tab[: self.D].contiguous(); self.cand_s = cand[: self.D].contiguous()
             self.gum_u.uniform_()
-            self.tv.relabel(self.tab_s, self.cand_s, self.gum_u)
+            self.tv.relabel(self.tab_s, self.cand_s, self.gum_u, self.det_thresh)
         draft_tokens[0].copy_(self.tv.tokens)
         positions_2d[0].copy_(self.tv.positions)
         torch.add(pl, self.ar, out=self.commit_pos_buf)
@@ -150,7 +152,7 @@ class TreeGlue:
             inv_t = self.inv_t if self.neg_control is None else self.inv_t * self.neg_control
             probs = torch.softmax(logits_output.next_token_logits.to(torch.float32) * inv_t, dim=-1).contiguous()
             self.unif.uniform_(); self.n_sampled += 1
-            tv.accept_rrs(probs, self.tab_s, self.cand_s, self.unif, loc, prefix_lens[:1].to(torch.int64))
+            tv.accept_rrs(probs, self.tab_s, self.cand_s, self.unif, loc, prefix_lens[:1].to(torch.int64), self.det_thresh)
         else:
             am = self.node_tokens(logits_output.next_token_logits)
             tv.accept(am, loc, prefix_lens[:1].to(torch.int64))
