@@ -1,0 +1,58 @@
+{
+ "p4cov_tree48_k64:gsm8k:8": {
+  "tokens": 2367,
+  "mismatch": 9,
+  "mismatch_rate": 0.0038022813688212928,
+  "margin_max": 0.25,
+  "margin_median": 0.25,
+  "n_margin_gt_0.5": 0
+ },
+ "p4cov_tree48_k64:math500:8": {
+  "tokens": 5184,
+  "mismatch": 20,
+  "mismatch_rate": 0.0038580246913580245,
+  "margin_max": 0.25,
+  "margin_median": 0.125,
+  "n_margin_gt_0.5": 0
+ },
+ "p4cov_tree48_k64:humaneval:8": {
+  "tokens": 3125,
+  "mismatch": 11,
+  "mismatch_rate": 0.00352,
+  "margin_max": 0.25,
+  "margin_median": 0.0,
+  "n_margin_gt_0.5": 0
+ },
+ "p4cov_tree48_k64:mbpp:8": {
+  "tokens": 3321,
+  "mismatch": 14,
+  "mismatch_rate": 0.004215597711532671,
+  "margin_max": 0.25,
+  "margin_median": 0.125,
+  "n_margin_gt_0.5": 0
+ },
+ "p4cov_tree48_k64:mtbench:8": {
+  "tokens": 2802,
+  "mismatch": 27,
+  "mismatch_rate": 0.009635974304068522,
+  "margin_max": 0.25,
+  "margin_median": 0.125,
+  "n_margin_gt_0.5": 0
+ },
+ "p4cov_tree48_k16:gsm8k:8": {
+  "tokens": 2371,
+  "mismatch": 8,
+  "mismatch_rate": 0.003374103753690426,
+  "margin_max": 0.25,
+  "margin_median": 0.0,
+  "n_margin_gt_0.5": 0
+ },
+ "p4cov_tree48_k16:mtbench:8": {
+  "tokens": 2744,
+  "mismatch": 37,
+  "mismatch_rate": 0.01348396501457726,
+  "margin_max": 0.25,
+  "margin_median": 0.125,
+  "n_margin_gt_0.5": 0
+ }
+}
