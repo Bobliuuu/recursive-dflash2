@@ -1,0 +1,43 @@
+tree48_d31 gsm8k 1295.3 15.682
+tree48_d31 math500 1203.3 13.551
+tree48_d31 humaneval 915.1 10.476
+tree48_d31 mbpp 887.8 10.02
+tree48_d31 mtbench 496.6 5.565
+chain16 gsm8k 989.3 10.517
+chain16 math500 934.1 9.44
+chain16 humaneval 753.1 7.703
+chain16 mbpp 722.6 7.355
+chain16 mtbench 411.9 4.161
+chain48 gsm8k 1120.9 12.767
+chain48 math500 996.1 10.574
+chain48 humaneval 777.3 8.404
+chain48 mbpp 720.0 7.693
+chain48 mtbench 405.2 4.305
+tree32_d31 gsm8k 1241.5 14.558
+tree32_d31 math500 1130.8 12.3
+tree32_d31 humaneval 894.2 9.925
+tree32_d31 mbpp 934.5 10.242
+tree32_d31 mtbench 493.0 5.366
+Fetching 5 files:   0%|          | 0/5 [00:00<?, ?it/s]Fetching 5 files: 100%|██████████| 5/5 [00:00<00:00, 1289.36it/s]
+tree64_d31 gsm8k 1322.1 16.349
+tree64_d31 math500 1175.0 13.456
+tree64_d31 humaneval 930.5 10.822
+tree64_d31 mbpp 914.9 10.489
+tree64_d31 mtbench 509.2 5.803
+Fetching 5 files:   0%|          | 0/5 [00:00<?, ?it/s]Fetching 5 files: 100%|██████████| 5/5 [00:00<00:00, 1303.23it/s]
+tree96_d31 gsm8k 1314.0 17.108
+tree96_d31 math500 1189.8 14.407
+tree96_d31 humaneval 906.3 11.081
+tree96_d31 mbpp 888.9 10.765
+tree96_d31 mtbench 487.7 5.843
+chain32 gsm8k 1148.1 12.795
+chain32 math500 1014.6 10.558
+chain32 humaneval 792.9 8.387
+chain32 mbpp 736.1 7.708
+chain32 mtbench 411.8 4.308
+ar gsm8k 149.5 1
+ar math500 149.5 1
+ar humaneval 149.7 1
+ar mbpp 149.9 1
+ar mtbench 149.7 1
+QUEUE DONE
