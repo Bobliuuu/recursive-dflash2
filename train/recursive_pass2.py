@@ -133,7 +133,7 @@ def tau_from(pred, labels, sup, K=None):
 def sample_anchors(w, lm, L, nanch):
     w.num_anchors = nanch
     nv = int(((lm[:, :-1] > 0) & (lm[:, 1:] > 0)).sum(1).max())
-    return w._sample_anchor_positions(L, lm, dev, nv)
+    return type(w)._sample_anchor_positions(w, L, lm, dev, nv)
 
 def pass1_tokens(x, aux, lm, anchors, keep):
     out, labels, sup = blocks_forward(w1, x, aux, lm, anchors, keep)
