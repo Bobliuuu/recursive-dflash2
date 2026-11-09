@@ -56,3 +56,34 @@ Traceback (most recent call last):
 FileNotFoundError: [Errno 2] No such file or directory: '~/rdf2/recursive-dflash2/bench/results/gb10/f_tree32_d31_fp8draft_gsm8k_T0_c1.json'
 === exit 1 Mon Nov  9 02:34:51 PM EST 2026
 === hold: export TARGET=Qwen/Qwen3-8B-FP8; WARMUP=1 bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh ar fp8_ar 'gsm8k math500 humaneval mbpp mtbench' 8; bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh treefast fp8_f_tree32_d31 'gsm8k math500 humaneval mbpp mtbench' 20 32 31 Mon Nov  9 02:34:51 PM EST 2026
+start fp8_ar Mon Nov  9 03:06:11 PM EST 2026 avail=117GB
+already patched
+already patched
+reverted dflash_utils.py
+reverted dflash_worker_v2.py
+reverted flashinfer_backend.py
+reverted ~/rdf2/DSpine/sglang_dspine/runtime/worker.py
+gsm8k 19.4 tok/s tau 1
+math500 19.4 tok/s tau 1
+humaneval 19.4 tok/s tau 1
+mbpp 19.4 tok/s tau 1
+mtbench 19.4 tok/s tau 1
+suite fp8_ar done
+start fp8_f_tree32_d31 Mon Nov  9 03:28:10 PM EST 2026 avail=116GB
+1898814, [No data], 170 MiB
+already patched
+already patched
+patched dflash_utils.py
+patched dflash_worker_v2.py
+patched flashinfer_backend.py
+patched ~/rdf2/DSpine/sglang_dspine/runtime/worker.py
+already patched prefill.cuh
+removed 0 cached prefill JIT dirs
+gsm8k 174.6 tok/s tau 14.63
+math500 163.6 tok/s tau 12.89
+humaneval 122.1 tok/s tau 9.84
+mbpp 119.3 tok/s tau 9.52
+mtbench 52.6 tok/s tau 4.1
+suite fp8_f_tree32_d31 done
+=== exit 0 Mon Nov  9 03:39:26 PM EST 2026
+=== hold: export TARGET=Qwen/Qwen3-8B-FP8; bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh dspine fp8_dspine_b16 'gsm8k math500 humaneval mbpp mtbench' 20; bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh treefast fp8_f_tree48_d31 'gsm8k math500 humaneval mbpp mtbench' 20 48 31; EXTRA='--speculative-draft-model-quantization fp8' bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh treefast fp8_f_tree32_d31_fp8draft 'gsm8k math500 humaneval mbpp mtbench' 20 32 31 Mon Nov  9 03:39:26 PM EST 2026

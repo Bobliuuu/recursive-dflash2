@@ -1,0 +1,15 @@
+{
+ "method": "fp8_ar",
+ "dataset": "humaneval",
+ "temperature": 0.0,
+ "concurrency": 1,
+ "n": 8,
+ "max_new_tokens": 2048,
+ "seed": 0,
+ "thinking": false,
+ "tokens_out": 2966,
+ "makespan_s": 152.88651084899902,
+ "agg_tok_s": 19.400011050873026,
+ "mean_req_tok_s": 19.40083839454801,
+ "frac_hit_cap": 0.0
+}

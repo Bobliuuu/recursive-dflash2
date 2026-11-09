@@ -4,8 +4,9 @@ Usage: python p2_tf_check.py OUT.json PREFIX:dataset[:n] ..."""
 import sys, json, os, torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 R = os.path.join(os.path.dirname(os.path.abspath(__file__)), "results")
+MID = os.environ.get("TF_MODEL", "Qwen/Qwen3-8B")   # e.g. Qwen/Qwen3-8B-FP8 to check cells served with a quantized target
 tok = AutoTokenizer.from_pretrained("Qwen/Qwen3-8B")
-m = AutoModelForCausalLM.from_pretrained("Qwen/Qwen3-8B", dtype=torch.bfloat16).cuda().eval()
+m = AutoModelForCausalLM.from_pretrained(MID, dtype=torch.bfloat16).cuda().eval()
 pdir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data/prompts")
 res = {}
 for spec in sys.argv[2:]:

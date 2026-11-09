@@ -1,0 +1,15 @@
+{
+ "method": "fp8_ar",
+ "dataset": "mtbench",
+ "temperature": 0.0,
+ "concurrency": 1,
+ "n": 8,
+ "max_new_tokens": 2048,
+ "seed": 0,
+ "thinking": false,
+ "tokens_out": 2680,
+ "makespan_s": 138.23335456848145,
+ "agg_tok_s": 19.387506064408758,
+ "mean_req_tok_s": 19.375674562988138,
+ "frac_hit_cap": 0.0
+}
