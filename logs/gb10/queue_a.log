@@ -8,3 +8,12 @@ mtbench 10.8 tok/s tau 1
 suite ar done
 === exit 0 Mon Nov  9 05:23:48 AM EST 2026
 === dspine dspine_b16 gsm8k math500 humaneval mbpp mtbench 40 Mon Nov  9 05:23:48 AM EST 2026
+start dspine_b16 Mon Nov  9 06:03:14 AM EST 2026 avail=117GB
+gsm8k 85.8 tok/s tau 10.58
+math500 80.1 tok/s tau 9.41
+humaneval 65.1 tok/s tau 7.75
+mbpp 62.9 tok/s tau 7.44
+mtbench 35.4 tok/s tau 4.15
+suite dspine_b16 done
+=== exit 0 Mon Nov  9 06:34:43 AM EST 2026
+=== tree tree48_d31 gsm8k math500 humaneval mbpp mtbench 40 48 31 Mon Nov  9 06:34:43 AM EST 2026

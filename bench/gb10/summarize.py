@@ -3,12 +3,19 @@ Usage: python summarize.py AR_TAG TAG [TAG ...]  (reads results/gb10/<tag>_<ds>_
 import json, os, sys, statistics as st
 H = os.path.dirname(os.path.abspath(__file__)); R = os.path.join(H, "..", "results", "gb10"); L = os.path.join(H, "..", "..", "logs", "gb10")
 DS = ["gsm8k", "math500", "humaneval", "mbpp", "mtbench"]
+NF = int(os.environ.get("NFIRST", "0"))  # >0: recompute every cell on its first NF requests (paired subset across configs)
 def cell(tag, ds):
     p = f"{R}/{tag}_{ds}_T0_c1.json"
-    return json.load(open(p))["summary"] if os.path.exists(p) else None
+    if not os.path.exists(p): return None
+    j = json.load(open(p)); s = j["summary"]
+    if NF and len(j["requests"]) >= NF:
+        rq = j["requests"][:NF]; s = dict(s); no = sum(r["n_out"] for r in rq); lat = sum(r["latency"] for r in rq)
+        vc = sum(r["spec_verify_ct"] or 0 for r in rq)
+        s.update({"n": NF, "tokens_out": no, "makespan_s": lat, "agg_tok_s": no / lat, "accept_len_pooled": (no / vc) if vc else None, "rounds": vc or None})
+    return s
 ar_tag = sys.argv[1]
 ar = {d: cell(ar_tag, d) for d in DS}
-out_p = f"{R}/summary.json"; out = json.load(open(out_p)) if os.path.exists(out_p) else {}
+out_p = f"{R}/summary.json" if not NF else f"{R}/summary_first{NF}.json"; out = json.load(open(out_p)) if os.path.exists(out_p) else {}
 print("| config | tau | tok/s | x AR | " + " / ".join(DS) + " tok/s | draft ms | verify ms | other ms | round ms |")
 print("|---|---|---|---|---|---|---|---|---|")
 for tag in sys.argv[1:]:
