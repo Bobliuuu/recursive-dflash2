@@ -87,3 +87,75 @@ mtbench 52.6 tok/s tau 4.1
 suite fp8_f_tree32_d31 done
 === exit 0 Mon Nov  9 03:39:26 PM EST 2026
 === hold: export TARGET=Qwen/Qwen3-8B-FP8; bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh dspine fp8_dspine_b16 'gsm8k math500 humaneval mbpp mtbench' 20; bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh treefast fp8_f_tree48_d31 'gsm8k math500 humaneval mbpp mtbench' 20 48 31; EXTRA='--speculative-draft-model-quantization fp8' bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh treefast fp8_f_tree32_d31_fp8draft 'gsm8k math500 humaneval mbpp mtbench' 20 32 31 Mon Nov  9 03:39:26 PM EST 2026
+start fp8_dspine_b16 Mon Nov  9 04:20:14 PM EST 2026 avail=117GB
+already patched
+already patched
+reverted dflash_utils.py
+reverted dflash_worker_v2.py
+reverted flashinfer_backend.py
+reverted ~/rdf2/DSpine/sglang_dspine/runtime/worker.py
+gsm8k 134.1 tok/s tau 10.59
+math500 122.2 tok/s tau 9.22
+humaneval 97.9 tok/s tau 7.52
+mbpp 97.0 tok/s tau 7.39
+mtbench 41.2 tok/s tau 3.09
+suite fp8_dspine_b16 done
+start fp8_f_tree48_d31 Mon Nov  9 04:33:08 PM EST 2026 avail=116GB
+1975196, [No data], 170 MiB
+already patched
+already patched
+patched dflash_utils.py
+patched dflash_worker_v2.py
+patched flashinfer_backend.py
+patched ~/rdf2/DSpine/sglang_dspine/runtime/worker.py
+already patched prefill.cuh
+removed 0 cached prefill JIT dirs
+gsm8k 182.2 tok/s tau 16.52
+math500 162.1 tok/s tau 13.82
+humaneval 119.1 tok/s tau 10.31
+mbpp 114.5 tok/s tau 9.86
+mtbench 50.8 tok/s tau 4.26
+suite fp8_f_tree48_d31 done
+start fp8_f_tree32_d31_fp8draft Mon Nov  9 04:44:03 PM EST 2026 avail=117GB
+already patched
+already patched
+already patched dflash_utils.py
+already patched dflash_worker_v2.py
+already patched flashinfer_backend.py
+already patched ~/rdf2/DSpine/sglang_dspine/runtime/worker.py
+already patched prefill.cuh
+removed 0 cached prefill JIT dirs
+~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh: line 39: 1988419 Killed                  setsid sglang serve $COMMON $A > $LOG/serve_$TAG.log 2>&1
+server failed
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/speculative/draft_worker_common.py", line 92, in build_draft_tp_worker
+    draft_worker = draft_worker_cls(
+                   ^^^^^^^^^^^^^^^^^
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/managers/tp_worker.py", line 318, in __init__
+    self._init_model_runner()
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/managers/tp_worker.py", line 480, in _init_model_runner
+    self._model_runner = ModelRunner(
+                         ^^^^^^^^^^^^
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/model_executor/model_runner.py", line 488, in __init__
+    self.initialize()
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/model_executor/model_runner.py", line 705, in initialize
+    self.load_model()
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/model_executor/model_runner.py", line 1293, in load_model
+    loaded = load_model_with_memory_saver(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/model_executor/model_runner_components/load_model_utils.py", line 346, in load_model_with_memory_saver
+    model = loader.load_model(
+            ^^^^^^^^^^^^^^^^^^
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/model_loader/loader.py", line 1012, in load_model
+    model = _initialize_model(
+            ^^^^^^^^^^^^^^^^^^
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/model_loader/loader.py", line 308, in _initialize_model
+    model = model_class(**kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^
+  File "~/rdf2/DSpine/sglang_dspine/models/dspine.py", line 395, in __init__
+    raise ValueError("The DSPINE draft does not support quantized weights")
+ValueError: The DSPINE draft does not support quantized weights
+
+[2026-11-09 16:46:34] Received sigquit from a child process. It usually means the child failed.
+[2026-11-09 16:46:34] kill_process_tree called: parent_pid=1988419, include_parent=True, pid=1988419
+=== exit 1 Mon Nov  9 04:46:45 PM EST 2026
+=== hold: export TARGET=nvidia/Qwen3-8B-NVFP4 EXTRA='--quantization modelopt_fp4'; WARMUP=1 bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh ar nvfp4_ar 'gsm8k math500 humaneval mbpp mtbench' 8; bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh treefast nvfp4_f_tree32_d31 'gsm8k math500 humaneval mbpp mtbench' 20 32 31 Mon Nov  9 04:46:45 PM EST 2026

@@ -1,0 +1,85 @@
+~/rdf2/venv/lib/python3.12/site-packages/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+~/rdf2/venv/lib/python3.12/site-packages/torch/jit/_script.py:1643: FutureWarning: `torch.jit.interface` is deprecated. Please use `torch.compile` instead.
+  warnings.warn(
+~/rdf2/venv/lib/python3.12/site-packages/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+[2026-11-09 16:45:02] Multiple AROUND hooks on 'sglang.srt.model_executor.runner_backend.full_cuda_graph_backend.FullCudaGraphBackend.capture_one' (2 hooks, from: plugin=dspine, dist=sglang-dspine, plugin=dspine, dist=sglang-dspine). If any AROUND hook skips calling original_fn, inner hooks will be bypassed.
+[2026-11-09 16:45:03] Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[2026-11-09 16:45:03] Failed to get GPU memory capacity from nvidia-smi. Falling back to torch.cuda.mem_get_info(). Reported total GPU memory per device (MiB): [124544], using min: 124544 MiB.
+[2026-11-09 16:45:06] Using default HuggingFace chat template with detected content format: string
+[2026-11-09 16:45:06] Auto-detected template features: reasoning_config=ReasoningToggleConfig(toggle_param='enable_thinking', default_enabled=True, special_case=None, effort_kwarg=None), reasoning_parser=qwen3, tool_call_parser=qwen
+~/rdf2/venv/lib/python3.12/site-packages/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+~/rdf2/venv/lib/python3.12/site-packages/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+~/rdf2/venv/lib/python3.12/site-packages/torch/jit/_script.py:1643: FutureWarning: `torch.jit.interface` is deprecated. Please use `torch.compile` instead.
+  warnings.warn(
+~/rdf2/venv/lib/python3.12/site-packages/torch/jit/_script.py:1643: FutureWarning: `torch.jit.interface` is deprecated. Please use `torch.compile` instead.
+  warnings.warn(
+~/rdf2/venv/lib/python3.12/site-packages/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+~/rdf2/venv/lib/python3.12/site-packages/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+[2026-11-09 16:45:16] Multiple AROUND hooks on 'sglang.srt.model_executor.runner_backend.full_cuda_graph_backend.FullCudaGraphBackend.capture_one' (2 hooks, from: plugin=dspine, dist=sglang-dspine, plugin=dspine, dist=sglang-dspine). If any AROUND hook skips calling original_fn, inner hooks will be bypassed.
+[2026-11-09 16:45:16] Multiple AROUND hooks on 'sglang.srt.model_executor.runner_backend.full_cuda_graph_backend.FullCudaGraphBackend.capture_one' (2 hooks, from: plugin=dspine, dist=sglang-dspine, plugin=dspine, dist=sglang-dspine). If any AROUND hook skips calling original_fn, inner hooks will be bypassed.
+[2026-11-09 16:45:17] Init parallel begin.
+[2026-11-09 16:45:17] Init parallel ends. elapsed=0.40 s
+[2026-11-09 16:45:19] Memory baseline taken. mem usage=0.00 GB
+[2026-11-09 16:45:19] Load weight begin. avail mem=114.13 GB
+[2026-11-09 16:45:19] Detected fp8 checkpoint.
+[2026-11-09 16:45:19] Found local HF snapshot for Qwen/Qwen3-8B-FP8 at ~/rdf2/hf/hub/models--Qwen--Qwen3-8B-FP8/snapshots/220b46e3b2180893580a4454f21f22d3ebb187d3; skipping download.
+
+Multi-thread loading shards:  50% Completed | 1/2 [00:33<00:33, 33.27s/it]
+Multi-thread loading shards: 100% Completed | 2/2 [01:13<00:00, 37.22s/it]
+Multi-thread loading shards: 100% Completed | 2/2 [01:13<00:00, 36.63s/it]
+[2026-11-09 16:46:33] Load weight end. elapsed=74.63 s, type=Qwen3ForCausalLM, quant=fp8, fmt=e4m3, avail mem=103.89 GB, mem usage=10.24 GB.
+[2026-11-09 16:46:34] Memory baseline taken. mem usage=0.00 GB
+[2026-11-09 16:46:34] Load weight begin. avail mem=103.70 GB
+[2026-11-09 16:46:34] Scheduler hit an exception: Traceback (most recent call last):
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/managers/scheduler.py", line 6128, in run_scheduler_process
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/plugins/hook_registry.py", line 377, in wrapper
+    result = original_fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/managers/scheduler.py", line 563, in __init__
+    self.init_model_worker()
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/managers/scheduler.py", line 1103, in init_model_worker
+    self.maybe_init_draft_worker()
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/managers/scheduler.py", line 1040, in maybe_init_draft_worker
+    self.draft_worker = DraftWorkerClass(**draft_worker_kwargs)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/rdf2/DSpine/sglang_dspine/runtime/worker.py", line 496, in __init__
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/speculative/dflash_worker_v2.py", line 422, in __init__
+    bundle = build_draft_tp_worker(
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/speculative/draft_worker_common.py", line 92, in build_draft_tp_worker
+    draft_worker = draft_worker_cls(
+                   ^^^^^^^^^^^^^^^^^
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/managers/tp_worker.py", line 318, in __init__
+    self._init_model_runner()
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/managers/tp_worker.py", line 480, in _init_model_runner
+    self._model_runner = ModelRunner(
+                         ^^^^^^^^^^^^
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/model_executor/model_runner.py", line 488, in __init__
+    self.initialize()
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/model_executor/model_runner.py", line 705, in initialize
+    self.load_model()
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/model_executor/model_runner.py", line 1293, in load_model
+    loaded = load_model_with_memory_saver(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/model_executor/model_runner_components/load_model_utils.py", line 346, in load_model_with_memory_saver
+    model = loader.load_model(
+            ^^^^^^^^^^^^^^^^^^
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/model_loader/loader.py", line 1012, in load_model
+    model = _initialize_model(
+            ^^^^^^^^^^^^^^^^^^
+  File "~/rdf2/venv/lib/python3.12/site-packages/sglang/srt/model_loader/loader.py", line 308, in _initialize_model
+    model = model_class(**kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^
+  File "~/rdf2/DSpine/sglang_dspine/models/dspine.py", line 395, in __init__
+    raise ValueError("The DSPINE draft does not support quantized weights")
+ValueError: The DSPINE draft does not support quantized weights
+
+[2026-11-09 16:46:34] Received sigquit from a child process. It usually means the child failed.
+[2026-11-09 16:46:34] kill_process_tree called: parent_pid=1988419, include_parent=True, pid=1988419
