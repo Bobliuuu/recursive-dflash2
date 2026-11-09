@@ -1,0 +1,59 @@
+{
+ "gb10/f40_tree32_d31:gsm8k": {
+  "tokens": 2320,
+  "mismatch": 13,
+  "mismatch_rate": 0.005603448275862069,
+  "margin_max": 0.25,
+  "margin_median": 0.0,
+  "n_margin_gt_0.5": 0
+ },
+ "gb10/f40_tree32_d31:math500": {
+  "tokens": 5531,
+  "mismatch": 20,
+  "mismatch_rate": 0.0036159826432833123,
+  "margin_max": 0.25,
+  "margin_median": 0.125,
+  "n_margin_gt_0.5": 0
+ },
+ "gb10/f40_tree32_d31:humaneval": {
+  "tokens": 2960,
+  "mismatch": 13,
+  "mismatch_rate": 0.004391891891891892,
+  "margin_max": 0.5,
+  "margin_median": 0.25,
+  "n_margin_gt_0.5": 0
+ },
+ "gb10/f40_tree32_d31:mbpp": {
+  "tokens": 3106,
+  "mismatch": 15,
+  "mismatch_rate": 0.004829362524146813,
+  "margin_max": 0.25,
+  "margin_median": 0.125,
+  "n_margin_gt_0.5": 0
+ },
+ "gb10/f40_tree32_d31:mtbench": {
+  "tokens": 2722,
+  "mismatch": 38,
+  "mismatch_rate": 0.013960323291697281,
+  "margin_max": 0.25,
+  "margin_median": 0.0,
+  "n_margin_gt_0.5": 0
+ },
+ "gb10/dspine_b16:gsm8k": {
+  "tokens": 2355,
+  "mismatch": 15,
+  "mismatch_rate": 0.006369426751592357,
+  "margin_max": 0.25,
+  "margin_median": 0.25,
+  "n_margin_gt_0.5": 0
+ },
+ "gb10/dspine_b16:mtbench": {
+  "tokens": 2659,
+  "mismatch": 26,
+  "mismatch_rate": 0.009778112072207596,
+  "margin_max": 0.25,
+  "margin_median": 0.125,
+  "n_margin_gt_0.5": 0
+ },
+ "_note": "reconstructed from logs/gb10/queue_m.log (p2_tf_check.py printed each spec, then crashed on a missing fp8-draft cell before writing the JSON)"
+}
