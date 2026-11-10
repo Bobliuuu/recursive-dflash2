@@ -1,0 +1,72 @@
+{
+ "official/chain_bb15": 8.968626022338867,
+ "official/chain_bb31": 10.719124794006348,
+ "official/cov_prefix": 16.386362075805664,
+ "official/chain_ref15": 9.705037117004395,
+ "official/chain_ref31": 12.492196083068848,
+ "official/tree16": 9.899515151977539,
+ "official/tree32": 13.394845962524414,
+ "official/tree48": 14.171652793884277,
+ "official/tree64": 14.55469036102295,
+ "v1/chain_bb15": 8.967550277709961,
+ "v1/chain_bb31": 10.715927124023438,
+ "v1/cov_prefix": 16.38686752319336,
+ "v1/chain_ref15": 9.705448150634766,
+ "v1/chain_ref31": 12.488777160644531,
+ "v1/tree16": 9.902460098266602,
+ "v1/tree32": 13.399056434631348,
+ "v1/tree48": 14.1718111038208,
+ "v1/tree64": 14.554975509643555,
+ "v2/chain_bb15": 8.968626022338867,
+ "v2/chain_bb31": 10.719124794006348,
+ "v2/cov_prefix": 16.386362075805664,
+ "v2/chain_ref15": 9.705037117004395,
+ "v2/chain_ref31": 12.492196083068848,
+ "v2/tree16": 9.899515151977539,
+ "v2/tree32": 13.394814491271973,
+ "v2/tree48": 14.171621322631836,
+ "v2/tree64": 14.554658889770508,
+ "v2/chain_ref15_p1cand": 9.705037117004395,
+ "v2/chain_ref31_p1cand": 12.492196083068848,
+ "v2/tree16_p1cand": 9.899515151977539,
+ "v2/tree32_p1cand": 13.394845962524414,
+ "v2/tree48_p1cand": 14.171652793884277,
+ "v2/tree64_p1cand": 14.55469036102295,
+ "n_blocks": 31587,
+ "eval_s": 200.8223786354065,
+ "v1/tree48_over_official": 1.0000112056732178,
+ "v1/tree48_over_official_ci95": [
+  0.999757707118988,
+  1.0002716779708862
+ ],
+ "v1/chain_ref15_over_official": 1.00004243850708,
+ "v1/chain_ref15_over_official_ci95": [
+  0.9997841119766235,
+  1.000301718711853
+ ],
+ "v1/chain_ref31_over_official": 0.9997262954711914,
+ "v1/chain_ref31_over_official_ci95": [
+  0.9993270039558411,
+  1.0001602172851562
+ ],
+ "v2/tree48_over_official": 0.9999977946281433,
+ "v2/tree48_over_official_ci95": [
+  0.999993085861206,
+  1.0
+ ],
+ "v2/tree48_p1cand_over_official": 1.0,
+ "v2/tree48_p1cand_over_official_ci95": [
+  1.0,
+  1.0
+ ],
+ "v2/chain_ref15_over_official": 1.0,
+ "v2/chain_ref15_over_official_ci95": [
+  1.0,
+  1.0
+ ],
+ "v2/chain_ref31_over_official": 1.0,
+ "v2/chain_ref31_over_official_ci95": [
+  1.0,
+  1.0
+ ]
+}

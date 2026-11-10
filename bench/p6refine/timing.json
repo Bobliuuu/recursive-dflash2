@@ -1,0 +1,13 @@
+{
+ "gpu": "NVIDIA A100-SXM4-80GB",
+ "Q": 48,
+ "ctx": 1024,
+ "pass1_ms": 3.1272244262695312,
+ "v1_pass2_ms": 3.258664855957031,
+ "v2_pass2_owncand_ms": 1.9026841735839843,
+ "v2_pass2_p1cand_ms": 1.006776351928711,
+ "head_only_ms": 0.9864089965820313,
+ "v1_pass2_engine_est_ms": 3.2823977102626847,
+ "v2_pass2_owncand_engine_est_ms": 1.9165414213456846,
+ "v2_pass2_p1cand_engine_est_ms": 1.0141087035312462
+}
