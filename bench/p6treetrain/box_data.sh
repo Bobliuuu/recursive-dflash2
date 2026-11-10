@@ -12,7 +12,7 @@ if ! python -c "import specforge" 2>/dev/null; then
   uv pip install -q --no-deps "liger-kernel>=0.8.3,<0.9" yunchang
   uv pip install -q datasets accelerate click openai-harmony pydantic psutil pyyaml tensorboard aiohttp
 fi
-N=${N:-24000}
+N=${N:-16000}
 [ -f $W/prompts.jsonl ] || python $R/train/prep_prompts.py $W/prompts.jsonl $N > $W/prep.log 2>&1
 pkill -f "[s]glang serve" || true; sleep 3
 nohup sglang serve --model-path Qwen/Qwen3-8B --tp-size 1 --dtype bfloat16 --attention-backend flashinfer --mem-fraction-static 0.85 \
