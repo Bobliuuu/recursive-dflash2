@@ -343,8 +343,8 @@ def step_batch(x, m, lm, gstep, total):
     n_valid = int(((lm[:, :-1] > 0) & (lm[:, 1:] > 0)).sum(1).max())
     loss, acc, met = wrapper(input_ids=x, hidden_states=aux, loss_mask=lm, target_last_hidden_states=last,
                              max_valid_anchors=n_valid, global_step=gstep, total_steps=total)
-    cnt = met["accuracy_denom"].clamp_min(1)
-    return loss * x.shape[0] / cnt, acc, met
+    # current SpecForge (b15ad38) already returns numerator / sum(position weights); no extra normalisation
+    return loss, acc, met
 
 params = [p for p in draft.parameters() if p.requires_grad]
 master = [p.detach().clone().float().requires_grad_(True) for p in params]
