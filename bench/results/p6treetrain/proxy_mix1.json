@@ -1,0 +1,62 @@
+{
+ "args": {
+  "data": "/workspace/p6/data.jsonl",
+  "out": "/workspace/p6/mix1",
+  "block": 32,
+  "steps": 925,
+  "micro_bs": 2,
+  "accum": 16,
+  "lr": 0.0002,
+  "warmup_ratio": 0.04,
+  "anchors": 64,
+  "max_len": 3072,
+  "gamma": 7.0,
+  "tree_lambda": 1.0,
+  "tree_gamma": 14.0,
+  "tree_cov_mu": 0.5,
+  "dspine_scale": 1.0,
+  "init": "tencent/Qwen3-8B-DSpine-b16",
+  "eval_only": false,
+  "eval_every": 300,
+  "eval_anchors": 128,
+  "eval_seqs": 256,
+  "holdout": 256,
+  "seed": 42,
+  "target": "Qwen/Qwen3-8B",
+  "official_config": "tencent/Qwen3-8B-DSpine-b16"
+ },
+ "evals": [
+  {
+   "chain15": 8.237030029296875,
+   "chain31": 10.091796875,
+   "bb_chain15": 7.598388671875,
+   "tree16": 8.576568603515625,
+   "tree32": 11.070892333984375,
+   "tree48": 11.62152099609375,
+   "tree64": 11.91009521484375,
+   "tree48_d15": 9.5953369140625,
+   "n_blocks": 32768,
+   "cand_prefix_cov15": 9.861968994140625,
+   "truth_valid_len": 27.937286376953125,
+   "ratio_tree48_over_chain15": 1.4108872924778908,
+   "step": 0,
+   "eval_s": 116.5
+  },
+  {
+   "chain15": 8.022064208984375,
+   "chain31": 9.849945068359375,
+   "bb_chain15": 7.38037109375,
+   "tree16": 8.47772216796875,
+   "tree32": 11.03497314453125,
+   "tree48": 11.639617919921875,
+   "tree64": 11.960906982421875,
+   "tree48_d15": 9.538665771484375,
+   "n_blocks": 32768,
+   "cand_prefix_cov15": 9.76123046875,
+   "truth_valid_len": 27.937286376953125,
+   "ratio_tree48_over_chain15": 1.450950480661323,
+   "step": 300,
+   "eval_s": 111.7
+  }
+ ]
+}
