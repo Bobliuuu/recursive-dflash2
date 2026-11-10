@@ -2,7 +2,7 @@
 # Phase 6 box driver (1x A100-80GB, Vast). Repo at /workspace/recursive-dflash2, after bench/setup_box.sh.
 # Stages: specforge | prompts | gen | timing | train   (run all by default). Everything under /workspace/p6.
 set -euo pipefail
-source /workspace/env.sh
+source /workspace/env.sh; export PATH=$HOME/.local/bin:$PATH
 R=/workspace/recursive-dflash2; P=/workspace/p6; mkdir -p $P
 stage=${1:-all}
 if [[ $stage == all || $stage == specforge ]]; then

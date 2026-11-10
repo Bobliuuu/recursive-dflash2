@@ -78,11 +78,11 @@ def bench(fn, iters=200):
     return e0.elapsed_time(e1) / iters
 
 res = {"gpu": torch.cuda.get_device_name(), "Q": Q, "ctx": CTX}
-res["pass1_ms"] = bench(pass1)
-res["v1_pass2_ms"] = bench(lambda: pass2(5, 5, True, True))
-res["v2_pass2_owncand_ms"] = bench(lambda: pass2(2, 4, True, False))
-res["v2_pass2_p1cand_ms"] = bench(lambda: pass2(2, 4, False, False))
-res["head_only_ms"] = bench(lambda: head(x0))
+fns = {"pass1": pass1, "v1_pass2": lambda: pass2(5, 5, True, True), "v2_pass2_owncand": lambda: pass2(2, 4, True, False),
+       "v2_pass2_p1cand": lambda: pass2(2, 4, False, False), "head_only": lambda: head(x0)}
+for k in fns: res[k + "_ms"] = 1e9
+for rep in range(3):                     # round-robin, min over repeats (clock ramp / order effects)
+    for k, f in fns.items(): res[k + "_ms"] = min(res[k + "_ms"], bench(f))
 ENGINE_DRAFT_MS = 3.15     # Phase 2 engine draft time at block 48-64 (docs/phase2-findings.md, verify cost vs width)
 for k in ("v1_pass2", "v2_pass2_owncand", "v2_pass2_p1cand"):
     res[k + "_engine_est_ms"] = ENGINE_DRAFT_MS * res[k + "_ms"] / res["pass1_ms"]
