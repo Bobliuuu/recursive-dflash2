@@ -12,8 +12,9 @@ than on A100 (hypothesis: tree >= 8-10x)?
   round, 22% of a target step on GB10 (27% on A100); only the fixed per-round overhead shrinks (A100 ~12% of a step, GB10 ~6%).
 - Quantized target, same bf16 drafter, same 32-node tree: **FP8 126 tok/s (11.7x bf16 AR, 6.5x FP8 AR)**; **NVFP4 157 tok/s (14.6x bf16 AR,
   5.3x NVFP4 AR)**, on the first 20 prompts per dataset. gsm8k reaches 175 (FP8) and 204 (NVFP4) tok/s.
-- Losslessness: teacher-forced checks pass for every reported tree config (mismatch rates and max logit margins at the level of the b16 chain,
-  i.e. bf16 near-ties only); details at the end.
+- Losslessness: teacher-forced checks pass for every reported bf16 tree config (mismatch 0.35-1.48%, every mismatch a near-tie with margin
+  <= 0.5 logit, same as the b16 chain and as plain AR) and for FP8 (at the FP8 AR noise floor). For NVFP4 the check is weaker: SGLang's NVFP4
+  prefill and decode disagree on their own, and the tree adds nothing beyond plain NVFP4 AR (details at the end).
 
 ## Setup (what was actually run)
 - Box: spark2 (DGX Spark GB10), aarch64, sm_121, 121 GB unified memory, CUDA 13.0 driver. Shared box: every timing run held an exclusive
@@ -190,6 +191,8 @@ as on A100 (Phase 2: tree 0.33-0.53%, chain 0.36-0.60%, margins <= 0.5). Results
 | tree 48, depth 31, Phase 2 glue | 0.42 / 0.35 / 0.56 / 0.54 / 1.24 | 0.5 | 0 |
 | tree 48, fast path | 0.42 / - / - / - / 1.24 (identical to Phase 2 glue) | 0.25 | 0 |
 | tree 64, padded GEMMs | 0.47 / - / - / - / 1.07 | 0.25 | 0 |
+| sweep cells: trees 16/15, 24/23, 32/15, 32/23, 32/31 (20-prompt run), 64/31, 48/31 padded, 96/31 padded (`tf_check_sweep.json`) | gsm8k 0.39-0.56, mtbench 0.81-1.48 | 0.5 | 0 |
+| tree 32 with the (no-op) FP8-draft patch (`tf_check_q.json`) | identical to the headline tree 32 row | 0.5 | 0 |
 
 ## Other things tried
 - **FP8 DSpine drafter.** The plugin refuses a quantized draft; `bench/gb10/apply_dspine_draftquant_patch.py` (env `RDF2_DSPINE_DRAFT_QUANT=1`)

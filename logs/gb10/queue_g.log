@@ -28,3 +28,22 @@ gb10/nvfp4_ar:gsm8k {'tokens': 2302, 'mismatch': 70, 'mismatch_rate': 0.03040834
 gb10/nvfp4_ar:mtbench {'tokens': 2678, 'mismatch': 295, 'mismatch_rate': 0.11015683345780433, 'margin_max': 6.749999830732122, 'margin_median': 0.5, 'n_margin_gt_0.5': 147, 'n_margin_gt_2': 17, 'misaligned': 0}
 === exit 0 Tue Nov 10 12:01:01 AM EST 2026
 === hold: python ~/rdf2/recursive-dflash2/bench/p2_tf_check.py ~/rdf2/recursive-dflash2/bench/results/gb10/tf_check_sweep.json gb10/f_tree16_d15:gsm8k gb10/f_tree16_d15:mtbench gb10/f_tree24_d23:gsm8k gb10/f_tree24_d23:mtbench gb10/f_tree32_d15:gsm8k gb10/f_tree32_d15:mtbench gb10/f_tree32_d23:gsm8k gb10/f_tree32_d23:mtbench gb10/f_tree32_d31:gsm8k gb10/f_tree32_d31:mtbench gb10/f_tree64_d31:gsm8k gb10/f_tree64_d31:mtbench gb10/p_tree48_d31:gsm8k gb10/p_tree48_d31:mtbench gb10/p_tree96_d31:gsm8k gb10/p_tree96_d31:mtbench  Tue Nov 10 12:01:01 AM EST 2026
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights: 100%|██████████| 399/399 [00:00<00:00, 5532.36it/s]
+gb10/f_tree16_d15:gsm8k {'tokens': 2333, 'mismatch': 11, 'mismatch_rate': 0.004714959279897128, 'margin_max': 0.25, 'margin_median': 0.125, 'n_margin_gt_0.5': 0}
+gb10/f_tree16_d15:mtbench {'tokens': 2745, 'mismatch': 40, 'mismatch_rate': 0.014571948998178506, 'margin_max': 0.25, 'margin_median': 0.125, 'n_margin_gt_0.5': 0}
+gb10/f_tree24_d23:gsm8k {'tokens': 2337, 'mismatch': 9, 'mismatch_rate': 0.0038510911424903724, 'margin_max': 0.25, 'margin_median': 0.125, 'n_margin_gt_0.5': 0}
+gb10/f_tree24_d23:mtbench {'tokens': 2662, 'mismatch': 28, 'mismatch_rate': 0.010518407212622089, 'margin_max': 0.25, 'margin_median': 0.125, 'n_margin_gt_0.5': 0}
+gb10/f_tree32_d15:gsm8k {'tokens': 2389, 'mismatch': 11, 'mismatch_rate': 0.0046044370029300966, 'margin_max': 0.25, 'margin_median': 0.0, 'n_margin_gt_0.5': 0}
+gb10/f_tree32_d15:mtbench {'tokens': 2638, 'mismatch': 34, 'mismatch_rate': 0.01288855193328279, 'margin_max': 0.25, 'margin_median': 0.125, 'n_margin_gt_0.5': 0}
+gb10/f_tree32_d23:gsm8k {'tokens': 2329, 'mismatch': 12, 'mismatch_rate': 0.005152425933877201, 'margin_max': 0.25, 'margin_median': 0.125, 'n_margin_gt_0.5': 0}
+gb10/f_tree32_d23:mtbench {'tokens': 2779, 'mismatch': 41, 'mismatch_rate': 0.014753508456279237, 'margin_max': 0.25, 'margin_median': 0.125, 'n_margin_gt_0.5': 0}
+gb10/f_tree32_d31:gsm8k {'tokens': 2320, 'mismatch': 13, 'mismatch_rate': 0.005603448275862069, 'margin_max': 0.25, 'margin_median': 0.0, 'n_margin_gt_0.5': 0}
+gb10/f_tree32_d31:mtbench {'tokens': 2722, 'mismatch': 38, 'mismatch_rate': 0.013960323291697281, 'margin_max': 0.25, 'margin_median': 0.0, 'n_margin_gt_0.5': 0}
+gb10/f_tree64_d31:gsm8k {'tokens': 2325, 'mismatch': 11, 'mismatch_rate': 0.004731182795698925, 'margin_max': 0.25, 'margin_median': 0.0, 'n_margin_gt_0.5': 0}
+gb10/f_tree64_d31:mtbench {'tokens': 2978, 'mismatch': 24, 'mismatch_rate': 0.008059100067159167, 'margin_max': 0.5, 'margin_median': 0.125, 'n_margin_gt_0.5': 0}
+gb10/p_tree48_d31:gsm8k {'tokens': 2363, 'mismatch': 10, 'mismatch_rate': 0.004231908590774439, 'margin_max': 0.25, 'margin_median': 0.25, 'n_margin_gt_0.5': 0}
+gb10/p_tree48_d31:mtbench {'tokens': 2764, 'mismatch': 27, 'mismatch_rate': 0.009768451519536902, 'margin_max': 0.25, 'margin_median': 0.125, 'n_margin_gt_0.5': 0}
+gb10/p_tree96_d31:gsm8k {'tokens': 2362, 'mismatch': 12, 'mismatch_rate': 0.005080440304826418, 'margin_max': 0.25, 'margin_median': 0.0, 'n_margin_gt_0.5': 0}
+gb10/p_tree96_d31:mtbench {'tokens': 2711, 'mismatch': 32, 'mismatch_rate': 0.011803762449280709, 'margin_max': 0.375, 'margin_median': 0.125, 'n_margin_gt_0.5': 0}
+=== exit 0 Tue Nov 10 12:32:29 AM EST 2026
+QUEUE_G DONE Tue Nov 10 12:32:29 AM EST 2026
