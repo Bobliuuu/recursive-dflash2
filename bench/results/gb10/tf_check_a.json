@@ -1,0 +1,90 @@
+{
+ "gb10/tree48_d31:gsm8k": {
+  "tokens": 2358,
+  "mismatch": 10,
+  "mismatch_rate": 0.004240882103477523,
+  "margin_max": 0.25,
+  "margin_median": 0.25,
+  "n_margin_gt_0.5": 0
+ },
+ "gb10/tree48_d31:math500": {
+  "tokens": 5408,
+  "mismatch": 19,
+  "mismatch_rate": 0.0035133136094674558,
+  "margin_max": 0.25,
+  "margin_median": 0.125,
+  "n_margin_gt_0.5": 0
+ },
+ "gb10/tree48_d31:humaneval": {
+  "tokens": 2880,
+  "mismatch": 16,
+  "mismatch_rate": 0.005555555555555556,
+  "margin_max": 0.5,
+  "margin_median": 0.125,
+  "n_margin_gt_0.5": 0
+ },
+ "gb10/tree48_d31:mbpp": {
+  "tokens": 3150,
+  "mismatch": 17,
+  "mismatch_rate": 0.005396825396825397,
+  "margin_max": 0.25,
+  "margin_median": 0.125,
+  "n_margin_gt_0.5": 0
+ },
+ "gb10/tree48_d31:mtbench": {
+  "tokens": 2653,
+  "mismatch": 33,
+  "mismatch_rate": 0.012438748586505842,
+  "margin_max": 0.25,
+  "margin_median": 0.125,
+  "n_margin_gt_0.5": 0
+ },
+ "gb10/f_tree48_d31:gsm8k": {
+  "tokens": 2358,
+  "mismatch": 10,
+  "mismatch_rate": 0.004240882103477523,
+  "margin_max": 0.25,
+  "margin_median": 0.25,
+  "n_margin_gt_0.5": 0
+ },
+ "gb10/f_tree48_d31:mtbench": {
+  "tokens": 2653,
+  "mismatch": 33,
+  "mismatch_rate": 0.012438748586505842,
+  "margin_max": 0.25,
+  "margin_median": 0.125,
+  "n_margin_gt_0.5": 0
+ },
+ "gb10/p_tree64_d31:gsm8k": {
+  "tokens": 2365,
+  "mismatch": 11,
+  "mismatch_rate": 0.004651162790697674,
+  "margin_max": 0.25,
+  "margin_median": 0.125,
+  "n_margin_gt_0.5": 0
+ },
+ "gb10/p_tree64_d31:mtbench": {
+  "tokens": 2802,
+  "mismatch": 30,
+  "mismatch_rate": 0.010706638115631691,
+  "margin_max": 0.25,
+  "margin_median": 0.125,
+  "n_margin_gt_0.5": 0
+ },
+ "gb10/dspine_b32:gsm8k": {
+  "tokens": 2334,
+  "mismatch": 12,
+  "mismatch_rate": 0.005141388174807198,
+  "margin_max": 0.25,
+  "margin_median": 0.25,
+  "n_margin_gt_0.5": 0
+ },
+ "gb10/dflash_b16:gsm8k": {
+  "tokens": 2341,
+  "mismatch": 13,
+  "mismatch_rate": 0.005553182400683468,
+  "margin_max": 0.25,
+  "margin_median": 0.25,
+  "n_margin_gt_0.5": 0
+ }
+}

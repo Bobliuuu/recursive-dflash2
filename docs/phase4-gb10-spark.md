@@ -147,3 +147,28 @@ Per dataset (FP8 target, tree 32): 175 / 164 / 122 / 119 / 53 tok/s (gsm8k / mat
 - With the FP8 target the bf16 drafter is 27% of the round (20.9 of 76 ms), so the speedup over FP8 AR (6.5x) is lower than over bf16 AR.
   A quantized drafter would be the next lever (see the experimental patch below).
 - "Lossless" here means lossless with respect to the FP8 target (teacher-forced check below), not byte-identical to the bf16 model.
+
+## Quantized target weights (stretch): NVFP4
+
+`nvidia/Qwen3-8B-NVFP4` (ModelOpt NVFP4 weights, group 16, FP8 KV cache, bf16 lm_head), served with `--quantization modelopt_fp4` (FlashInfer
+FP4 GEMM, autotuned on first start). An explicit `--quantization` flag is also applied to the draft, which the DSpine plugin refuses, so the
+spec cells add `--speculative-draft-model-quantization unquant` (bf16 drafter, as for FP8). 20 prompts per dataset (8 for AR):
+
+| config (20 prompts) | tau | tok/s | x bf16 AR | x NVFP4 AR | draft ms | verify ms | round ms (GPU) |
+|---|---|---|---|---|---|---|---|
+| NVFP4 AR | 1 | 29.5 | 2.74x | 1.00x | - | 33.9 / token | |
+| NVFP4 target, DSpine b16 chain | 7.25 | 123.0 | 11.42x | 4.17x | 19.8 | 35.0 | 56.5 |
+| **NVFP4 target, tree 32** | **9.68** | **156.8** | **14.55x** | **5.31x** | 20.6 | 36.4 | 58.9 |
+| NVFP4 target, tree 48 | 10.21 | 149.5 | 13.87x | 5.06x | 23.4 | 39.3 | 64.6 |
+
+Per dataset (NVFP4 target, tree 32): 204 / 191 / 159 / 160 / 70 tok/s. Acceptance drops a little (tree 32 tau 9.68 vs 9.92 with the bf16 target,
+b16 chain 7.25 vs 7.62): the bf16-trained drafter agrees slightly less with the 4-bit model. With a 36 ms verify the bf16 drafter is now 35% of the
+round, so a quantized drafter (or a drafter trained on the NVFP4 model) is where the remaining speed is.
+
+All three targets at their best config (first 20 prompts per dataset):
+
+| target | AR tok/s | best spec config | spec tok/s | x bf16 AR | x own AR |
+|---|---|---|---|---|---|
+| bf16 | 10.8 | tree 32 | 79.9 | 7.41x | 7.41x |
+| FP8 (block 128) | 19.4 | tree 32 | 126.4 | 11.73x | 6.52x |
+| NVFP4 | 29.5 | tree 32 | 156.8 | 14.55x | 5.31x |

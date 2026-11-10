@@ -264,3 +264,63 @@ mtbench 63.7 tok/s tau 4.22
 suite nvfp4_f_tree48_d31 done
 === exit 0 Mon Nov  9 06:55:31 PM EST 2026
 === hold: bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh treefast f_tree16_d15 'gsm8k math500 humaneval mbpp mtbench' 20 16 15; bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh treefast f_tree32_d15 'gsm8k math500 humaneval mbpp mtbench' 20 32 15; bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh treefast f_tree32_d23 'gsm8k math500 humaneval mbpp mtbench' 20 32 23; python ~/rdf2/recursive-dflash2/bench/p2_tf_check.py ~/rdf2/recursive-dflash2/bench/results/gb10/tf_check_a.json gb10/tree48_d31:gsm8k gb10/tree48_d31:math500 gb10/tree48_d31:humaneval gb10/tree48_d31:mbpp gb10/tree48_d31:mtbench gb10/f_tree48_d31:gsm8k gb10/f_tree48_d31:mtbench gb10/p_tree64_d31:gsm8k gb10/p_tree64_d31:mtbench gb10/dspine_b32:gsm8k gb10/dflash_b16:gsm8k Mon Nov  9 06:55:31 PM EST 2026
+start f_tree16_d15 Mon Nov  9 07:11:35 PM EST 2026 avail=117GB
+already patched
+already patched
+already patched dflash_utils.py
+already patched dflash_worker_v2.py
+already patched flashinfer_backend.py
+already patched ~/rdf2/DSpine/sglang_dspine/runtime/worker.py
+already patched prefill.cuh
+removed 0 cached prefill JIT dirs
+gsm8k 88.7 tok/s tau 11.02
+math500 84.6 tok/s tau 10.02
+humaneval 69.3 tok/s tau 8.35
+mbpp 67.1 tok/s tau 8.05
+mtbench 31.0 tok/s tau 3.65
+suite f_tree16_d15 done
+start f_tree32_d15 Mon Nov  9 07:29:19 PM EST 2026 avail=117GB
+already patched
+already patched
+already patched dflash_utils.py
+already patched dflash_worker_v2.py
+already patched flashinfer_backend.py
+already patched ~/rdf2/DSpine/sglang_dspine/runtime/worker.py
+already patched prefill.cuh
+removed 0 cached prefill JIT dirs
+gsm8k 98.6 tok/s tau 12.56
+math500 91.6 tok/s tau 11.04
+humaneval 74.5 tok/s tau 9.17
+mbpp 73.8 tok/s tau 9.07
+mtbench 33.5 tok/s tau 4.02
+suite f_tree32_d15 done
+start f_tree32_d23 Mon Nov  9 07:45:55 PM EST 2026 avail=116GB
+2210194, [No data], 170 MiB
+already patched
+already patched
+already patched dflash_utils.py
+already patched dflash_worker_v2.py
+already patched flashinfer_backend.py
+already patched ~/rdf2/DSpine/sglang_dspine/runtime/worker.py
+already patched prefill.cuh
+removed 0 cached prefill JIT dirs
+gsm8k 111.3 tok/s tau 14.37
+math500 97.9 tok/s tau 11.97
+humaneval 78.3 tok/s tau 9.68
+mbpp 76.5 tok/s tau 9.38
+mtbench 32.7 tok/s tau 3.93
+suite f_tree32_d23 done
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights: 100%|██████████| 399/399 [00:00<00:00, 4834.16it/s]
+gb10/tree48_d31:gsm8k {'tokens': 2358, 'mismatch': 10, 'mismatch_rate': 0.004240882103477523, 'margin_max': 0.25, 'margin_median': 0.25, 'n_margin_gt_0.5': 0}
+gb10/tree48_d31:math500 {'tokens': 5408, 'mismatch': 19, 'mismatch_rate': 0.0035133136094674558, 'margin_max': 0.25, 'margin_median': 0.125, 'n_margin_gt_0.5': 0}
+gb10/tree48_d31:humaneval {'tokens': 2880, 'mismatch': 16, 'mismatch_rate': 0.005555555555555556, 'margin_max': 0.5, 'margin_median': 0.125, 'n_margin_gt_0.5': 0}
+gb10/tree48_d31:mbpp {'tokens': 3150, 'mismatch': 17, 'mismatch_rate': 0.005396825396825397, 'margin_max': 0.25, 'margin_median': 0.125, 'n_margin_gt_0.5': 0}
+gb10/tree48_d31:mtbench {'tokens': 2653, 'mismatch': 33, 'mismatch_rate': 0.012438748586505842, 'margin_max': 0.25, 'margin_median': 0.125, 'n_margin_gt_0.5': 0}
+gb10/f_tree48_d31:gsm8k {'tokens': 2358, 'mismatch': 10, 'mismatch_rate': 0.004240882103477523, 'margin_max': 0.25, 'margin_median': 0.25, 'n_margin_gt_0.5': 0}
+gb10/f_tree48_d31:mtbench {'tokens': 2653, 'mismatch': 33, 'mismatch_rate': 0.012438748586505842, 'margin_max': 0.25, 'margin_median': 0.125, 'n_margin_gt_0.5': 0}
+gb10/p_tree64_d31:gsm8k {'tokens': 2365, 'mismatch': 11, 'mismatch_rate': 0.004651162790697674, 'margin_max': 0.25, 'margin_median': 0.125, 'n_margin_gt_0.5': 0}
+gb10/p_tree64_d31:mtbench {'tokens': 2802, 'mismatch': 30, 'mismatch_rate': 0.010706638115631691, 'margin_max': 0.25, 'margin_median': 0.125, 'n_margin_gt_0.5': 0}
+gb10/dspine_b32:gsm8k {'tokens': 2334, 'mismatch': 12, 'mismatch_rate': 0.005141388174807198, 'margin_max': 0.25, 'margin_median': 0.25, 'n_margin_gt_0.5': 0}
+gb10/dflash_b16:gsm8k {'tokens': 2341, 'mismatch': 13, 'mismatch_rate': 0.005553182400683468, 'margin_max': 0.25, 'margin_median': 0.25, 'n_margin_gt_0.5': 0}
+=== exit 0 Mon Nov  9 08:04:40 PM EST 2026
+QUEUE_M DONE (via queue_n) Mon Nov  9 08:04:40 PM EST 2026

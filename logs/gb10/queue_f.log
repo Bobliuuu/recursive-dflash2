@@ -1,0 +1,2 @@
+patched ~/rdf2/DSpine/sglang_dspine/models/dspine.py
+=== hold: export RDF2_DSPINE_DRAFT_QUANT=1; EXTRA='--speculative-draft-model-quantization fp8'; bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh treefast q_tree32_d31_fp8draft 'gsm8k math500 humaneval mbpp mtbench' 20 32 31; export TARGET=Qwen/Qwen3-8B-FP8; bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh treefast fp8_q_tree32_d31_fp8draft 'gsm8k math500 humaneval mbpp mtbench' 20 32 31 Mon Nov  9 08:05:18 PM EST 2026
