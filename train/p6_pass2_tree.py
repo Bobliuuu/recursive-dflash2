@@ -295,8 +295,9 @@ def evaluate(step):
             anchors, keep = OnlineDSpineModel._sample_anchor_positions(w1, x.shape[1], lm, dev, nv)
             o1 = draft_forward(w1, x, aux, lm, anchors, keep)
             lab, sup = labels_for(x, lm, anchors, keep, B2)
-            sid = torch.tensor(b, device=dev)[:, None].expand_as(keep)[keep]
-            seqid.append(sid)
+            sidm = torch.tensor(b, device=dev)[:, None].expand_as(keep)
+            for s0 in range(0, keep.shape[1], 64):      # same chunk order as proxy()
+                seqid.append(sidm[:, s0:s0 + 64].flatten()[keep[:, s0:s0 + 64].flatten()])
             r1 = proxy(w1.draft_model, o1, lab, sup, keep)
             p1c_by_start = r1.pop("_cand")
             for k, v in r1.items(): agg.setdefault("official/" + k, []).extend(v)
