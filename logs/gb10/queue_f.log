@@ -1,2 +1,35 @@
 patched ~/rdf2/DSpine/sglang_dspine/models/dspine.py
 === hold: export RDF2_DSPINE_DRAFT_QUANT=1; EXTRA='--speculative-draft-model-quantization fp8'; bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh treefast q_tree32_d31_fp8draft 'gsm8k math500 humaneval mbpp mtbench' 20 32 31; export TARGET=Qwen/Qwen3-8B-FP8; bash ~/rdf2/recursive-dflash2/bench/gb10/run_suite.sh treefast fp8_q_tree32_d31_fp8draft 'gsm8k math500 humaneval mbpp mtbench' 20 32 31 Mon Nov  9 08:05:18 PM EST 2026
+start q_tree32_d31_fp8draft Mon Nov  9 08:45:05 PM EST 2026 avail=117GB
+already patched
+already patched
+already patched dflash_utils.py
+already patched dflash_worker_v2.py
+already patched flashinfer_backend.py
+already patched ~/rdf2/DSpine/sglang_dspine/runtime/worker.py
+already patched prefill.cuh
+removed 0 cached prefill JIT dirs
+gsm8k 111.8 tok/s tau 14.5
+math500 100.4 tok/s tau 12.31
+humaneval 76.1 tok/s tau 9.45
+mbpp 77.3 tok/s tau 9.55
+mtbench 32.7 tok/s tau 3.93
+suite q_tree32_d31_fp8draft done
+start fp8_q_tree32_d31_fp8draft Mon Nov  9 09:01:01 PM EST 2026 avail=116GB
+2288852, [No data], 170 MiB
+already patched
+already patched
+already patched dflash_utils.py
+already patched dflash_worker_v2.py
+already patched flashinfer_backend.py
+already patched ~/rdf2/DSpine/sglang_dspine/runtime/worker.py
+already patched prefill.cuh
+removed 0 cached prefill JIT dirs
+gsm8k 174.6 tok/s tau 14.63
+math500 163.7 tok/s tau 12.89
+humaneval 122.4 tok/s tau 9.84
+mbpp 119.4 tok/s tau 9.52
+mtbench 52.7 tok/s tau 4.1
+suite fp8_q_tree32_d31_fp8draft done
+=== exit 0 Mon Nov  9 09:12:28 PM EST 2026
+=== hold: TF_MODEL=Qwen/Qwen3-8B-FP8 python ~/rdf2/recursive-dflash2/bench/p2_tf_check.py ~/rdf2/recursive-dflash2/bench/results/gb10/tf_check_fp8.json gb10/fp8_ar:gsm8k gb10/fp8_ar:mtbench gb10/fp8_f_tree32_d31:gsm8k gb10/fp8_f_tree32_d31:math500 gb10/fp8_f_tree32_d31:humaneval gb10/fp8_f_tree32_d31:mbpp gb10/fp8_f_tree32_d31:mtbench Mon Nov  9 09:12:28 PM EST 2026

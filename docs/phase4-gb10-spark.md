@@ -110,7 +110,10 @@ logits/argmax over 48 rows; not broken down further).
 |---|---|---|---|---|---|---|---|
 | DSpine b16 chain | 7.62 | 63.8 | 5.92x | 86 / 80 / 65 / 61 / 27 | 20.1 | 92.5 | 5.3 |
 | DSpine b32 chain | 8.50 | 69.7 | 6.47x | 98 / 91 / 66 / 67 / 26 | 20.3 | 94.2 | 5.7 |
+| tree 16, depth 15 | 8.20 | 68.1 | 6.32x | 89 / 85 / 69 / 67 / 31 | 20.5 | 92.6 | 5.9 |
 | tree 24, depth 23 | 9.39 | 76.0 | 7.05x | 104 / 94 / 75 / 74 / 33 | 20.8 | 94.5 | 6.5 |
+| tree 32, depth 15 | 9.14 | 74.4 | 6.91x | 99 / 92 / 74 / 74 / 34 | 20.7 | 94.5 | 6.2 |
+| tree 32, depth 23 | 9.84 | 79.4 | 7.36x | 111 / 98 / 78 / 77 / 33 | 20.8 | 94.5 | 6.7 |
 | **tree 32, depth 31** | **9.92** | **80.0** | **7.42x** | 112 / 101 / 76 / 77 / 33 | 20.8 | 94.5 | 6.6 |
 | tree 48, depth 31 (Phase 2 glue) | 10.63 | 74.7 | 6.93x | 107 / 95 / 71 / 70 / 31 | 24.8 | 107.4 | 7.4 |
 | tree 48, depth 31 | 10.63 | 75.7 | 7.02x | 109 / 96 / 71 / 71 / 31 | 23.6 | 107.3 | 7.3 |
@@ -172,3 +175,18 @@ All three targets at their best config (first 20 prompts per dataset):
 | bf16 | 10.8 | tree 32 | 79.9 | 7.41x | 7.41x |
 | FP8 (block 128) | 19.4 | tree 32 | 126.4 | 11.73x | 6.52x |
 | NVFP4 | 29.5 | tree 32 | 156.8 | 14.55x | 5.31x |
+
+## Losslessness
+
+`bench/p2_tf_check.py` (teacher-forced: run the HF bf16 target over prompt + engine output and compare every generated token with its argmax;
+first 8 outputs per cell, up to 1500 tokens each). Mismatches with a small logit margin are bf16 near-ties from the different verify shapes,
+as on A100 (Phase 2: tree 0.33-0.53%, chain 0.36-0.60%, margins <= 0.5). Results `bench/results/gb10/tf_check_{a,e,sweep}.json`:
+
+| cell | mismatch rate gsm8k / math500 / humaneval / mbpp / mtbench (%) | max margin (logit) | mismatches with margin > 0.5 |
+|---|---|---|---|
+| DSpine b16 chain (reference) | 0.64 / - / - / - / 0.98 | 0.25 | 0 |
+| DSpine b32 chain, DFlash b16 | 0.51, 0.56 (gsm8k) | 0.25 | 0 |
+| **tree 32, depth 31 (headline)** | 0.56 / 0.36 / 0.44 / 0.48 / 1.40 | 0.5 | 0 |
+| tree 48, depth 31, Phase 2 glue | 0.42 / 0.35 / 0.56 / 0.54 / 1.24 | 0.5 | 0 |
+| tree 48, fast path | 0.42 / - / - / - / 1.24 (identical to Phase 2 glue) | 0.25 | 0 |
+| tree 64, padded GEMMs | 0.47 / - / - / - / 1.07 | 0.25 | 0 |
