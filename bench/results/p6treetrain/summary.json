@@ -1,0 +1,36 @@
+{
+ "official": {
+  "chain15": 8.237030029296875,
+  "chain31": 10.091796875,
+  "bb_chain15": 7.598388671875,
+  "tree16": 8.576568603515625,
+  "tree32": 11.070892333984375,
+  "tree48": 11.62152099609375,
+  "tree64": 11.91009521484375,
+  "tree48_d15": 9.5953369140625,
+  "n_blocks": 32768,
+  "cand_prefix_cov15": 9.861968994140625,
+  "truth_valid_len": 27.937286376953125,
+  "ratio_tree48_over_chain15": 1.4108872924778908,
+  "step": 0,
+  "eval_s": 127.4
+ },
+ "bar": {
+  "tree48_min_ratio": 1.05,
+  "chain15_min_ratio": 0.98
+ },
+ "final": {
+  "mix1": {
+   "tree48_ratio": 1.0255715388614914,
+   "chain15_ratio": 0.9851136115237986,
+   "pass": false
+  },
+  "mix4": {
+   "tree48_ratio": 1.0279900423828956,
+   "chain15_ratio": 0.9825090492792069,
+   "pass": false
+  }
+ },
+ "verdict": "KILL",
+ "engine_ratio_tree48_over_chain16": 1.4130162703379223
+}
