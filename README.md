@@ -83,7 +83,7 @@ The tree path, CUDA kernels and SGLang patches live in `bench/p2tree/`. Write-up
 
 ## What we tried
 
-We also tested longer-block training and a recursive second drafting pass on top of DSpine; neither beat tree verification, details in [docs/phase3-findings.md](docs/phase3-findings.md).
+We also tested longer-block training and recursive second drafting passes (on pass-1 tokens, and on pass-1 features scored as a tree) on top of DSpine; none beat tree verification, details in [docs/phase3-findings.md](docs/phase3-findings.md) and [docs/phase6-recursive-tree-pass2.md](docs/phase6-recursive-tree-pass2.md).
 
 ## Credits
 
