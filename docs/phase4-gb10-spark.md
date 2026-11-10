@@ -190,3 +190,35 @@ as on A100 (Phase 2: tree 0.33-0.53%, chain 0.36-0.60%, margins <= 0.5). Results
 | tree 48, depth 31, Phase 2 glue | 0.42 / 0.35 / 0.56 / 0.54 / 1.24 | 0.5 | 0 |
 | tree 48, fast path | 0.42 / - / - / - / 1.24 (identical to Phase 2 glue) | 0.25 | 0 |
 | tree 64, padded GEMMs | 0.47 / - / - / - / 1.07 | 0.25 | 0 |
+
+## Other things tried
+- **FP8 DSpine drafter.** The plugin refuses a quantized draft; `bench/gb10/apply_dspine_draftquant_patch.py` (env `RDF2_DSPINE_DRAFT_QUANT=1`)
+  lifts the check so `--speculative-draft-model-quantization fp8` loads. It changed nothing: same tau and the same draft time (tree 32:
+  20.9 vs 20.8 ms with the bf16 target, 20.9 vs 21.0 ms with the FP8 target; `q_tree32_d31_fp8draft`, `fp8_q_tree32_d31_fp8draft`), so SGLang's
+  online FP8 path evidently does not reach the DSpine draft's layers. A real quantized drafter needs plugin work and is the main remaining lever
+  for the FP8/NVFP4 targets (draft = 27-35% of their round).
+- **cuBLASLt instead of cuBLAS** for the bf16 GEMMs: no better at 33-111 rows (table above).
+- **GEMM row padding** to 128 rows: see above; helps 64/96-node trees a little, not enough to beat 32 nodes.
+
+## What would move GB10 further
+1. A drafter whose bytes match the target's: quantize or distill the 2.5 GB DSpine draft (plus the 1.2 GB lm_head read per round). With the NVFP4
+   target, halving the draft's 20.6 ms would take the round from 59 to ~49 ms (+20% tok/s at the same tau).
+2. A bf16 GEMM kernel for 33-128 rows that stays at the weight-streaming rate (e.g. a split-K / TGV-style GEMV kernel like SGLang's
+   `cutedsl` backend, which is SM10x-only today). That would make 48-64-node trees pay off on GB10 as on A100 (+7-10% tau over 32 nodes).
+3. A drafter trained against the quantized target (NVFP4 loses 2-5% tau with the bf16-trained drafter).
+
+## Caveats
+- One box, one run per cell (the 32-node tree was run twice on the 20-prompt subset: 80.0 / 79.9 tok/s). The box is shared; all timing runs held
+  an exclusive GPU lock, but other users' CPU activity cannot be excluded. AR is 8 prompts per dataset; its speed is flat (10.8 tok/s on all five).
+- Quantized-target cells use 20 prompts per dataset and are compared against the bf16 cells on the same 20 prompts.
+- Batch 1, T=0 only, as in Phase 2. Thinking off. Not measured: concurrency > 1, T=1, Qwen3.8-27B (the 27B bf16 model alone is ~55 GB, above the
+  ~45 GB memory budget this shared box allowed; an FP8 or NVFP4 27B would fit, not attempted for time).
+
+## Reproduction (on the box, repo at `~/rdf2/recursive-dflash2`)
+1. `bash bench/gb10/setup_spark.sh` (no root; everything under `~/rdf2`), then add `RDF2_PORT=<free local port>` to `~/rdf2/env.sh`.
+2. One cell: `flock ~/.gpu.lock bash bench/gb10/run_suite.sh treefast f40_tree32_d31 "gsm8k math500 humaneval mbpp mtbench" 40 32 31`
+   (modes: `ar`, `dflash`, `dspine`, `dspine_blk <N>`, `tree <N> <D>`, `treefast <N> <D>`; env `TARGET`, `EXTRA`, `RDF2_GEMM_PAD`).
+   The queues actually run are `bench/gb10/queue_{a,b,b2,c,d,e,m,n,f,g}.sh` (b/c/e/m were partly superseded after lock timeouts; see `logs/gb10/`).
+3. Summaries: `python bench/gb10/summarize.py ar <tags>` (`NFIRST=20` for the paired subset), `python bench/gb10/summarize_quant.py`.
+4. Micro-benchmarks: `bench/gb10/roofline_micro.py`, `linear_sweep.py`, `gemm_variants.py`. Teacher-forced checks: `bench/p2_tf_check.py`
+   (HF; `TF_MODEL=Qwen/Qwen3-8B-FP8` for FP8), `bench/gb10/sgl_tf_run.sh` + `sgl_tf_check.py` (SGLang prefill, for NVFP4).
