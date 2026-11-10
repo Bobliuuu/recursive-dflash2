@@ -222,3 +222,20 @@ as on A100 (Phase 2: tree 0.33-0.53%, chain 0.36-0.60%, margins <= 0.5). Results
 3. Summaries: `python bench/gb10/summarize.py ar <tags>` (`NFIRST=20` for the paired subset), `python bench/gb10/summarize_quant.py`.
 4. Micro-benchmarks: `bench/gb10/roofline_micro.py`, `linear_sweep.py`, `gemm_variants.py`. Teacher-forced checks: `bench/p2_tf_check.py`
    (HF; `TF_MODEL=Qwen/Qwen3-8B-FP8` for FP8), `bench/gb10/sgl_tf_run.sh` + `sgl_tf_check.py` (SGLang prefill, for NVFP4).
+
+Quantized targets cannot be checked with HF here (HF's FP8 loader needs `accelerate`, which is not in the venv; HF has no ModelOpt NVFP4
+path). `bench/gb10/sgl_tf_check.py` does the same teacher-forced test with SGLang's own prefill of the same target (`input_top_logprobs`,
+alignment self-check: 0 misaligned tokens everywhere), and the plain AR output of the same target is checked the same way as the noise floor.
+Calibration on bf16 (`sgltf_bf16.json`): tree 32 0.39 / 0.38 / 0.51 / 0.36 / 1.11%, AR 0.43% (gsm8k) and 1.25% (mtbench), all margins <= 0.25, so
+this check agrees with the HF one.
+
+| target (SGLang prefill reference) | tree 32: mismatch % gsm8k / math500 / humaneval / mbpp / mtbench, max margin | same target's AR: gsm8k / mtbench, max margin |
+|---|---|---|
+| FP8 (`sgltf_fp8.json`) | 0.74 / 0.69 / 0.77 / 1.07 / 2.94, 0.75 | 0.88 / 2.52, 0.75 |
+| NVFP4 (`sgltf_nvfp4.json`) | 2.6 / 2.3 / 3.3 / 3.8 / 11.7, 7.1 | 3.0 / 11.0, 6.7 |
+
+FP8: the tree is at the FP8 AR noise floor (tree 48 0.71%, b16 chain 0.71% on gsm8k). NVFP4: SGLang's NVFP4 prefill and decode paths disagree
+with each other far more than bf16 does (even plain NVFP4 AR output mismatches its own prefill on 3% / 11% of tokens, with margins up to 6.7 logits;
+the FP8 KV cache of this checkpoint is the likely cause), so this check cannot certify token-level losslessness for NVFP4. What it shows is that the
+tree (and the b16 chain: 2.6% on gsm8k) adds no disagreement beyond what NVFP4 AR itself has. Treat the NVFP4 cells as "same quality as NVFP4 AR
+in SGLang", not as bit-exact greedy.

@@ -33,3 +33,29 @@ mtbench 52.7 tok/s tau 4.1
 suite fp8_q_tree32_d31_fp8draft done
 === exit 0 Mon Nov  9 09:12:28 PM EST 2026
 === hold: TF_MODEL=Qwen/Qwen3-8B-FP8 python ~/rdf2/recursive-dflash2/bench/p2_tf_check.py ~/rdf2/recursive-dflash2/bench/results/gb10/tf_check_fp8.json gb10/fp8_ar:gsm8k gb10/fp8_ar:mtbench gb10/fp8_f_tree32_d31:gsm8k gb10/fp8_f_tree32_d31:math500 gb10/fp8_f_tree32_d31:humaneval gb10/fp8_f_tree32_d31:mbpp gb10/fp8_f_tree32_d31:mtbench Mon Nov  9 09:12:28 PM EST 2026
+Traceback (most recent call last):
+  File "~/rdf2/recursive-dflash2/bench/p2_tf_check.py", line 9, in <module>
+    m = AutoModelForCausalLM.from_pretrained(MID, dtype=torch.bfloat16).cuda().eval()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/rdf2/venv/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 411, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/rdf2/venv/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4232, in from_pretrained
+    hf_quantizer, config, device_map = get_hf_quantizer(
+                                       ^^^^^^^^^^^^^^^^^
+  File "~/rdf2/venv/lib/python3.12/site-packages/transformers/quantizers/auto.py", line 378, in get_hf_quantizer
+    hf_quantizer.validate_environment(
+  File "~/rdf2/venv/lib/python3.12/site-packages/transformers/quantizers/quantizer_finegrained_fp8.py", line 32, in validate_environment
+    raise ImportError("Loading an FP8 quantized model requires accelerate (`pip install accelerate`)")
+ImportError: Loading an FP8 quantized model requires accelerate (`pip install accelerate`)
+=== exit 1 Mon Nov  9 09:38:15 PM EST 2026
+=== hold: python ~/rdf2/recursive-dflash2/bench/p2_tf_check.py ~/rdf2/recursive-dflash2/bench/results/gb10/tf_check_q.json gb10/q_tree32_d31_fp8draft:gsm8k gb10/q_tree32_d31_fp8draft:math500 gb10/q_tree32_d31_fp8draft:humaneval gb10/q_tree32_d31_fp8draft:mbpp gb10/q_tree32_d31_fp8draft:mtbench Mon Nov  9 09:38:15 PM EST 2026
+lock timeout, retry Mon Nov  9 10:38:15 PM EST 2026
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:  58%|█████▊    | 231/399 [00:00<00:00, 2306.47it/s]Loading weights: 100%|██████████| 399/399 [00:00<00:00, 2633.01it/s]
+gb10/q_tree32_d31_fp8draft:gsm8k {'tokens': 2320, 'mismatch': 13, 'mismatch_rate': 0.005603448275862069, 'margin_max': 0.25, 'margin_median': 0.0, 'n_margin_gt_0.5': 0}
+gb10/q_tree32_d31_fp8draft:math500 {'tokens': 5531, 'mismatch': 20, 'mismatch_rate': 0.0036159826432833123, 'margin_max': 0.25, 'margin_median': 0.125, 'n_margin_gt_0.5': 0}
+gb10/q_tree32_d31_fp8draft:humaneval {'tokens': 2960, 'mismatch': 13, 'mismatch_rate': 0.004391891891891892, 'margin_max': 0.5, 'margin_median': 0.25, 'n_margin_gt_0.5': 0}
+gb10/q_tree32_d31_fp8draft:mbpp {'tokens': 3106, 'mismatch': 15, 'mismatch_rate': 0.004829362524146813, 'margin_max': 0.25, 'margin_median': 0.125, 'n_margin_gt_0.5': 0}
+gb10/q_tree32_d31_fp8draft:mtbench {'tokens': 2722, 'mismatch': 38, 'mismatch_rate': 0.013960323291697281, 'margin_max': 0.25, 'margin_median': 0.0, 'n_margin_gt_0.5': 0}
+=== exit 0 Mon Nov  9 11:03:11 PM EST 2026
+QUEUE_F DONE Mon Nov  9 11:03:11 PM EST 2026

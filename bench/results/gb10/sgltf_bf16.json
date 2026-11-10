@@ -1,0 +1,92 @@
+{
+ "gb10/f40_tree32_d31:gsm8k": {
+  "tokens": 2312,
+  "mismatch": 9,
+  "mismatch_rate": 0.0038927335640138406,
+  "margin_max": 0.25,
+  "margin_median": 0.0,
+  "n_margin_gt_0.5": 0,
+  "n_margin_gt_2": 0,
+  "misaligned": 0
+ },
+ "gb10/f40_tree32_d31:math500": {
+  "tokens": 5523,
+  "mismatch": 21,
+  "mismatch_rate": 0.0038022813688212928,
+  "margin_max": 0.25,
+  "margin_median": 0.125,
+  "n_margin_gt_0.5": 0,
+  "n_margin_gt_2": 0,
+  "misaligned": 0
+ },
+ "gb10/f40_tree32_d31:humaneval": {
+  "tokens": 2952,
+  "mismatch": 15,
+  "mismatch_rate": 0.00508130081300813,
+  "margin_max": 0.25,
+  "margin_median": 0.125,
+  "n_margin_gt_0.5": 0,
+  "n_margin_gt_2": 0,
+  "misaligned": 0
+ },
+ "gb10/f40_tree32_d31:mbpp": {
+  "tokens": 3098,
+  "mismatch": 11,
+  "mismatch_rate": 0.0035506778566817302,
+  "margin_max": 0.125,
+  "margin_median": 0.0,
+  "n_margin_gt_0.5": 0,
+  "n_margin_gt_2": 0,
+  "misaligned": 0
+ },
+ "gb10/f40_tree32_d31:mtbench": {
+  "tokens": 2714,
+  "mismatch": 30,
+  "mismatch_rate": 0.01105379513633014,
+  "margin_max": 0.25,
+  "margin_median": 0.12499994039535522,
+  "n_margin_gt_0.5": 0,
+  "n_margin_gt_2": 0,
+  "misaligned": 0
+ },
+ "gb10/dspine_b16:gsm8k": {
+  "tokens": 2347,
+  "mismatch": 11,
+  "mismatch_rate": 0.004686834256497656,
+  "margin_max": 0.25,
+  "margin_median": 0.25,
+  "n_margin_gt_0.5": 0,
+  "n_margin_gt_2": 0,
+  "misaligned": 0
+ },
+ "gb10/dspine_b16:mtbench": {
+  "tokens": 2651,
+  "mismatch": 16,
+  "mismatch_rate": 0.006035458317615994,
+  "margin_max": 0.25,
+  "margin_median": 0.125,
+  "n_margin_gt_0.5": 0,
+  "n_margin_gt_2": 0,
+  "misaligned": 0
+ },
+ "gb10/ar:gsm8k": {
+  "tokens": 2330,
+  "mismatch": 10,
+  "mismatch_rate": 0.004291845493562232,
+  "margin_max": 0.25,
+  "margin_median": 0.25,
+  "n_margin_gt_0.5": 0,
+  "n_margin_gt_2": 0,
+  "misaligned": 0
+ },
+ "gb10/ar:mtbench": {
+  "tokens": 2555,
+  "mismatch": 32,
+  "mismatch_rate": 0.012524461839530333,
+  "margin_max": 0.25,
+  "margin_median": 0.125,
+  "n_margin_gt_0.5": 0,
+  "n_margin_gt_2": 0,
+  "misaligned": 0
+ }
+}

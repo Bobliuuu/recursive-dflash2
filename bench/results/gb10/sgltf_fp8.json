@@ -1,0 +1,92 @@
+{
+ "gb10/fp8_f_tree32_d31:gsm8k": {
+  "tokens": 2430,
+  "mismatch": 18,
+  "mismatch_rate": 0.007407407407407408,
+  "margin_max": 0.5,
+  "margin_median": 0.25,
+  "n_margin_gt_0.5": 0,
+  "n_margin_gt_2": 0,
+  "misaligned": 0
+ },
+ "gb10/fp8_f_tree32_d31:math500": {
+  "tokens": 6072,
+  "mismatch": 42,
+  "mismatch_rate": 0.00691699604743083,
+  "margin_max": 0.5,
+  "margin_median": 0.125,
+  "n_margin_gt_0.5": 0,
+  "n_margin_gt_2": 0,
+  "misaligned": 0
+ },
+ "gb10/fp8_f_tree32_d31:humaneval": {
+  "tokens": 2979,
+  "mismatch": 23,
+  "mismatch_rate": 0.007720711648204095,
+  "margin_max": 0.5,
+  "margin_median": 0.25,
+  "n_margin_gt_0.5": 0,
+  "n_margin_gt_2": 0,
+  "misaligned": 0
+ },
+ "gb10/fp8_f_tree32_d31:mbpp": {
+  "tokens": 3074,
+  "mismatch": 33,
+  "mismatch_rate": 0.01073519843851659,
+  "margin_max": 0.7500000298023224,
+  "margin_median": 0.125,
+  "n_margin_gt_0.5": 4,
+  "n_margin_gt_2": 0,
+  "misaligned": 0
+ },
+ "gb10/fp8_f_tree32_d31:mtbench": {
+  "tokens": 2721,
+  "mismatch": 80,
+  "mismatch_rate": 0.02940095553105476,
+  "margin_max": 0.75,
+  "margin_median": 0.24999994039535522,
+  "n_margin_gt_0.5": 7,
+  "n_margin_gt_2": 0,
+  "misaligned": 0
+ },
+ "gb10/fp8_f_tree48_d31:gsm8k": {
+  "tokens": 2400,
+  "mismatch": 17,
+  "mismatch_rate": 0.007083333333333333,
+  "margin_max": 0.5,
+  "margin_median": 0.25,
+  "n_margin_gt_0.5": 0,
+  "n_margin_gt_2": 0,
+  "misaligned": 0
+ },
+ "gb10/fp8_dspine_b16:gsm8k": {
+  "tokens": 2385,
+  "mismatch": 17,
+  "mismatch_rate": 0.007127882599580713,
+  "margin_max": 0.25,
+  "margin_median": 0.0,
+  "n_margin_gt_0.5": 0,
+  "n_margin_gt_2": 0,
+  "misaligned": 0
+ },
+ "gb10/fp8_ar:gsm8k": {
+  "tokens": 2397,
+  "mismatch": 21,
+  "mismatch_rate": 0.008760951188986232,
+  "margin_max": 0.7499999701976776,
+  "margin_median": 0.25,
+  "n_margin_gt_0.5": 1,
+  "n_margin_gt_2": 0,
+  "misaligned": 0
+ },
+ "gb10/fp8_ar:mtbench": {
+  "tokens": 2664,
+  "mismatch": 67,
+  "mismatch_rate": 0.02515015015015015,
+  "margin_max": 0.6250000596046448,
+  "margin_median": 0.125,
+  "n_margin_gt_0.5": 3,
+  "n_margin_gt_2": 0,
+  "misaligned": 0
+ }
+}

@@ -1,0 +1,42 @@
+{
+ "gb10/q_tree32_d31_fp8draft:gsm8k": {
+  "tokens": 2320,
+  "mismatch": 13,
+  "mismatch_rate": 0.005603448275862069,
+  "margin_max": 0.25,
+  "margin_median": 0.0,
+  "n_margin_gt_0.5": 0
+ },
+ "gb10/q_tree32_d31_fp8draft:math500": {
+  "tokens": 5531,
+  "mismatch": 20,
+  "mismatch_rate": 0.0036159826432833123,
+  "margin_max": 0.25,
+  "margin_median": 0.125,
+  "n_margin_gt_0.5": 0
+ },
+ "gb10/q_tree32_d31_fp8draft:humaneval": {
+  "tokens": 2960,
+  "mismatch": 13,
+  "mismatch_rate": 0.004391891891891892,
+  "margin_max": 0.5,
+  "margin_median": 0.25,
+  "n_margin_gt_0.5": 0
+ },
+ "gb10/q_tree32_d31_fp8draft:mbpp": {
+  "tokens": 3106,
+  "mismatch": 15,
+  "mismatch_rate": 0.004829362524146813,
+  "margin_max": 0.25,
+  "margin_median": 0.125,
+  "n_margin_gt_0.5": 0
+ },
+ "gb10/q_tree32_d31_fp8draft:mtbench": {
+  "tokens": 2722,
+  "mismatch": 38,
+  "mismatch_rate": 0.013960323291697281,
+  "margin_max": 0.25,
+  "margin_median": 0.0,
+  "n_margin_gt_0.5": 0
+ }
+}
