@@ -3,9 +3,10 @@
 # SpecForge pinned at the commit read for this phase; installed --no-deps into the DSpine venv (keeps torch 2.14.1+cu130).
 set -euo pipefail
 source /workspace/env.sh
+export PATH=$HOME/.local/bin:$PATH
 R=/workspace/recursive-dflash2; W=/workspace/p6; mkdir -p $W
-if [ ! -d /workspace/SpecForge ]; then
-  git clone -q https://github.com/sgl-project/SpecForge /workspace/SpecForge
+if ! python -c "import specforge" 2>/dev/null; then
+  [ -d /workspace/SpecForge ] || git clone -q https://github.com/sgl-project/SpecForge /workspace/SpecForge
   (cd /workspace/SpecForge && git checkout -q b15ad38)
   uv pip install -q --no-deps -e /workspace/SpecForge
   uv pip install -q --no-deps "liger-kernel>=0.8.3,<0.9" yunchang
