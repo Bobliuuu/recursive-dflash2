@@ -4,7 +4,7 @@ Question: GB10 has ~273 GB/s of LPDDR5x unified memory (A100: ~2 TB/s of HBM) an
 model is slow and a wide verify should cost about the same as a 1-token step. Are DFlash / DSpine / DSpine-tree speedups on GB10 larger
 than on A100 (hypothesis: tree >= 8-10x)?
 
-**Answer: same-config speedups are 4-10% larger than on A100, not 8-10x for bf16; the big wins come from quantized targets.**
+**Answer: same-config speedups are 2-10% larger than on A100 (not 8-10x) for bf16; the big wins come from quantized targets.**
 - bf16 target: best is a **32-node DSpine tree: tau 10.46, 84.1 tok/s, 7.80x AR** (A100 best: 48-node tree, 7.20x). DSpine b16 chain 6.11x
   (A100 5.75x), DFlash b16 4.71x (A100 4.50x). The A100's 48-node optimum moves down to 32 nodes on GB10 because cuBLAS bf16 GEMMs on
   sm_121 get slower above 32 rows (verify +2% at 32 tokens, +16% at 48), not wider.
@@ -34,7 +34,8 @@ than on A100 (hypothesis: tree >= 8-10x)?
   (`bench/patches/apply_timing_patch_p4.py`). "other" = wall time per round (cell makespan / rounds) minus median draft minus median verify, so
   it includes prefill, HTTP and the draft-KV append.
 - Tree code: `tree` = Phase 2 glue (`bench/p2tree`); `treefast` (tags `f_*`) = the Phase 4 fast path from `docs/phase4-tree-overhead.md`
-  (factored table and best-first selection inside the draft CUDA graph, one pack kernel, FlashInfer custom-mask prefix-tile skip).
+  (factored table and best-first selection inside the draft CUDA graph, one pack kernel, FlashInfer custom-mask prefix-tile skip). Other tag
+  prefixes: `f40_` = fast path on 40 prompts, `p_` = GEMM rows padded to 128, `q_` = FP8-draft patch, `fp8_` / `nvfp4_` = quantized target.
 - Raw per-request JSON: `bench/results/gb10/<tag>_<dataset>_T0_c1.json`; summaries `bench/results/gb10/summary*.json`; timers and logs
   `logs/gb10/`.
 
