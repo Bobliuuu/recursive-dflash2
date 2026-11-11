@@ -1,18 +1,12 @@
-# recursive-dflash2 ⚡
+# recursive-dflash2
+
+![license](https://img.shields.io/badge/license-MIT-blue) ![engine](https://img.shields.io/badge/SGLang-0.5.22-informational) ![gpu](https://img.shields.io/badge/GPU-A100%20%7C%20H100%20%7C%20GB10-76b900) ![models](https://img.shields.io/badge/models-Qwen3--8B%20%7C%20Qwen3.8--27B-lightgrey)
 
 **How fast can speculative decoding go, and does stacking drafters help?**
 A head-to-head benchmark of DFlash, DFlash2, DSpine and EAGLE-3, plus a tree-verification
 upgrade that makes the best drafter **~25% faster** with no retraining.
 
-```
-Qwen3-8B · A100 · batch 1 · greedy · speedup over plain autoregressive decoding
-
-autoregressive  ████ 1.0x
-EAGLE-3 (chain) ████████ 2.0x
-DFlash          ██████████████████ 4.5x
-DSpine          ███████████████████████ 5.8x
-DSpine + tree   █████████████████████████████ 7.2x   <- this repo
-```
+![Speedup over autoregressive decoding on Qwen3-8B, A100: DSpine + tree 7.20x](docs/img/speedup.png)
 
 ## TL;DR
 
@@ -56,6 +50,8 @@ Most of DSpine's edge over DFlash2 is block length: at matched verify width 8 it
 | **DSpine tree, 48 nodes** | **11.29** | **651** | **7.20x** |
 
 The tree path, CUDA kernels and SGLang patches live in `bench/p2tree/` and `bench/p4tree/`. Write-ups: [docs/phase2-findings.md](docs/phase2-findings.md) (tree), [docs/phase4-tree-overhead.md](docs/phase4-tree-overhead.md) (the 651 tok/s fast path, byte-identical outputs to the first version).
+
+![Tree verification vs the same drafter's chain across hardware and sampling](docs/img/tree_gain.png)
 
 Other hardware and sampling, same tree:
 
