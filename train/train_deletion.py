@@ -103,6 +103,7 @@ TL = off_cfg["dflash_config"]["target_layer_ids"]
 sf_cfg = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "dspine_sf_config.json")))
 sf_cfg["block_size"] = a.block
 sf_cfg["dspine_config"]["replacement_probability"] = 0.0   # warm-start style: curriculum off
+sf_cfg["dspine_config"]["alignment_warmup_steps"] = 0         # trained drafter: full alignment weight from step 0
 cfg = Qwen3Config.from_dict(sf_cfg); cfg._attn_implementation = "flex_attention"
 with torch.device(dev):
     draft = DSpineDraftModel(cfg).to(BF)
