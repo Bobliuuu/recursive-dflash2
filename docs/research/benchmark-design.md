@@ -170,7 +170,7 @@ first pass (GSM8K, HumanEval, MT-Bench, MATH-500; 128 prompts each; c in {1,8}; 
 for all methods. Full matrix ~40-80 GPU-hours. These are rough estimates, not measured.
 
 **Prices are approximate recollections of list prices, NOT checked live today; they change often, spot/market prices
-vary. Confirm on the provider page and get user approval before launching (PLAN.md budget rule).**
+vary. Confirm on the provider page and get user approval before launching (docs/PLAN.md budget rule).**
 
 | Option | GPU | ~$/h (list, unverified) | 10 GPU-h | 60 GPU-h | Notes |
 |---|---|---|---|---|---|
