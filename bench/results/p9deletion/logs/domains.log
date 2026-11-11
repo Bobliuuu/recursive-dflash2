@@ -1,0 +1,6 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+gsm8k total 1319 frozen 100 eval 64
+math500 total 500 frozen 100 eval 64
+humaneval total 164 frozen 100 eval 64
+mbpp total 500 frozen 100 eval 64
+mbpp train/validation/prompt 474

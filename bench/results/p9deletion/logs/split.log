@@ -1,0 +1,6 @@
+train_general.jsonl 9739
+eval_general.jsonl 256
+eval_chat.jsonl 64
+train_code.jsonl 1173
+train sources [('meta-math/MetaMathQA', 2657), ('openbmb/UltraInteract_sft', 1851), ('mlabonne/ultrachat_200k_sft', 1438), ('HuggingFaceH4/orca-math-word-problems-200k', 1429), ('HuggingFaceH4/ultrafeedback_binarized', 882), ('theblackcat102/evol-codealpaca-v1', 699), ('Post-training-Data-Flywheel/AutoIF-instruct-61k', 426), ('mlabonne/lmsys-arena-human-preference-55k-sharegpt', 357)]
+code sources [('theblackcat102/evol-codealpaca-v1', 699), ('mbpp_train', 374), ('mbpp_validation', 90), ('mbpp_prompt', 10)]
