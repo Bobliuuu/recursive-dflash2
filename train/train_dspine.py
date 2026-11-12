@@ -105,6 +105,8 @@ TL = off_cfg["dflash_config"]["target_layer_ids"]  # [1,9,17,25,33]; hidden_stat
 sf_cfg = json.load(open(os.path.join(os.path.dirname(__file__), "dspine_sf_config.json")))
 sf_cfg["block_size"] = a.block
 sf_cfg["dspine_config"]["replacement_probability"] = a.replace_prob
+if sf_cfg["dspine_config"].get("alignment_warmup_steps") is None:  # null in the shipped config; SpecForge needs an int (its default is 146)
+    sf_cfg["dspine_config"]["alignment_warmup_steps"] = 146
 cfg = Qwen3Config.from_dict(sf_cfg)
 cfg._attn_implementation = "flex_attention"
 with torch.device(dev):
