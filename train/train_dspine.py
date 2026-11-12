@@ -168,7 +168,7 @@ if a.init_official:
 wrapper = OnlineDSpineModel(
     draft_model=draft, target_lm_head=target.lm_head, target_embed_tokens=target.model.embed_tokens,
     mask_token_id=151669, block_size=a.block, attention_backend="flex_attention", num_anchors=a.anchors,
-    loss_decay_gamma=a.gamma, objective_chunk_blocks=16, fused_logits_loss=True, warmup_ratio=a.warmup_ratio,
+    loss_decay_gamma=a.gamma, objective_chunk_blocks=16, fused_logits_loss=True,
 ).to(dev)  # initialises transfer space from lm_head if not loaded
 wrapper.draft_model.to(BF)
 draft.transfer_codes = draft.transfer_codes.to(torch.float32) if False else draft.transfer_codes
@@ -182,14 +182,13 @@ def target_feats(x, m):
     aux = torch.cat([hs[k + 1] for k in TL], dim=-1)
     return aux, hs[-1]
 
-def step_batch(x, m, lm, gstep, total, alignment_ce=None):
+def step_batch(x, m, lm, gstep, total):
     x, m, lm = x.to(dev), m.to(dev), lm.to(dev)
     aux, last = target_feats(x, m)
     n_valid = int(((lm[:, :-1] > 0) & (lm[:, 1:] > 0)).sum(1).max())
     loss, acc, met = wrapper(input_ids=x, hidden_states=aux, loss_mask=lm, target_last_hidden_states=last,
-                             max_valid_anchors=n_valid, global_step=gstep, total_steps=total, alignment_ce=alignment_ce)
-    cnt = met["accuracy_denom"].clamp_min(1)
-    return loss * x.shape[0] / cnt, acc, met   # per-supervised-row normalisation (SpecForge returns a per-sequence sum)
+                             max_valid_anchors=n_valid, global_step=gstep, total_steps=total)
+    return loss, acc, met   # SpecForge b15ad38 already normalises by the position weights (no extra scaling)
 
 rng = random.Random(a.seed)
 
