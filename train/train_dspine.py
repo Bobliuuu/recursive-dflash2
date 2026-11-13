@@ -32,6 +32,7 @@ ap.add_argument("--seed", type=int, default=42)
 ap.add_argument("--target", default="Qwen/Qwen3-8B")
 ap.add_argument("--official-config", default="tencent/Qwen3-8B-DSpine-b16")
 ap.add_argument("--holdout", type=int, default=256, help="last N samples held out for teacher-forced eval")
+ap.add_argument("--gate", type=int, default=0, help="DynaDFlash-style per-token layer gate on the fc input (zero-init => identity at start)")
 ap.add_argument("--log", default="")
 a = ap.parse_args()
 
@@ -164,6 +165,20 @@ if a.init_official:
     log("loaded official; missing", [m for m in missing if m not in ("transfer_codes", "transfer_ready")], "unexpected", unexpected)
     draft.transfer_codes.copy_(sd["transfer_codes"].to(draft.transfer_codes.dtype))
     draft.transfer_ready.fill_(True)
+
+if a.gate:
+    # DynaDFlash (midas-llm-research): gains = L * softmax(W q), q = rmsnorm(last selected layer); scale each layer's state before fc.
+    # SpecForge's wrapper detaches hidden_states, so the gate lives as a forward-pre-hook on draft.fc (input = concat of L layers).
+    L, Hd = len(TL), cfg.hidden_size
+    draft.layer_gate = torch.nn.Linear(Hd, L, bias=False).to(dev, BF)
+    torch.nn.init.zeros_(draft.layer_gate.weight)
+    def _gate_hook(mod, args):
+        x = args[0]; ch = x.view(*x.shape[:-1], L, Hd)
+        q = ch[..., -1, :].float(); q = q * torch.rsqrt(q.pow(2).mean(-1, keepdim=True) + 1e-6)
+        g = L * torch.softmax(draft.layer_gate(q.to(BF)).float(), dim=-1)
+        return ((ch.float() * g.unsqueeze(-1)).to(x.dtype).reshape(x.shape),)
+    draft.fc.register_forward_pre_hook(_gate_hook)
+    log("gate enabled, params", sum(p.numel() for p in draft.layer_gate.parameters()))
 
 wrapper = OnlineDSpineModel(
     draft_model=draft, target_lm_head=target.lm_head, target_embed_tokens=target.model.embed_tokens,
