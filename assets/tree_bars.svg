@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 416" width="980" height="416" role="img" aria-label="Speedup over autoregressive, Qwen3-8B, 1x A100, batch 1, greedy">
+<rect width="980" height="416" rx="16" fill="#0b0f17"/>
+<text x="32" y="44" font-family="ui-sans-serif,system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-weight="700" font-size="22" fill="#e6edf6">Speedup over autoregressive, Qwen3-8B, 1x A100, batch 1, greedy</text>
+<text x="32" y="68" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="14" fill="#8a98ad">mean of 5 datasets; same engine build, same prompts</text>
+<text x="234" y="118" text-anchor="end" font-family="ui-sans-serif,system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="15" fill="#8a98ad" font-weight="400">Autoregressive</text>
+<rect x="248" y="96" width="80.9" height="30" rx="6" fill="#263044"/>
+<text x="338.9" y="117" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="15" font-weight="700" fill="#e6edf6">1.00x</text>
+<text x="234" y="164" text-anchor="end" font-family="ui-sans-serif,system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="15" fill="#8a98ad" font-weight="400">EAGLE-3 (chain)</text>
+<rect x="248" y="142" width="164.2" height="30" rx="6" fill="#263044"/>
+<text x="422.2" y="163" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="15" font-weight="700" fill="#e6edf6">2.03x</text>
+<text x="234" y="210" text-anchor="end" font-family="ui-sans-serif,system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="15" fill="#8a98ad" font-weight="400">DFlash</text>
+<rect x="248" y="188" width="363.9" height="30" rx="6" fill="#263044"/>
+<text x="621.9" y="209" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="15" font-weight="700" fill="#e6edf6">4.50x</text>
+<text x="234" y="256" text-anchor="end" font-family="ui-sans-serif,system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="15" fill="#8a98ad" font-weight="400">DSpine (chain, block 16)</text>
+<rect x="248" y="234" width="465.3" height="30" rx="6" fill="#263044"/>
+<text x="723.3" y="255" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="15" font-weight="700" fill="#e6edf6">5.75x</text>
+<text x="234" y="302" text-anchor="end" font-family="ui-sans-serif,system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="15" fill="#8a98ad" font-weight="400">DSpine chain, block 32</text>
+<rect x="248" y="280" width="498.9" height="30" rx="6" fill="#263044"/>
+<text x="756.9" y="301" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="15" font-weight="700" fill="#e6edf6">6.17x</text>
+<text x="234" y="348" text-anchor="end" font-family="ui-sans-serif,system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="15" fill="#e6edf6" font-weight="700">DSpine + tree (48 nodes)</text>
+<rect x="248" y="326" width="582.0" height="30" rx="6" fill="#27c8e8"/>
+<text x="840.0" y="347" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="15" font-weight="700" fill="#e6edf6">7.20x</text>
+<text x="948" y="402" text-anchor="end" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#8a98ad">source: bench/results/derived/readme_data.json · higher is better</text>
+</svg>

@@ -1,0 +1,152 @@
+1
+00:00:00,400 --> 00:00:01,687
+recursive dflash two.
+
+2
+00:00:01,687 --> 00:00:05,976
+How fast can speculative decoding go, and does stacking drafters help?
+
+3
+00:00:05,976 --> 00:00:11,735
+This is a head to head benchmark of four drafters, plus a tree verification upgrade that needs
+
+4
+00:00:11,735 --> 00:00:12,593
+no retraining.
+
+5
+00:00:13,590 --> 00:00:17,499
+A large language model normally produces one token per forward pass.
+
+6
+00:00:17,499 --> 00:00:22,960
+Speculative decoding lets a small drafter guess a block of tokens, and the big model checks the
+
+7
+00:00:22,960 --> 00:00:24,627
+whole block in a single pass.
+
+8
+00:00:24,627 --> 00:00:26,754
+Every accepted token is a pass saved.
+
+9
+00:00:26,754 --> 00:00:32,100
+The questions are: which drafter wins, and can we verify more than a single chain of guesses?
+
+10
+00:00:33,100 --> 00:00:35,283
+A chain verifies one guessed sequence.
+
+11
+00:00:35,283 --> 00:00:40,110
+DSpine scores sixteen candidates for each position, conditioned on the previous one.
+
+12
+00:00:40,110 --> 00:00:45,396
+We use those exact conditional scores to build a tree of up to forty eight nodes, verify the
+
+13
+00:00:45,396 --> 00:00:50,452
+whole tree in one pass with a tree attention mask, and accept the longest matching path.
+
+14
+00:00:51,450 --> 00:00:58,845
+On Qwen3 eight B, one A100, batch one, greedy decoding, averaged over five datasets.
+
+15
+00:00:58,845 --> 00:01:03,423
+EAGLE three reaches 2.03 times autoregressive speed.
+
+16
+00:01:03,423 --> 00:01:05,184
+DFlash reaches 4.50.
+
+17
+00:01:05,184 --> 00:01:06,328
+DSpine, 5.75.
+
+18
+00:01:06,328 --> 00:01:11,083
+DSpine with the same weights and a longer block, 6.17.
+
+19
+00:01:11,083 --> 00:01:14,516
+And with tree verification, 7.20 times.
+
+20
+00:01:15,520 --> 00:01:22,495
+That is 7.20 times autoregressive decoding, 25 percent more than DSpine's own chain, with
+
+21
+00:01:22,495 --> 00:01:24,454
+exactly the same weights.
+
+22
+00:01:24,454 --> 00:01:31,429
+Mean acceptance length rises from 7.99 to 11.29 tokens per round, at about 652 tokens per
+
+23
+00:01:31,429 --> 00:01:31,977
+second.
+
+24
+00:01:32,980 --> 00:01:39,840
+Across temperatures and concurrency, DSpine beats DFlash and EAGLE three in every cell we ran.
+
+25
+00:01:39,840 --> 00:01:45,094
+At concurrency eight, DSpine reaches 4.11 times against 3.40 for DFlash.
+
+26
+00:01:45,094 --> 00:01:50,056
+With sampling at temperature one and batch one, DSpine reaches 4.85.
+
+27
+00:01:51,060 --> 00:01:56,560
+Longer blocks help at batch one, but at concurrency eight verification is no longer free and
+
+28
+00:01:56,560 --> 00:01:57,935
+the longer blocks lose.
+
+29
+00:01:57,935 --> 00:01:59,968
+The tree gain exists at batch one.
+
+30
+00:02:00,970 --> 00:02:02,501
+How to read these numbers.
+
+31
+00:02:02,501 --> 00:02:07,858
+Speedups are same cell ratios to autoregressive decoding, with noise of one to two percent.
+
+32
+00:02:07,858 --> 00:02:10,154
+The tree gain exists at batch one only.
+
+33
+00:02:10,154 --> 00:02:14,629
+Our EAGLE three baseline is a three step chain, which is the weaker variant.
+
+34
+00:02:14,629 --> 00:02:20,163
+And the eight B runs use forty prompts per dataset; LiveCodeBench and Arena Hard were not run.
+
+35
+00:02:21,160 --> 00:02:26,453
+So: DSpine is the best single drafter we measured, tree verification adds 25 percent with no
+
+36
+00:02:26,453 --> 00:02:31,747
+retraining, and our longer block training and recursive second pass experiments did not beat
+
+37
+00:02:31,747 --> 00:02:32,265
+the tree.
+
+38
+00:02:33,260 --> 00:02:37,512
+The raw results, scripts, patches and write ups are all in the repo.
+

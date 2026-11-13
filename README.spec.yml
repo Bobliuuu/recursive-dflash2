@@ -1,0 +1,236 @@
+# python3 ~/video-readme-maker/vrm.py all README.spec.yml
+# Numbers come from bench/results/*.json through tools/readme_data.py -> bench/results/derived/readme_data.json
+project:
+  name: recursive-dflash2
+  emoji: "🚀"
+  tagline: "How fast can speculative decoding go, and does stacking drafters help? DFlash, DFlash2, DSpine and EAGLE-3 head to head, plus tree verification"
+  repo: Bobliuuu/recursive-dflash2
+hero:
+  title: recursive-dflash2
+  subtitle: "tree verification makes the best drafter faster, with no retraining"
+  chips: [DSpine, DFlash, EAGLE-3, SGLang, Qwen3-8B]
+theme: {accent: "#27c8e8", accent2: "#ff6b6b", accent3: "#f2c14e", good: "#3ddc97"}
+readme_out: README.md
+assets_dir: assets
+badges:
+  - {label: license, message: MIT, color: 3776ab, link: LICENSE}
+  - {label: engine, message: "SGLang 0.5.22", color: 27c8e8}
+  - {label: GPU, message: "A100 · H100 · GB10", color: 76b900, logo: nvidia}
+  - {label: models, message: "Qwen3-8B · Qwen3.8-27B", color: lightgrey}
+  - {label: "DSpine + tree", message: "{{ n.tree_x }} vs autoregressive", color: 3ddc97}
+nav:
+  - {emoji: "🎬", label: Video, anchor: video}
+  - {emoji: "📊", label: Results, anchor: results}
+  - {emoji: "🌳", label: Tree verification, anchor: tree}
+  - {emoji: "🧩", label: How it works, anchor: how-it-works}
+  - {emoji: "🔁", label: Reproduce, anchor: reproduce}
+  - {emoji: "⚠️", label: Reading the numbers, anchor: caveats}
+  - {emoji: "🗺️", label: Repo map, anchor: repo-map}
+
+numbers:
+  ds_x: {file: bench/results/derived/readme_data.json, path: tree.chain16.x, fmt: "{:.2f}", unit: "x"}
+  ds_tau: {file: bench/results/derived/readme_data.json, path: tree.chain16.tau, fmt: "{:.2f}"}
+  b32_x: {file: bench/results/derived/readme_data.json, path: tree.chain32.x, fmt: "{:.2f}", unit: "x"}
+  tree_x: {file: bench/results/derived/readme_data.json, path: tree.tree48.x, fmt: "{:.2f}", unit: "x"}
+  tree_tau: {file: bench/results/derived/readme_data.json, path: tree.tree48.tau, fmt: "{:.2f}"}
+  tree_toks: {file: bench/results/derived/readme_data.json, path: tree.tree48.tok_s, fmt: "{:.0f}", unit: " tok/s"}
+  gain: {file: bench/results/derived/readme_data.json, path: tree.gain_pct, fmt: "{:.0f}", unit: "%"}
+  eagle_x: {file: bench/results/derived/readme_data.json, path: p1.eagle3_T0_c1.x, fmt: "{:.2f}", unit: "x"}
+  dflash_x: {file: bench/results/derived/readme_data.json, path: p1.dflash_T0_c1.x, fmt: "{:.2f}", unit: "x"}
+  dflash_tau: {file: bench/results/derived/readme_data.json, path: p1.dflash_T0_c1.tau, fmt: "{:.2f}"}
+  c8_ds: {file: bench/results/derived/readme_data.json, path: p1.dspine_T0_c8.x, fmt: "{:.2f}", unit: "x"}
+  c8_df: {file: bench/results/derived/readme_data.json, path: p1.dflash_T0_c8.x, fmt: "{:.2f}", unit: "x"}
+  t1_ds: {file: bench/results/derived/readme_data.json, path: p1.dspine_T1_c1.x, fmt: "{:.2f}", unit: "x"}
+
+intro: |
+  <a id="video"></a>
+  Speculative decoding drafts several tokens cheaply and lets the big model verify them in one pass. This repo benchmarks the current drafters
+  (**DFlash, DFlash2, DSpine, EAGLE-3**) on one engine build (SGLang 0.5.22) with a frozen prompt set and raw per-request JSON in `bench/results/`,
+  then adds a **tree-verification upgrade** for DSpine that needs no retraining.
+
+video:
+  url: ""
+  caption: "Explainer video (voice-over and subtitles): drafters, tree verification, the numbers, and how to read them"
+  mp4: video/recursive_dflash2_explainer.mp4
+  gif: video/preview.gif
+  srt: video/recursive_dflash2_explainer.srt
+  poster: video/poster.png
+  out_dir: video/.render
+  fps: 24
+  max_mb: 22
+  render_crf: 18
+  concurrency: 4
+  music: true
+  voice: {engine: openai, voice: alloy, model: gpt-4o-mini-tts, tempo: 1.2}
+  scenes:
+    - type: title
+      title: recursive-dflash2
+      subtitle: How fast can speculative decoding go?
+      chips: [DSpine, DFlash, EAGLE-3, tree verification]
+      say: "recursive dflash two. How fast can speculative decoding go, and does stacking drafters help? This is a head to head benchmark of four drafters, plus a tree verification upgrade that needs no retraining."
+    - type: problem
+      heading: The problem
+      bullets:
+        - "A large model emits one token per forward pass"
+        - "A small drafter can guess a block of tokens ahead"
+        - "The large model checks the whole block in one pass"
+        - "Which drafter wins, and can we verify more than one guess?"
+      say: "A large language model normally produces one token per forward pass. Speculative decoding lets a small drafter guess a block of tokens, and the big model checks the whole block in a single pass. Every accepted token is a pass saved. The questions are: which drafter wins, and can we verify more than a single chain of guesses?"
+    - type: architecture
+      diagram: flow
+      heading: "From chain to tree"
+      say: "A chain verifies one guessed sequence. DSpine scores sixteen candidates for each position, conditioned on the previous one. We use those exact conditional scores to build a tree of up to forty eight nodes, verify the whole tree in one pass with a tree attention mask, and accept the longest matching path."
+    - type: chart
+      chart: tree_bars
+      say: "On Qwen3 eight B, one A100, batch one, greedy decoding, averaged over five datasets. EAGLE three reaches {{ n.eagle_x.numtext }} times autoregressive speed. DFlash reaches {{ n.dflash_x.numtext }}. DSpine, {{ n.ds_x.numtext }}. DSpine with the same weights and a longer block, {{ n.b32_x.numtext }}. And with tree verification, {{ n.tree_x.numtext }} times."
+    - type: stat
+      number: tree_x
+      kicker: "DSpine + 48-node tree, Qwen3-8B, A100, batch 1"
+      label: "faster than autoregressive"
+      sub: "{{ n.gain }} over DSpine's own chain, same weights"
+      say: "That is {{ n.tree_x.numtext }} times autoregressive decoding, {{ n.gain.numtext }} percent more than DSpine's own chain, with exactly the same weights. Mean acceptance length rises from {{ n.ds_tau.numtext }} to {{ n.tree_tau.numtext }} tokens per round, at about {{ n.tree_toks.numtext }} tokens per second."
+    - type: chart
+      chart: p1_bars
+      say: "Across temperatures and concurrency, DSpine beats DFlash and EAGLE three in every cell we ran. At concurrency eight, DSpine reaches {{ n.c8_ds.numtext }} times against {{ n.c8_df.numtext }} for DFlash. With sampling at temperature one and batch one, DSpine reaches {{ n.t1_ds.numtext }}."
+    - type: chart
+      chart: block_sweep
+      say: "Longer blocks help at batch one, but at concurrency eight verification is no longer free and the longer blocks lose. The tree gain exists at batch one."
+    - type: caveats
+      heading: "How to read these numbers"
+      bullets:
+        - "Speedups are same-cell ratios to autoregressive, noise about 1 to 2 percent"
+        - "Tree gain exists at batch 1; at concurrency 8 wider trees lose"
+        - "Our EAGLE-3 baseline is a 3-step chain, weaker than a tree"
+        - "8B runs: 40 prompts per dataset, LiveCodeBench not run"
+      say: "How to read these numbers. Speedups are same cell ratios to autoregressive decoding, with noise of one to two percent. The tree gain exists at batch one only. Our EAGLE three baseline is a three step chain, which is the weaker variant. And the eight B runs use forty prompts per dataset; LiveCodeBench and Arena Hard were not run."
+    - type: idea
+      heading: "What we take away"
+      bullets:
+        - "DSpine is the best single drafter we measured"
+        - "Tree verification adds {{ n.gain.text }} with no retraining"
+        - "Longer-block training and a recursive second pass did not beat the tree"
+      say: "So: DSpine is the best single drafter we measured, tree verification adds {{ n.gain.numtext }} percent with no retraining, and our longer block training and recursive second pass experiments did not beat the tree."
+    - type: end
+      title: recursive-dflash2
+      subtitle: "Raw results, scripts, SGLang patches and write-ups are in the repo"
+      say: "The raw results, scripts, patches and write ups are all in the repo."
+
+tables:
+  - id: p1_tbl
+    title: "Qwen3-8B, 1x A100-80GB, thinking off: speedup over autoregressive (mean over GSM8K / MATH-500 / HumanEval / MBPP / MT-Bench)"
+    file: bench/results/derived/readme_data.json
+    rows_path: p1_rows
+    columns:
+      - {key: T, title: T, align: right}
+      - {key: conc, title: concurrency, align: right}
+      - {key: eagle3, title: EAGLE-3 (chain), align: right, fmt: "{:.2f}", unit: "x"}
+      - {key: dflash, title: DFlash, align: right, fmt: "{:.2f}", unit: "x"}
+      - {key: dspine, title: DSpine, align: right, fmt: "{:.2f}", unit: "x"}
+  - id: tree_tbl
+    title: "Tree verification (Qwen3-8B, A100, batch 1, T=0)"
+    file: bench/results/derived/readme_data.json
+    rows_path: tree_table
+    highlight: "DSpine tree, 48 nodes"
+    columns:
+      - {key: cfg, title: Config}
+      - {key: tau, title: Acceptance length, align: right, fmt: "{:.2f}"}
+      - {key: tok_s, title: tok/s, align: right, fmt: "{:.0f}"}
+      - {key: x, title: x AR, align: right, fmt: "{:.2f}", unit: "x"}
+
+charts:
+  - id: tree_bars
+    type: bar
+    title: "Speedup over autoregressive, Qwen3-8B, 1x A100, batch 1, greedy"
+    subtitle: "mean of 5 datasets; same engine build, same prompts"
+    better: higher
+    file: bench/results/derived/readme_data.json
+    rows_path: tree_bars
+    label: label
+    y: x
+    fmt: "{:.2f}"
+    unit: "x"
+    highlight: "DSpine + tree (48 nodes)"
+  - id: p1_bars
+    type: gbar
+    title: "Qwen3-8B, A100: speedup over autoregressive by temperature and concurrency"
+    subtitle: "mean of 5 datasets"
+    better: higher
+    file: bench/results/derived/readme_data.json
+    rows_path: p1_bars
+    cat: cfg
+    series: method
+    y: x
+    fmt: "{:.2f}"
+  - id: block_sweep
+    type: gbar
+    title: "Chain block length with the same DSpine weights: speedup over autoregressive"
+    subtitle: "longer blocks help at batch 1 and hurt at concurrency 8"
+    better: higher
+    file: bench/results/derived/readme_data.json
+    rows_path: block_sweep
+    cat: block
+    series: conc
+    y: x
+    fmt: "{:.2f}"
+
+diagrams:
+  - id: flow
+    title: "Tree verification on DSpine: exact conditional logits become a tree, verified in one pass"
+    nodes:
+      - {id: p, label: "Prompt + accepted tokens", sub: "target model state", col: 0, row: 0, kind: io}
+      - {id: d, label: "DSpine drafter", sub: "16 candidates per position, conditioned on the previous", col: 1, row: 0, kind: accent}
+      - {id: t, label: "Tree build", sub: "up to 48 nodes from exact conditional logits", col: 2, row: 0}
+      - {id: m, label: "Verify, tree attention mask", sub: "target scores all nodes in one pass", col: 2, row: 1}
+      - {id: a, label: "Accept longest path", sub: "KV compaction kernel", col: 1, row: 1}
+      - {id: o, label: "Output tokens", sub: "tau about 11 per round", col: 0, row: 1, kind: io}
+    edges:
+      - {from: p, to: d}
+      - {from: d, to: t}
+      - {from: t, to: m}
+      - {from: m, to: a}
+      - {from: a, to: o}
+
+sections:
+  - title: Results
+    emoji: "📊"
+    id: results
+    body: "One engine build (SGLang 0.5.22), a frozen prompt set, raw per-request JSON in `bench/results/`. Numbers below are recomputed from those files by `tools/readme_data.py`."
+    highlights:
+      - {label: "DSpine + tree", number: tree_x}
+      - {label: "DSpine chain", number: ds_x}
+      - {label: "DFlash", number: dflash_x}
+      - {label: "EAGLE-3", number: eagle_x}
+      - {label: "Tree gain", number: gain}
+    charts: [tree_bars, p1_bars]
+    images:
+      - {src: video/preview.gif, alt: "animated overview of the explainer video", width: "70%"}
+    tables: [p1_tbl]
+    after: |
+      DSpine is the best single drafter: it beats DFlash on Qwen3-8B at every temperature and concurrency we ran, and the official DFlash2 on Qwen3.8-27B (no DFlash checkpoint exists for that model).
+      Published acceptance numbers reproduce with a catch: our runs match the DSpine README, not the paper's smaller retrained-baseline table, so always read the protocol next to the number.
+  - title: Tree verification
+    emoji: "🌳"
+    id: tree
+    body: "The same DSpine weights, verified as a 48-node tree instead of a chain. DSpine already scores 16 candidates per position conditioned on the previous position, so the tree comes from exact conditional logits each round; verify is nearly free on an A100 (11.05 ms at 16 tokens, 11.91 ms at 48 per [docs/phase4-tree-overhead.md](docs/phase4-tree-overhead.md))."
+    tables: [tree_tbl]
+    charts: [block_sweep]
+    body_file: docs/readme/other.md
+  - title: How it works
+    emoji: "🧩"
+    id: how-it-works
+    body: "The tree path, tree-attention mask, accept and KV-compaction CUDA kernels and the SGLang patches live in `bench/p2tree/` and `bench/p4tree/`. Write-ups: [tree](docs/phase2-findings.md), [fast path](docs/phase4-tree-overhead.md)."
+    diagrams: [flow]
+    body_file: docs/readme/tried.md
+  - title: Reproduce it
+    emoji: "🔁"
+    id: reproduce
+    body_file: docs/readme/reproduce.md
+  - title: How to read these numbers
+    emoji: "⚠️"
+    id: caveats
+    body_file: docs/readme/howtoread.md
+  - title: Repo map
+    emoji: "🗺️"
+    id: repo-map
+    body_file: docs/readme/repomap.md
+footer: "Credits: DFlash ([arXiv 2602.06036](https://arxiv.org/abs/2602.06036), z-lab), DSpine ([Tencent/DSpine](https://github.com/Tencent/DSpine)), DFlash2 (Inco AI), SGLang and SpecForge. Generated with [video-readme-maker](https://github.com/Bobliuuu/video-readme-maker)."

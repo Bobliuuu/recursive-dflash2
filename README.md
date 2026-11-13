@@ -1,34 +1,63 @@
-# recursive-dflash2
+<div align="center">
 
-![license](https://img.shields.io/badge/license-MIT-blue) ![engine](https://img.shields.io/badge/SGLang-0.5.22-informational) ![gpu](https://img.shields.io/badge/GPU-A100%20%7C%20H100%20%7C%20GB10-76b900) ![models](https://img.shields.io/badge/models-Qwen3--8B%20%7C%20Qwen3.8--27B-lightgrey)
+<img src="assets/hero.svg" alt="recursive-dflash2" width="100%">
 
-**How fast can speculative decoding go, and does stacking drafters help?**
-A head-to-head benchmark of DFlash, DFlash2, DSpine and EAGLE-3, plus a tree-verification
-upgrade that makes the best drafter **~25% faster** with no retraining.
+# 🚀 recursive-dflash2
 
-![Speedup over autoregressive decoding on Qwen3-8B, A100: DSpine + tree 7.20x](docs/img/speedup.png)
+**How fast can speculative decoding go, and does stacking drafters help? DFlash, DFlash2, DSpine and EAGLE-3 head to head, plus tree verification**
 
-## TL;DR
+[![license: MIT](https://img.shields.io/badge/license-MIT-3776ab)](LICENSE) ![engine: SGLang 0.5.22](https://img.shields.io/badge/engine-SGLang%200.5.22-27c8e8) ![GPU: A100 · H100 · GB10](https://img.shields.io/badge/GPU-A100%20%C2%B7%20H100%20%C2%B7%20GB10-76b900?logo=nvidia&logoColor=white) ![models: Qwen3-8B · Qwen3.8-27B](https://img.shields.io/badge/models-Qwen3--8B%20%C2%B7%20Qwen3.8--27B-lightgrey) ![DSpine + tree: 7.20x vs autoregressive](https://img.shields.io/badge/DSpine%20%2B%20tree-7.20x%20vs%20autoregressive-3ddc97)
 
-- **DSpine is the best single drafter.** It beats DFlash on Qwen3-8B at every temperature and concurrency we ran, and the official DFlash2 on Qwen3.8-27B (no DFlash checkpoint exists for that model).
-- **Tree verification on DSpine gives +25% tok/s** (7.20x vs 5.78x for its own chain, same weights) at batch 1. DSpine already scores 16 candidates per position conditioned on the previous position, so the tree is built from exact conditional logits each round. Verify costs 11.05 ms at 16 tokens and 11.91 ms at 48, so extra branches are nearly free on an A100.
-- **Published acceptance numbers reproduce, with a catch.** Our runs match the DSpine README (7.97 vs 6.08 mean acceptance length against DFlash), not the paper's smaller retrained-baseline table (4.82 vs 3.77). Always read the protocol next to the number.
-- **Training a longer-block drafter and a recursive second pass did not beat the tree** (see [Phase 3](docs/phase3-findings.md)).
+[🎬 Video](#video) · [📊 Results](#results) · [🌳 Tree verification](#tree) · [🧩 How it works](#how-it-works) · [🔁 Reproduce](#reproduce) · [⚠️ Reading the numbers](#caveats) · [🗺️ Repo map](#repo-map)
 
-## Benchmark results
+</div>
 
-Everything below is from one engine build (SGLang 0.5.22), a frozen prompt set and raw per-request JSON in `bench/results/`.
+---
 
-### Qwen3-8B (1x A100-80GB, thinking off, mean over GSM8K / MATH-500 / HumanEval / MBPP / MT-Bench)
+**Explainer video (voice-over and subtitles): drafters, tree verification, the numbers, and how to read them**
+
+[![Explainer video preview (click for the mp4)](video/preview.gif)](video/recursive_dflash2_explainer.mp4)
+
+<a id="video"></a>
+Speculative decoding drafts several tokens cheaply and lets the big model verify them in one pass. This repo benchmarks the current drafters
+(**DFlash, DFlash2, DSpine, EAGLE-3**) on one engine build (SGLang 0.5.22) with a frozen prompt set and raw per-request JSON in `bench/results/`,
+then adds a **tree-verification upgrade** for DSpine that needs no retraining.
+
+<a id="results"></a>
+
+## 📊 Results
+
+One engine build (SGLang 0.5.22), a frozen prompt set, raw per-request JSON in `bench/results/`. Numbers below are recomputed from those files by `tools/readme_data.py`.
+
+| DSpine + tree | DSpine chain | DFlash | EAGLE-3 | Tree gain |
+|:---:|:---:|:---:|:---:|:---:|
+| **7.20x** | **5.75x** | **4.50x** | **2.03x** | **25%** |
+
+**Qwen3-8B, 1x A100-80GB, thinking off: speedup over autoregressive (mean over GSM8K / MATH-500 / HumanEval / MBPP / MT-Bench)**
 
 | T | concurrency | EAGLE-3 (chain) | DFlash | DSpine |
-|---|---|---|---|---|
-| 0 | 1 | 2.03x | 4.50x | **5.75x** |
-| 0 | 8 | 1.82x | 3.40x | **4.11x** |
-| 1 | 1 | 1.95x | 3.57x | **4.85x** |
-| 1 | 8 | 1.70x | 2.76x | **3.42x** |
+| ---: | ---: | ---: | ---: | ---: |
+| 0 | 1 | 2.03x | 4.50x | 5.75x |
+| 0 | 8 | 1.82x | 3.40x | 4.11x |
+| 1 | 1 | 1.95x | 3.57x | 4.85x |
+| 1 | 8 | 1.70x | 2.76x | 3.42x |
 
-Mean acceptance length at T=0: DSpine 7.99, DFlash 6.03. Full table and protocol: [docs/phase1-qwen3-8b.md](docs/phase1-qwen3-8b.md).
+<sub>Source: `bench/results/derived/readme_data.json`</sub>
+
+<p align="center"><img src="assets/tree_bars.svg" alt="Speedup over autoregressive, Qwen3-8B, 1x A100, batch 1, greedy" width="100%"></p>
+
+<p align="center"><img src="assets/p1_bars.svg" alt="Qwen3-8B, A100: speedup over autoregressive by temperature and concurrency" width="100%"></p>
+
+<p align="center"><img src="video/preview.gif" alt="animated overview of the explainer video" width="70%"></p>
+
+DSpine is the best single drafter: it beats DFlash on Qwen3-8B at every temperature and concurrency we ran, and the official DFlash2 on Qwen3.8-27B (no DFlash checkpoint exists for that model).
+Published acceptance numbers reproduce with a catch: our runs match the DSpine README, not the paper's smaller retrained-baseline table, so always read the protocol next to the number.
+
+<a id="tree"></a>
+
+## 🌳 Tree verification
+
+The same DSpine weights, verified as a 48-node tree instead of a chain. DSpine already scores 16 candidates per position conditioned on the previous position, so the tree comes from exact conditional logits each round; verify is nearly free on an A100 (11.05 ms at 16 tokens, 11.91 ms at 48 per [docs/phase4-tree-overhead.md](docs/phase4-tree-overhead.md)).
 
 ### Qwen3.8-27B (1x H100-80GB, thinking on, 64 prompts per concurrency-8 cell)
 
@@ -41,16 +70,6 @@ Mean acceptance length at T=0: DSpine 7.99, DFlash 6.03. Full table and protocol
 
 Most of DSpine's edge over DFlash2 is block length: at matched verify width 8 it is slightly behind. Details and caveats: [docs/phase1-qwen3.8-27b.md](docs/phase1-qwen3.8-27b.md).
 
-### Tree verification (Qwen3-8B, A100, batch 1, T=0)
-
-| Config | Acceptance length | tok/s | x AR |
-|---|---|---|---|
-| DSpine b16 chain | 7.99 | 523 | 5.78x |
-| DSpine b32 chain (same weights) | 9.03 | 557 | 6.15x |
-| **DSpine tree, 48 nodes** | **11.29** | **651** | **7.20x** |
-
-The tree path, CUDA kernels and SGLang patches live in `bench/p2tree/` and `bench/p4tree/`. Write-ups: [docs/phase2-findings.md](docs/phase2-findings.md) (tree), [docs/phase4-tree-overhead.md](docs/phase4-tree-overhead.md) (the 651 tok/s fast path, byte-identical outputs to the first version).
-
 ![Tree verification vs the same drafter's chain across hardware and sampling](docs/img/tree_gain.png)
 
 Other hardware and sampling, same tree:
@@ -62,7 +81,33 @@ Other hardware and sampling, same tree:
 | Qwen3-8B, A100, **T=1** lossless sampled tree | 5.43x AR, +12% over the chain | [phase4-t1-tree.md](docs/phase4-t1-tree.md) |
 | Qwen3.8-27B hybrid, H100 | 4.95x AR, +5.7% over the chain | [phase4-h100-27b.md](docs/phase4-h100-27b.md) |
 
-## Reproduce it
+**Tree verification (Qwen3-8B, A100, batch 1, T=0)**
+
+| Config | Acceptance length | tok/s | x AR |
+| :--- | ---: | ---: | ---: |
+| DSpine b16 chain | 7.99 | 521 | 5.75x |
+| DSpine b32 chain (same weights) | 9.03 | 558 | 6.17x |
+| **DSpine tree, 48 nodes** | **11.29** | **652** | **7.20x** |
+
+<sub>Source: `bench/results/derived/readme_data.json`</sub>
+
+<p align="center"><img src="assets/block_sweep.svg" alt="Chain block length with the same DSpine weights: speedup over autoregressive" width="100%"></p>
+
+<a id="how-it-works"></a>
+
+## 🧩 How it works
+
+The tree path, tree-attention mask, accept and KV-compaction CUDA kernels and the SGLang patches live in `bench/p2tree/` and `bench/p4tree/`. Write-ups: [tree](docs/phase2-findings.md), [fast path](docs/phase4-tree-overhead.md).
+
+### What we tried
+
+We also tested longer-block training and recursive second drafting passes (on pass-1 tokens, and on pass-1 features scored as a tree) on top of DSpine; none beat tree verification (these were short warm-start fine-tunes of the official weights, not from-scratch training; a from-scratch run is in progress), details in [docs/phase3-findings.md](docs/phase3-findings.md) and [docs/phase6-recursive-tree-pass2.md](docs/phase6-recursive-tree-pass2.md).
+
+<p align="center"><img src="assets/flow.svg" alt="Tree verification on DSpine: exact conditional logits become a tree, verified in one pass" width="100%"></p>
+
+<a id="reproduce"></a>
+
+## 🔁 Reproduce it
 
 Needs one NVIDIA GPU (A100-80GB tested; H100 and GB10 also run), CUDA 13 toolchain (installed by the script) and about 60 GB of disk. The stack is pinned: SGLang 0.5.22, torch 2.14.1+cu130, flashinfer 0.7.1, [Tencent/DSpine](https://github.com/Tencent/DSpine) for the drafter weights.
 
@@ -83,7 +128,9 @@ python bench/run_cell.py --method dspine_tree --dataset gsm8k --temp 0 --conc 1 
 
 Each cell prints acceptance length and tok/s. Compare with the committed raw results in `bench/results/` (`p1_*` for baselines, `p4_*` for the tree) and `python bench/p4_summarize.py <prefix>` for the table. Add `RDF2_TREE_T1_MODE=rrs` and `--temp 1` for the lossless sampled tree. Scripts take no hostnames: run them on the box itself.
 
-## How to read these numbers
+<a id="caveats"></a>
+
+## ⚠️ How to read these numbers
 
 - Speedups are same-cell ratios to autoregressive decoding, with run-to-run noise of about 1-2% (more at T=1, which is single-seed).
 - The tree gain exists at **batch 1** only. At concurrency 8 verify is no longer free, so wider trees and longer blocks lose. T=1 uses lossless recursive rejection sampling and gains less than greedy (see the table above).
@@ -91,7 +138,9 @@ Each cell prints acceptance length and tok/s. Compare with the committed raw res
 - Speculative output is not byte-identical to autoregressive at T=0 (bf16 numerics at a 16-token verify shape). DFlash and DSpine produce identical text to each other, and GSM8K accuracy is equal across methods.
 - 8B runs use 40 prompts per dataset at concurrency 1 (80 at 8). LiveCodeBench and Arena-Hard were not run.
 
-## Repo map
+<a id="repo-map"></a>
+
+## 🗺️ Repo map
 
 | Path | What |
 |---|---|
@@ -107,10 +156,6 @@ Each cell prints acceptance length and tok/s. Compare with the committed raw res
 | `train/` | DSpine trainer (SpecForge model and loss, in-process target) and the pass-2 experiment |
 | [docs/PLAN.md](docs/PLAN.md) | goals and plan |
 
-## What we tried
+---
 
-We also tested longer-block training and recursive second drafting passes (on pass-1 tokens, and on pass-1 features scored as a tree) on top of DSpine; none beat tree verification (these were short warm-start fine-tunes of the official weights, not from-scratch training; a from-scratch run is in progress), details in [docs/phase3-findings.md](docs/phase3-findings.md) and [docs/phase6-recursive-tree-pass2.md](docs/phase6-recursive-tree-pass2.md).
-
-## Credits
-
-DFlash ([arXiv 2602.06036](https://arxiv.org/abs/2602.06036), z-lab), DSpine ([Tencent/DSpine](https://github.com/Tencent/DSpine), arXiv 2609.36173), DFlash2 (Inco AI), SGLang and SpecForge.
+<div align="center"><sub>Credits: DFlash ([arXiv 2602.06036](https://arxiv.org/abs/2602.06036), z-lab), DSpine ([Tencent/DSpine](https://github.com/Tencent/DSpine)), DFlash2 (Inco AI), SGLang and SpecForge. Generated with [video-readme-maker](https://github.com/Bobliuuu/video-readme-maker).</sub></div>

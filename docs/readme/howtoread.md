@@ -1,0 +1,5 @@
+- Speedups are same-cell ratios to autoregressive decoding, with run-to-run noise of about 1-2% (more at T=1, which is single-seed).
+- The tree gain exists at **batch 1** only. At concurrency 8 verify is no longer free, so wider trees and longer blocks lose. T=1 uses lossless recursive rejection sampling and gains less than greedy (see the table above).
+- Our EAGLE-3 baseline is a 3-step chain. The DFlash paper's EAGLE-3 uses a tree, so ours is the weaker one.
+- Speculative output is not byte-identical to autoregressive at T=0 (bf16 numerics at a 16-token verify shape). DFlash and DSpine produce identical text to each other, and GSM8K accuracy is equal across methods.
+- 8B runs use 40 prompts per dataset at concurrency 1 (80 at 8). LiveCodeBench and Arena-Hard were not run.

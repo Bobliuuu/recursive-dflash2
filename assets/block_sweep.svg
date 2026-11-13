@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 460" width="980" height="460" role="img" aria-label="Chain block length with the same DSpine weights: speedup over autoregressive">
+<rect width="980" height="460" rx="16" fill="#0b0f17"/>
+<text x="32" y="44" font-family="ui-sans-serif,system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-weight="700" font-size="22" fill="#e6edf6">Chain block length with the same DSpine weights: speedup over autoregressive</text>
+<text x="32" y="68" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="14" fill="#8a98ad">longer blocks help at batch 1 and hurt at concurrency 8</text>
+<line x1="70" x2="950" y1="372" y2="372" stroke="#263044"/><text x="60" y="376" text-anchor="end" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#8a98ad">0</text>
+<line x1="70" x2="950" y1="304" y2="304" stroke="#263044"/><text x="60" y="308" text-anchor="end" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#8a98ad">2.5</text>
+<line x1="70" x2="950" y1="236" y2="236" stroke="#263044"/><text x="60" y="240" text-anchor="end" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#8a98ad">5</text>
+<line x1="70" x2="950" y1="168" y2="168" stroke="#263044"/><text x="60" y="172" text-anchor="end" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#8a98ad">7.5</text>
+<line x1="70" x2="950" y1="100" y2="100" stroke="#263044"/><text x="60" y="104" text-anchor="end" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#8a98ad">10</text>
+<rect x="98.9" y="274.6" width="31.0" height="97.4" rx="4" fill="#27c8e8"/>
+<text x="114.4" y="268.6" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#e6edf6">3.58</text>
+<text x="133" y="394" text-anchor="middle" font-family="ui-sans-serif,system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="14" fill="#e6edf6">8</text>
+<rect x="224.6" y="264.6" width="31.0" height="107.4" rx="4" fill="#27c8e8"/>
+<text x="240.1" y="258.6" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#e6edf6">3.95</text>
+<text x="259" y="394" text-anchor="middle" font-family="ui-sans-serif,system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="14" fill="#e6edf6">12</text>
+<rect x="350.3" y="256.3" width="31.0" height="115.7" rx="4" fill="#27c8e8"/>
+<text x="365.8" y="250.3" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#e6edf6">4.25</text>
+<rect x="384.3" y="214.6" width="31.0" height="157.4" rx="4" fill="#ff6b6b"/>
+<text x="399.8" y="208.6" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#e6edf6">5.79</text>
+<text x="384" y="394" text-anchor="middle" font-family="ui-sans-serif,system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="14" fill="#e6edf6">16</text>
+<rect x="510.0" y="207.1" width="31.0" height="164.9" rx="4" fill="#ff6b6b"/>
+<text x="525.5" y="201.1" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#e6edf6">6.06</text>
+<text x="510" y="394" text-anchor="middle" font-family="ui-sans-serif,system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="14" fill="#e6edf6">24</text>
+<rect x="601.7" y="282.4" width="31.0" height="89.6" rx="4" fill="#27c8e8"/>
+<text x="617.2" y="276.4" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#e6edf6">3.29</text>
+<rect x="635.7" y="204.2" width="31.0" height="167.8" rx="4" fill="#ff6b6b"/>
+<text x="651.2" y="198.2" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#e6edf6">6.17</text>
+<text x="636" y="394" text-anchor="middle" font-family="ui-sans-serif,system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="14" fill="#e6edf6">32</text>
+<rect x="761.4" y="207.0" width="31.0" height="165.0" rx="4" fill="#ff6b6b"/>
+<text x="776.9" y="201.0" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#e6edf6">6.07</text>
+<text x="761" y="394" text-anchor="middle" font-family="ui-sans-serif,system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="14" fill="#e6edf6">48</text>
+<rect x="887.1" y="212.0" width="31.0" height="160.0" rx="4" fill="#ff6b6b"/>
+<text x="902.6" y="206.0" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#e6edf6">5.88</text>
+<text x="887" y="394" text-anchor="middle" font-family="ui-sans-serif,system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="14" fill="#e6edf6">64</text>
+<rect x="70" y="416" width="14" height="14" rx="3" fill="#27c8e8"/><text x="90" y="428" font-family="ui-sans-serif,system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="13" fill="#8a98ad">concurrency 8</text>
+<rect x="211.5" y="416" width="14" height="14" rx="3" fill="#ff6b6b"/><text x="231.5" y="428" font-family="ui-sans-serif,system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="13" fill="#8a98ad">concurrency 1</text>
+<text x="948" y="446" text-anchor="end" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#8a98ad">source: bench/results/derived/readme_data.json · higher is better</text>
+</svg>
