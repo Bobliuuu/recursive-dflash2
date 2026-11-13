@@ -20,11 +20,13 @@ eos = tok.convert_tokens_to_ids("<|im_end|>")
 drafters = {}
 for spec in a.drafters.split(","):
     name, rest = spec.split("="); path, dyn = rest.rsplit(":", 1)
-    try: drafters[name] = load_drafter(path, bool(int(dyn)), dev)
+    try: drafters[name] = load_drafter(path, bool(int(dyn)), dev).to(dev)  # gate weights load on cpu otherwise
     except Exception as e: print("SKIP drafter", name, repr(e)[:300], flush=True)
 print("drafters:", list(drafters), flush=True)
-seqs = []  # (dataset, id, prompt_len, ids)
-for ds in ["gsm8k", "math500", "humaneval", "mbpp", "mtbench"]:
+import os
+CACHE = a.out + '.seqs.json'
+seqs = [tuple(x) for x in json.load(open(CACHE))] if os.path.exists(CACHE) else []
+for ds in ([] if seqs else ["gsm8k", "math500", "humaneval", "mbpp", "mtbench"]):
     rows = [json.loads(l) for l in open(f"{a.prompts}/{ds}.jsonl")][: a.n]
     for i in range(0, len(rows), 10):
         chunk = rows[i:i+10]
@@ -37,6 +39,7 @@ for ds in ["gsm8k", "math500", "humaneval", "mbpp", "mtbench"]:
             if eos in g: g = g[: g.index(eos)+1]
             seqs.append((ds, r["id"], len(p), p + g))
     print("generated", ds, flush=True)
+json.dump(seqs, open(CACHE, 'w'))
 offs = [int(x) for x in a.offsets.split(",")]
 rows = []
 for ds, id_, pl, ids in seqs:
