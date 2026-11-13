@@ -6,7 +6,7 @@
 
 **How fast can speculative decoding go, and does stacking drafters help? DFlash, DFlash2, DSpine and EAGLE-3 head to head, plus tree verification**
 
-[![license: MIT](https://img.shields.io/badge/license-MIT-3776ab)](LICENSE) ![engine: SGLang 0.5.22](https://img.shields.io/badge/engine-SGLang%200.5.22-27c8e8) ![GPU: A100 · H100 · GB10](https://img.shields.io/badge/GPU-A100%20%C2%B7%20H100%20%C2%B7%20GB10-76b900?logo=nvidia&logoColor=white) ![models: Qwen3-8B · Qwen3.8-27B](https://img.shields.io/badge/models-Qwen3--8B%20%C2%B7%20Qwen3.8--27B-lightgrey) ![DSpine + tree: 7.20x vs autoregressive](https://img.shields.io/badge/DSpine%20%2B%20tree-7.20x%20vs%20autoregressive-3ddc97)
+[![license: MIT](https://img.shields.io/badge/license-MIT-3776ab)](LICENSE) [![release: v0.1.0](https://img.shields.io/badge/release-v0.1.0-3ddc97)](https://github.com/Bobliuuu/recursive-dflash2/releases/tag/v0.1.0) [![🤗 dataset: Bobliu/recursive-dflash2](https://img.shields.io/badge/%F0%9F%A4%97%20dataset-Bobliu%2Frecursive--dflash2-f2c14e)](https://huggingface.co/datasets/Bobliu/recursive-dflash2) ![engine: SGLang 0.5.22](https://img.shields.io/badge/engine-SGLang%200.5.22-27c8e8) ![GPU: A100 · H100 · GB10](https://img.shields.io/badge/GPU-A100%20%C2%B7%20H100%20%C2%B7%20GB10-76b900?logo=nvidia&logoColor=white) ![models: Qwen3-8B · Qwen3.8-27B](https://img.shields.io/badge/models-Qwen3--8B%20%C2%B7%20Qwen3.8--27B-lightgrey) ![DSpine + tree: 7.20x vs autoregressive](https://img.shields.io/badge/DSpine%20%2B%20tree-7.20x%20vs%20autoregressive-3ddc97)
 
 [🎬 Video](#video) · [📊 Results](#results) · [🌳 Tree verification](#tree) · [🧩 How it works](#how-it-works) · [🔁 Reproduce](#reproduce) · [⚠️ Reading the numbers](#caveats) · [🗺️ Repo map](#repo-map)
 
